@@ -13,4 +13,9 @@ void Player::update(float deltaTime) {
 	//position.x += velocity.x * deltaTime;
 	//position.y += velocity.y * deltaTime;
 	position += velocity * deltaTime;
+	hitBox.setPosition(position);
+}
+
+void Player::hit(Entity* hitThis) {
+
 }

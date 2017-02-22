@@ -16,5 +16,7 @@ public:
 
 private:
 	Model* model;
+
+	sf::View camera;
 };
 

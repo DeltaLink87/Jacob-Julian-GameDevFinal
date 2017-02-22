@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Player.h"
+#include "Tile.h"
 
 class Model {
 public:
@@ -10,5 +11,8 @@ public:
 	void update(float);
 
 	Player player;
+
+	int mapWidth, mapHeight, tileSize;
+	std::vector<Tile> tileMap;
 };
 

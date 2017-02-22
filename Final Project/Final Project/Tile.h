@@ -1,14 +1,14 @@
 #pragma once
+
 #include "Entity.h"
-class Player : public Entity {
+
+class Tile : public Entity {
 public:
-	Player();
-	~Player();
+	Tile(int, int, int, int);
+	~Tile();
 
 	void update(float);
 
 	void hit(Entity*);
-
-	sf::Vector2f velocity;
 };
 

@@ -26,6 +26,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="Render.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="Updatable.h" />
     <ClInclude Include="WorldObject.h" />
   </ItemGroup>
