@@ -16,6 +16,7 @@ void Player::update(float deltaTime) {
 	position.y += 50 * deltaTime;
 	//changes
 	hitBox.setPosition(position);
+	//additional changes
 }
 
 void Player::hit(Entity* hitThis) {
