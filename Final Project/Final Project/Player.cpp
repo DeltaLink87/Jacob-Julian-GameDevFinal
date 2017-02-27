@@ -14,6 +14,7 @@ void Player::update(float deltaTime) {
 	//position.y += velocity.y * deltaTime;
 	position += velocity * deltaTime;
 	position.y += 50 * deltaTime;
+	//changes
 	hitBox.setPosition(position);
 }
 
