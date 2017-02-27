@@ -15,5 +15,7 @@ public:
 private:
 	Model* model;
 	Render* view;
+
+	bool prevSpacePressed = false;
 };
 

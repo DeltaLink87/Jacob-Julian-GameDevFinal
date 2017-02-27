@@ -7,7 +7,7 @@ Model::Model(){
 	std::ifstream fileHndl;
 
 	//loading the tileamp file
-	fileHndl.open("Assets/tilemap.txt");
+	fileHndl.open("Assets/tilemap2.txt");
 
 	//getting the size of the map
 	fileHndl >> mapWidth;
@@ -25,8 +25,10 @@ Model::Model(){
 		for (int x = 0; x < mapWidth; x++) {
 			int tileType;
 			fileHndl >> tileType;
-			if (tileType == 0)
+			if (tileType == 1)
 				tileMap.push_back(Tile(x * tileSize, y * tileSize, tileSize, tileSize));
+			else if (tileType == 2)
+				player.setPostion(sf::Vector2f(x * tileSize, y * tileSize));
 		}
 	}
 }

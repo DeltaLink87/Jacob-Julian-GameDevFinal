@@ -18,16 +18,22 @@ void Controller::inputs() {
 		case sf::Event::Closed:
 			view->window.close();
 			break;
+
+		case sf::Event::MouseWheelScrolled:
+			if (event.mouseWheel.delta != 0) {
+				float scroll = (float)event.mouseWheelScroll.delta;
+			}
+			break;
 		}
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		model->player.velocity.y = -100;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		model->player.velocity.y = 100;
 	}
-	else model->player.velocity.y = 0;
+	else model->player.velocity.y = 0;*/
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		model->player.velocity.x = -100;
@@ -36,4 +42,16 @@ void Controller::inputs() {
 		model->player.velocity.x = 100;
 	}
 	else model->player.velocity.x = 0;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+		if (!prevSpacePressed) {
+			model->player.jump = true;
+			prevSpacePressed = true;
+		}
+		else model->player.jump = false;
+	}
+	else {
+		prevSpacePressed = false;
+		model->player.jump = false;
+	}
 }

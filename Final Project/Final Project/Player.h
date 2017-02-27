@@ -10,5 +10,7 @@ public:
 	void hit(Entity*);
 
 	sf::Vector2f velocity;
+
+	bool jump = false;
 };
 
