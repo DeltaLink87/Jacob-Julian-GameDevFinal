@@ -20,7 +20,6 @@ void Player::update(float deltaTime) {
 	if (velocity.y > 100)
 		velocity.y = 100;
 	hitBox.setPosition(position);
-	//additional changes
 }
 
 void Player::hit(Entity* hitThis) {

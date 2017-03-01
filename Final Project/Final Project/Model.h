@@ -14,5 +14,6 @@ public:
 
 	int mapWidth, mapHeight, tileSize;
 	std::vector<Tile> tileMap;
+
 };
 
