@@ -6,6 +6,10 @@ Enemy::Enemy() : Entity(400, 300, 20, 20) {
 
 }
 
+Enemy::Enemy(sf::Vector2f startingPosition) : Entity(400, 300, 20, 20) {
+
+}
+
 
 Enemy::~Enemy() { }
 
