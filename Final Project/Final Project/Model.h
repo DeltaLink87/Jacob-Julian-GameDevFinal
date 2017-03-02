@@ -2,6 +2,8 @@
 
 #include "Player.h"
 #include "Tile.h"
+#include "Attack.h"
+#include "Sound.h"
 #include "Enemy.h"
 
 class Model {
@@ -13,6 +15,8 @@ public:
 
 	Player player;
 
+	std::vector<Attack*> attacks;
+	std::vector<Sound> sounds;
 	Enemy* test;
 
 	int mapWidth, mapHeight, tileSize;

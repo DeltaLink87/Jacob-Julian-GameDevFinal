@@ -1,5 +1,5 @@
 #include "Controller.h"
-
+#include <iostream>
 
 
 Controller::Controller(Model* newModel, Render* newView){
@@ -39,21 +39,34 @@ void Controller::inputs() {
 		
 	}
 
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		model->player.velocity.y = -100;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		model->player.up = true;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		model->player.velocity.y = 100;
+	else model->player.up = false;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		model->player.down = true;
 	}
-	else model->player.velocity.y = 0;*/
+	else model->player.down = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		model->player.velocity.x = -100;
+		model->player.left = true;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		model->player.velocity.x = 100;
+	else model->player.left = false;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		model->player.right = true;
 	}
-	else model->player.velocity.x = 0;
+	else model->player.right = false;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
+		model->player.moveSlow = true;
+	}
+	else model->player.moveSlow = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+		model->player.moveFast = true;
+	}
+	else model->player.moveFast = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		if (!prevSpacePressed) {
@@ -66,4 +79,12 @@ void Controller::inputs() {
 		prevSpacePressed = false;
 		model->player.jump = false;
 	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		model->player.attack = true;
+	}
+	else model->player.attack = false;
+
+	model->player.looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->window.getView().getCenter() - (sf::Vector2f)view->window.getSize() * 0.5f);
+	//std::cout << model->player.looking.x << "," << model->player.looking.y << std::endl;
 }

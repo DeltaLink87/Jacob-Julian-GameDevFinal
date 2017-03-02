@@ -38,9 +38,44 @@ Model::Model(){
 Model::~Model(){ }
 
 void Model::update(float deltaTime) {
-	player.update(deltaTime);
+	player.update(deltaTime);	//updates player
+	//adds new player attacks to the list of attacks currently being made
+	if (!player.newAttacks.empty()) {
+		for (std::vector<Attack*>::iterator i = player.newAttacks.begin(); i != player.newAttacks.end(); i++) {
+			attacks.push_back(*i);
+		}
+		player.newAttacks.clear();
+	}
+	//adds new player sounds to the list of sounds currently being made
+	if (!player.newSounds.empty()) {
+		for (std::vector<Sound>::iterator i = player.newSounds.begin(); i != player.newSounds.end(); i++) {
+			sounds.push_back(*i);
+		}
+		player.newSounds.clear();
+	}
+
+	//updating all attacks
+	for (std::vector<Attack*>::iterator i = attacks.begin(); i != attacks.end(); ) {
+		(*i)->update(deltaTime);
+		if ((*i)->isRemoved()) {
+			Attack* removedAttack = *i;
+			i = attacks.erase(i);
+			delete removedAttack;
+		}
+		else i++;
+	}
+
+	//updating all sounds
+	for (std::vector<Sound>::iterator i = sounds.begin(); i != sounds.end(); ) {
+		i->update(deltaTime);
+		if (i->done()) {
+			i = sounds.erase(i);
+		}
+		else i++;
+	}
 	test->updateBehavior(deltaTime, &player, 1);
 
+	//updating tile map
 	for (std::vector<Tile>::iterator i = tileMap.begin(); i != tileMap.end(); i++) {
 		//if (player.intersects(i->hitBox)) {
 		//	player.hit(&(*i));
