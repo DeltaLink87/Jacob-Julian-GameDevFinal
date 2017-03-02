@@ -46,6 +46,7 @@ void Tile::hit(Entity* hitThis) {
 
 	if (abs(difX) < abs(difY)) {
 		if (difY < 0) {
+
 			hitThis->hitWall(sf::Vector2f(hitThis->position.x, hitBox.getPosition().y + hitBox.getSize().y), 0);
 			//std::cout << "bottom" << std::endl;
 		}
@@ -54,7 +55,9 @@ void Tile::hit(Entity* hitThis) {
 			//std::cout << "top" << std::endl;
 		}
 	}
+	
 	else if (abs(difX) != abs(difY)) {
+		std::cout << abs(difX) << "  " << abs(difY) << std::endl;
 		if (difX < 0) {
 			hitThis->hitWall(sf::Vector2f(hitBox.getPosition().x + hitBox.getSize().x, hitThis->hitBox.getPosition().y), 1);
 			std::cout << "right" << std::endl;

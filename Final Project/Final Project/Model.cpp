@@ -29,6 +29,8 @@ Model::Model(){
 				tileMap.push_back(Tile(x * tileSize, y * tileSize, tileSize, tileSize));
 			else if (tileType == 2)
 				player.setPostion(sf::Vector2f(x * tileSize, y * tileSize));
+			else if (tileType == 3)
+				test = new Enemy(sf::Vector2f(x*tileSize, y*tileSize));
 		}
 	}
 }
@@ -71,12 +73,17 @@ void Model::update(float deltaTime) {
 		}
 		else i++;
 	}
+	test->updateBehavior(deltaTime, &player, 1);
 
 	//updating tile map
 	for (std::vector<Tile>::iterator i = tileMap.begin(); i != tileMap.end(); i++) {
-		if (player.intersects(i->hitBox)) {
-			player.hit(&(*i));
-			i->hit(&player);
+		//if (player.intersects(i->hitBox)) {
+		//	player.hit(&(*i));
+		//	i->hit(&player);
+		//}
+		if (test->intersects(i->hitBox)) {
+			test->hit(&(*i));
+			i->hit(test);
 		}
 	}
 }
