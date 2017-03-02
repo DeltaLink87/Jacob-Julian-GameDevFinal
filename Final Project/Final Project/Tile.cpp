@@ -46,22 +46,25 @@ void Tile::hit(Entity* hitThis) {
 
 	if (abs(difX) < abs(difY)) {
 		if (difY < 0) {
-			hitThis->setPostion(sf::Vector2f(hitThis->position.x, hitBox.getPosition().y + hitBox.getSize().y));
-			std::cout << "bottom" << std::endl;
+
+			hitThis->hitWall(sf::Vector2f(hitThis->position.x, hitBox.getPosition().y + hitBox.getSize().y), 0);
+			//std::cout << "bottom" << std::endl;
 		}
 		else {
-			hitThis->setPostion(sf::Vector2f(hitThis->position.x, hitBox.getPosition().y - hitThis->hitBox.getSize().y));
-			std::cout << "top" << std::endl;
+			hitThis->hitWall(sf::Vector2f(hitThis->position.x, hitBox.getPosition().y - hitThis->hitBox.getSize().y), 2);
+			//std::cout << "top" << std::endl;
 		}
 	}
+	
 	else if (abs(difX) != abs(difY)) {
+		std::cout << abs(difX) << "  " << abs(difY) << std::endl;
 		if (difX < 0) {
-			hitThis->setPostion(sf::Vector2f(hitBox.getPosition().x + hitBox.getSize().x, hitThis->hitBox.getPosition().y));
+			hitThis->hitWall(sf::Vector2f(hitBox.getPosition().x + hitBox.getSize().x, hitThis->hitBox.getPosition().y), 1);
 			std::cout << "right" << std::endl;
 		}
 		else {
-			hitThis->setPostion(sf::Vector2f(hitBox.getPosition().x - hitThis->hitBox.getSize().x, hitThis->hitBox.getPosition().y));
-			std::cout << "left" << std::endl;
+			hitThis->hitWall(sf::Vector2f(hitBox.getPosition().x - hitThis->hitBox.getSize().x, hitThis->hitBox.getPosition().y), 3);
+			//std::cout << "left" << std::endl;
 		}
 	}
 }

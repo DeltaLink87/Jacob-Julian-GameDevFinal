@@ -28,6 +28,18 @@
     <Filter Include="Header Files\Interfaces">
       <UniqueIdentifier>{bc5fe153-2227-4e5f-b18c-338ea24db16e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Actors">
+      <UniqueIdentifier>{9d80affe-f276-4cd6-90e8-a6bd0d9538b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Actors">
+      <UniqueIdentifier>{0ce034e1-0514-49c8-85ae-3d2062180957}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Attacks">
+      <UniqueIdentifier>{a20a5be1-9ed9-416d-bf53-3a104c60cf64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Attacks">
+      <UniqueIdentifier>{2088d45f-ea8b-4eb5-b59f-bf7aebdf2c04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -48,11 +60,29 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source Files\Objects\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Objects\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>Source Files\Objects\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files\Objects\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAttack.cpp">
+      <Filter>Source Files\Objects\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Objects\Actors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,11 +113,29 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Header Files\Objects\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Objects\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.h">
+      <Filter>Header Files\Objects\Attacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files\Objects\Attacks</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAttack.h">
+      <Filter>Header Files\Objects\Attacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Objects\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

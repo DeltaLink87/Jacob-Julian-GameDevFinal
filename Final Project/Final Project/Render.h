@@ -14,9 +14,10 @@ public:
 
 	void render();
 
+	sf::View camera;
+
 private:
 	Model* model;
 
-	sf::View camera;
 };
 

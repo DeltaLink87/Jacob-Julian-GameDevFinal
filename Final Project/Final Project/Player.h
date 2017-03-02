@@ -1,6 +1,6 @@
 #pragma once
-#include "Entity.h"
-class Player : public Entity {
+#include "Actor.h"
+class Player : public Actor {
 public:
 	Player();
 	~Player();
@@ -9,8 +9,8 @@ public:
 
 	void hit(Entity*);
 
-	sf::Vector2f velocity;
-
-	bool jump = false;
+	bool jump = false, moveSlow = false, moveFast = false;// , attack = false;
+	bool up = false , down = false, left = false, right = false;
+	sf::Vector2f looking;
 };
 
