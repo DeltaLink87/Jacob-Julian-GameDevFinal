@@ -82,7 +82,7 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\Actors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +135,7 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Header Files\Objects</Filter>
+      <Filter>Header Files\Objects\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
