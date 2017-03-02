@@ -18,13 +18,25 @@ void Controller::inputs() {
 		case sf::Event::Closed:
 			view->window.close();
 			break;
-
+			/*
+					case sf::Event::MouseWheelScrolled:
+						if (event.mouseWheel.delta != 0) {
+							float scroll = (float)event.mouseWheelScroll.delta;
+						}
+						break;
+						*/
 		case sf::Event::MouseWheelScrolled:
-			if (event.mouseWheel.delta != 0) {
-				float scroll = (float)event.mouseWheelScroll.delta;
+			if (event.mouseWheelScroll.delta != 0) {
+				this->view->camera.zoom(1.0 - (((float)event.mouseWheelScroll.delta) * 0.1));
 			}
 			break;
+		case sf::Event::KeyPressed:
+			//Pressing Esc will close the window
+			if (event.key.code == sf::Keyboard::Escape)
+				this->view->window.close();
+			break;
 		}
+		
 	}
 
 	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {

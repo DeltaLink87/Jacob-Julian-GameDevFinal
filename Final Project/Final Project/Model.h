@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "Tile.h"
+#include "Enemy.h"
 
 class Model {
 public:
@@ -11,6 +12,8 @@ public:
 	void update(float);
 
 	Player player;
+
+	Enemy* test;
 
 	int mapWidth, mapHeight, tileSize;
 	std::vector<Tile> tileMap;

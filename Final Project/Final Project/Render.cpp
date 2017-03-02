@@ -9,7 +9,7 @@ Render::Render(Model* newModel){
 
 	window.create(sf::VideoMode(windowWidth, windowHeight), "LIVE DEMO");
 
-	window.setFramerateLimit(30);
+	window.setFramerateLimit(60);
 
 	camera.setSize(sf::Vector2f(windowWidth, windowHeight));
 }
@@ -37,7 +37,9 @@ void Render::render() {
 	}
 
 	model->player.sprite.setPosition(model->player.position);
+	model->test->sprite.setPosition(model->test->position);
 	window.draw(model->player.sprite);
+	window.draw(model->test->sprite);
 
 	window.display();
 }
