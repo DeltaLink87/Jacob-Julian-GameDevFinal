@@ -2,6 +2,8 @@
 
 #include "Player.h"
 #include "Tile.h"
+#include "Attack.h"
+#include "Sound.h"
 
 class Model {
 public:
@@ -11,6 +13,9 @@ public:
 	void update(float);
 
 	Player player;
+
+	std::vector<Attack*> attacks;
+	std::vector<Sound> sounds;
 
 	int mapWidth, mapHeight, tileSize;
 	std::vector<Tile> tileMap;
