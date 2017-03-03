@@ -18,7 +18,7 @@ public:
 
 	void hit(Entity*);
 
-
+	int timer = 0;
 	//Keeps track of where the enemy was originally spawned
 	sf::Vector2f homePosition;
 

@@ -44,7 +44,7 @@ void Tile::hit(Entity* hitThis) {
 	float difX = (hitBox.getPosition().x + hitBox.getSize().x / 2) - (hitThis->hitBox.getPosition().x + hitThis->hitBox.getSize().x / 2);
 	float difY = (hitBox.getPosition().y + hitBox.getSize().y / 2) - (hitThis->hitBox.getPosition().y + hitThis->hitBox.getSize().y / 2);
 
-	if (abs(difX) < abs(difY)) {
+	if (abs(difX) < abs(difY) && abs(abs(difX) - abs(difY)) > hitBox.getSize().x / 16) {
 		if (difY < 0) {
 
 			hitThis->hitWall(sf::Vector2f(hitThis->position.x, hitBox.getPosition().y + hitBox.getSize().y), 0);
@@ -56,15 +56,15 @@ void Tile::hit(Entity* hitThis) {
 		}
 	}
 	
-	else if (abs(difX) != abs(difY)) {
-		std::cout << abs(difX) << "  " << abs(difY) << std::endl;
+	else if (abs(abs(difX) - abs(difY)) > hitBox.getSize().x / 16) {
+		//std::cout << abs(difX) << "  " << abs(difY) << std::endl;
 		if (difX < 0) {
 			hitThis->hitWall(sf::Vector2f(hitBox.getPosition().x + hitBox.getSize().x, hitThis->hitBox.getPosition().y), 1);
 			std::cout << "right" << std::endl;
 		}
 		else {
 			hitThis->hitWall(sf::Vector2f(hitBox.getPosition().x - hitThis->hitBox.getSize().x, hitThis->hitBox.getPosition().y), 3);
-			//std::cout << "left" << std::endl;
+			std::cout << "left" << std::endl;
 		}
 	}
 }

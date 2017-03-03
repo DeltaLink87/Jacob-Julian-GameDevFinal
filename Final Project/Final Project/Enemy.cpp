@@ -31,9 +31,12 @@ void Enemy::update(float deltaTime) {
 
 	velocity.y += 50 * deltaTime;
 
-	if (velocity.y > 300)
-		velocity.y = 300;
+	if (velocity.y > 100)
+		velocity.y = 100;
 
+	/*timer++;
+	if (timer % 5 == 0)
+		std::cout << position.x << "," << position.y << "," << velocity.x << "," << velocity.y << std::endl;*/
 	hitBox.setPosition(position);
 }
 
@@ -45,16 +48,17 @@ void Enemy::updateBehavior(float deltaTime, Entity* target, int type) {
 	case 1:
 
 		if ( sqrt(pow(homePosition.x - position.x, 2) + pow(homePosition.y - position.y, 2)) > 200) {
-			if (position.x > homePosition.x) {
+			if (position.x > homePosition.x + 200) {
 				velocity.x = -70;
 			}
-			else {
+			else if (position.x < homePosition.x - 200) {
 				velocity.x = 70;
 			}
 		}
 
 		else if (sqrt(pow(target->position.x - position.x, 2) + pow(target->position.y - position.y, 2)) < 100.0) {
 			behaviorState = 2;
+			
 		}
 		break;
 	case 2:

@@ -77,10 +77,10 @@ void Model::update(float deltaTime) {
 
 	//updating tile map
 	for (std::vector<Tile>::iterator i = tileMap.begin(); i != tileMap.end(); i++) {
-		//if (player.intersects(i->hitBox)) {
-		//	player.hit(&(*i));
-		//	i->hit(&player);
-		//}
+		if (player.intersects(i->hitBox)) {
+			player.hit(&(*i));
+			i->hit(&player);
+		}
 		if (test->intersects(i->hitBox)) {
 			test->hit(&(*i));
 			i->hit(test);
