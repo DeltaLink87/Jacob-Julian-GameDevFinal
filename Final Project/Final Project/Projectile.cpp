@@ -12,4 +12,5 @@ Projectile::~Projectile() { }
 
 void Projectile::update(float deltaTime) {
 	position += velocity * deltaTime;
+	hitBox.setPosition(position);
 }

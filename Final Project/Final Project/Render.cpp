@@ -18,7 +18,7 @@ Render::~Render(){ }
 
 void Render::render() {
 	//finding camera position
-	sf::Vector2f camPosition = model->player.position;
+	sf::Vector2f camPosition = model->player.getPosition();
 	if (camPosition.x < windowWidth / 2)
 		camPosition.x = windowWidth / 2;
 	else if (camPosition.x > model->mapWidth * model->tileSize - windowWidth / 2)
@@ -35,29 +35,42 @@ void Render::render() {
 	window.setView(camera);
 
 	//rendering tilemap
-	for (std::vector<Tile>::iterator i = model->tileMap.begin(); i != model->tileMap.end(); i++) {
-		window.draw(i->sprite);
+	for (int y = 0; y < model->mapHeight; y++){
+		for (int x = 0; x < model->mapWidth; x++) {
+			window.draw(model->tileMap[y][x]->sprite);
+		}
 	}
 
 	//rendering player
-	model->player.sprite.setPosition(model->player.position);
-	model->test->sprite.setPosition(model->test->position);
+	model->player.sprite.setPosition(model->player.getPosition());
 	window.draw(model->player.sprite);
-	window.draw(model->test->sprite);
+
+	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
+		(*i)->sprite.setPosition((*i)->getPosition());
+		window.draw((*i)->sprite);
+	}
 
 	//rendering attacks
 	for (std::vector<Attack*>::iterator i = model->attacks.begin(); i != model->attacks.end(); i++) {
-		(*i)->sprite.setPosition((*i)->position);
+		(*i)->sprite.setPosition((*i)->getPosition());
 		window.draw((*i)->sprite);
 	}
 
 	//rendering the area of affect for sounds
 	for (std::vector<Sound>::iterator i = model->sounds.begin(); i != model->sounds.end(); i++) {
-		sf::CircleShape soundSphere = sf::CircleShape(i->loudness);
-		soundSphere.setPosition(i->position - sf::Vector2f(soundSphere.getRadius(), soundSphere.getRadius()));
+		sf::CircleShape soundSphere = sf::CircleShape(i->getLoudness());
+		soundSphere.setPosition(i->getPosition() - sf::Vector2f(soundSphere.getRadius(), soundSphere.getRadius()));
 		soundSphere.setFillColor(sf::Color(0,0,255,100));
 		window.draw(soundSphere);
 	}
+
+	/*camera.setCenter(sf::Vector2f(0, 0));
+	window.setView(camera);
+	for (int y = 0; y < model->mapHeight; y++) {
+		for (int x = 0; x < model->mapWidth; x++) {
+			window.draw(model->tileMap[y][x]->sprite);
+		}
+	}*/
 
 	window.display();
 }

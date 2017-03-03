@@ -6,6 +6,6 @@
 #include <stdlib.h>
 
 class WorldObject{
-public:
+protected:
 	sf::Vector2f position;
 };

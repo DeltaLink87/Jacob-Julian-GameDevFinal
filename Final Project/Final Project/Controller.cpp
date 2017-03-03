@@ -81,9 +81,9 @@ void Controller::inputs() {
 	}
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		model->player.attack = true;
+		model->player.isAttacking(true);
 	}
-	else model->player.attack = false;
+	else model->player.isAttacking(false);
 
 	model->player.looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->window.getView().getCenter() - (sf::Vector2f)view->window.getSize() * 0.5f);
 	//std::cout << model->player.looking.x << "," << model->player.looking.y << std::endl;
