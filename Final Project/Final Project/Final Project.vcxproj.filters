@@ -1,65 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\Engine">
-      <UniqueIdentifier>{dcd107c2-631d-446a-b7a5-c0ce3b402ff5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine">
-      <UniqueIdentifier>{9ec13b8e-2ae3-423c-ad51-e22f431bc143}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects">
-      <UniqueIdentifier>{312f6b38-99f6-4303-951b-3a2d6ba73716}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects">
-      <UniqueIdentifier>{7de1511c-ee5c-400d-b08b-1bd52734cb20}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Interfaces">
-      <UniqueIdentifier>{bc5fe153-2227-4e5f-b18c-338ea24db16e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Actors">
-      <UniqueIdentifier>{9d80affe-f276-4cd6-90e8-a6bd0d9538b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Actors">
-      <UniqueIdentifier>{0ce034e1-0514-49c8-85ae-3d2062180957}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Attacks">
-      <UniqueIdentifier>{a20a5be1-9ed9-416d-bf53-3a104c60cf64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Attacks">
-      <UniqueIdentifier>{2088d45f-ea8b-4eb5-b59f-bf7aebdf2c04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Items">
-      <UniqueIdentifier>{8aa15286-ee00-4228-9e31-1bf5bc06d139}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Items">
-      <UniqueIdentifier>{0fba9815-79d0-4c05-866e-3de4c8515244}</UniqueIdentifier>
-    <Filter Include="Source Files\Objects\Tiles">
-      <UniqueIdentifier>{0d1ff31a-c335-4587-917f-78468360c27b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Tiles">
-      <UniqueIdentifier>{56b923d8-a802-4840-80a4-1f44502ee3e0}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Controller.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
@@ -71,20 +16,8 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Actor.cpp">
-      <Filter>Source Files\Objects\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\Objects\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="Attack.cpp">
-      <Filter>Source Files\Objects\Attacks</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Source Files\Objects\Attacks</Filter>
-    </ClCompile>
-    <ClCompile Include="MeleeAttack.cpp">
-      <Filter>Source Files\Objects\Attacks</Filter>
+    <ClCompile Include="ItemManager.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>Source Files\Objects</Filter>
@@ -92,32 +25,57 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Objects\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Objects\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source Files\Objects\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files\Objects\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>Source Files\Objects\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAttack.cpp">
+      <Filter>Source Files\Objects\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="UseableItem.cpp">
+      <Filter>Source Files\Objects\Items</Filter>
+    </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Source Files\Objects\Items</Filter>
     </ClCompile>
     <ClCompile Include="Equipment.cpp">
       <Filter>Source Files\Objects\Items</Filter>
     </ClCompile>
-    <ClCompile Include="UseableItem.cpp">
-      <Filter>Source Files\Objects\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemManager.cpp">
-      <Filter>Source Files\Objects</Filter>
     <ClCompile Include="Tile.cpp">
-      <Filter>Source Files\Objects\Tiles</Filter>
-    </ClCompile>
-    <ClCompile Include="LadderTile.cpp">
       <Filter>Source Files\Objects\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="SolidTile.cpp">
       <Filter>Source Files\Objects\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="LadderTile.cpp">
+      <Filter>Source Files\Objects\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files\Engine</Filter>
+    <ClInclude Include="Renderable.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldObject.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Updatable.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
@@ -126,58 +84,38 @@
     <ClInclude Include="Render.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Updatable.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderable.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldObject.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>Header Files\Objects\Actors</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Objects\Actors</Filter>
+    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\Objects\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="Attack.h">
+    <ClInclude Include="MeleeAttack.h">
       <Filter>Header Files\Objects\Attacks</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Header Files\Objects\Attacks</Filter>
     </ClInclude>
-    <ClInclude Include="MeleeAttack.h">
+    <ClInclude Include="Attack.h">
       <Filter>Header Files\Objects\Attacks</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files\Objects\Actors</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
+    <ClInclude Include="UseableItem.h">
       <Filter>Header Files\Objects\Items</Filter>
     </ClInclude>
     <ClInclude Include="Equipment.h">
       <Filter>Header Files\Objects\Items</Filter>
     </ClInclude>
-    <ClInclude Include="UseableItem.h">
+    <ClInclude Include="Item.h">
       <Filter>Header Files\Objects\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemManager.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files\Objects</Filter>
-    <ClInclude Include="Tile.h">
-      <Filter>Header Files\Objects\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="LadderTile.h">
       <Filter>Header Files\Objects\Tiles</Filter>
@@ -185,6 +123,68 @@
     <ClInclude Include="SolidTile.h">
       <Filter>Header Files\Objects\Tiles</Filter>
     </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManager.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{d28b35b2-077c-49b2-afb4-d9a509057b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4c820f74-81ae-4b1f-97d1-6e526b1fe376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{01497412-6b46-4bbe-b1d0-87e8c8b5ba92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{81947921-f93e-466e-bae4-d7a673373665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{d8cb6f33-de57-405f-983e-4c42ac8197cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{72473c0d-0dd0-4a9f-b860-a6dd349796d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Actors">
+      <UniqueIdentifier>{91c090cc-d843-4fdd-a0ee-0fb3470628e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Attacks">
+      <UniqueIdentifier>{44bea5a6-7075-4421-aac9-034c10d584ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Items">
+      <UniqueIdentifier>{e84af839-52d3-4a54-9ba7-d8bad896b4e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Tiles">
+      <UniqueIdentifier>{3cba4604-080a-453f-beb0-0d16444e9942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{1d0239f9-0bd2-4153-b1c3-46249921b288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{38c14d6b-5540-444e-98c4-e189fd770529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Actors">
+      <UniqueIdentifier>{09202ac4-da25-481d-ab6d-283624d23950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Attacks">
+      <UniqueIdentifier>{fc6235b9-20a1-45df-91f4-e14f57c394bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Items">
+      <UniqueIdentifier>{60beff04-952b-4701-89cf-0ad671da85ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Tiles">
+      <UniqueIdentifier>{b68dbabf-5f91-468f-b2b0-0d41a93763d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Final Project.rc">
