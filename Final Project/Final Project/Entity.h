@@ -17,6 +17,9 @@ public:
 	sf::RectangleShape hitBox;
 	sf::Vector2f velocity;
 
+	
+	//std::map<std::string, int> stats;
+
 	void remove();
 	bool isRemoved();
 private:

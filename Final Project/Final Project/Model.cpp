@@ -33,9 +33,17 @@ Model::Model(){
 				test = new Enemy(sf::Vector2f(x*tileSize, y*tileSize));
 		}
 	}
+
+
+	itemManager = new ItemManager();
+
 }
 
-Model::~Model(){ }
+Model::~Model(){ 
+	delete(itemManager);
+	delete(test);
+
+}
 
 void Model::update(float deltaTime) {
 	player.update(deltaTime);	//updates player
