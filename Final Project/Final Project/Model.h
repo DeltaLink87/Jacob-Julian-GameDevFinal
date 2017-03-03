@@ -2,6 +2,8 @@
 
 #include "Player.h"
 #include "Tile.h"
+#include "LadderTile.h"
+#include "SolidTile.h"
 #include "Attack.h"
 #include "Sound.h"
 #include "Enemy.h"
@@ -12,18 +14,24 @@ public:
 	~Model();
 
 	void update(float);
+	void updateModel(float);
+	void collisionDetection();
 
 	Player player;
 
 	std::vector<Attack*> attacks;
 	std::vector<Sound> sounds;
-	Enemy* test;
+	std::vector<Enemy*> enemies;
 
 	int mapWidth, mapHeight, tileSize;
-	std::vector<Tile> tileMap;
+	Tile*** tileMap;
 
 	ItemManager* itemManager;
 	
 
 };
 
+/*
+	loot drops
+	player inventory
+*/

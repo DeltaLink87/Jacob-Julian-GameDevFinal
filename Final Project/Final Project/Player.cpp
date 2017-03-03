@@ -6,7 +6,7 @@
 
 
 Player::Player() : Actor(400, 300, 20, 20) {
-
+	maxHealth = curHealth = 50;
 }
 
 
@@ -15,25 +15,46 @@ Player::~Player() { }
 void Player::update(float deltaTime) {
 	//position.x += velocity.x * deltaTime;
 	//position.y += velocity.y * deltaTime;
+	std::cout << curHealth << std::endl;
+
 	//moving the player horizontally
 	if (left)
-		velocity.x = -100;
+		velocity.x = -200;
 	else if (right)
-		velocity.x = 100;
+		velocity.x = 200;
 	else velocity.x = 0;
 
 	//making the player jump if nessecary
-	if (jump)
+	if (jump) {
 		velocity.y = -150;
+		climbing = false;
+	}
+
+	//checks if player is next to something climbable and begins climbing if up is pressed
+	if (up && nextToClimbable)
+		climbing = true;
+	else if (!nextToClimbable)
+		climbing = false;
+
+	//if climbing, changing y velocity based on input
+	if (climbing) {
+		if (up)
+			velocity.y = -100;
+		else if (down)
+			velocity.y = 100;
+		else velocity.y = 0;
+	}
 
 	//creating a new attack from the player if instructed to 
-	if (attack) {
-		float dir = atan((looking.y - position.y) / (looking.x - position.x));
+	attackTimer -= deltaTime;
+	if (attack && attackTimer <= 0) {
+		attackTimer = 0.5;
+		float dirLooking = atan((looking.y - position.y) / (looking.x - position.x));
 		if (looking.x - position.x < 0)
-			dir += 2 * acos(0);
+			dirLooking += 2 * acos(0);
 		//making either a melee attack or projectile attack
-		//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dir, this));
-		newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dir), 200 * sin(dir)), this));
+		//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+		newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
 	}
 
 	//changing the sound timer and horizontal movement based on running or sneaking
@@ -67,15 +88,16 @@ void Player::update(float deltaTime) {
 	//updating player location
 	position += velocity * deltaTime;
 
-	//adding gravity to player
-	velocity.y += 200 * deltaTime;
-	if (velocity.y > 200)
-		velocity.y = 200;
+	if (!climbing) {
+		//adding gravity to player if not climbing
+		velocity.y += 200 * deltaTime;
+		if (velocity.y > 200)
+			velocity.y = 200;
+	}
 
 	//updating player ditbox
 	hitBox.setPosition(position);
+	nextToClimbable = false;
 }
 
-void Player::hit(Entity* hitThis) {
-
-}
+void Player::isAttacking(bool value) { attack = value; }

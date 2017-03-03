@@ -2,6 +2,7 @@
 #include <SFML/System.hpp>
 
 #include <Windows.h>
+#include <iostream>
 #include "Game.h"
 
 Game::Game() {
@@ -23,7 +24,9 @@ void Game::loop() {
 		float deltaTime = (float)gameTime.restart().asMilliseconds() / 1000;
 
 		controller->inputs();
+		//std::cout << "start" << std::endl;
 		model->update(deltaTime);
+		//std::cout << "done" << std::endl;
 		view->render();
 	}
 }

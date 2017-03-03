@@ -26,12 +26,14 @@
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="LadderTile.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Render.cpp" />
+    <ClCompile Include="SolidTile.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -48,6 +50,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="LadderTile.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Model.h" />
@@ -56,6 +59,7 @@
     <ClInclude Include="Render.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SolidTile.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Updatable.h" />

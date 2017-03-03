@@ -8,6 +8,6 @@
 #include <map>
 
 class WorldObject{
-public:
+protected:
 	sf::Vector2f position;
 };

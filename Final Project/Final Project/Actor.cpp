@@ -6,17 +6,12 @@ Actor::Actor(int x, int y, int width, int height) : Entity(x, y, width, height) 
 
 Actor::~Actor() { }
 
+std::vector<Attack*>& Actor::getAttacks() { return newAttacks; }
+void Actor::gotAttacks() { newAttacks.clear(); }
 
-void Actor::addInventory(Item* item) {
+std::vector<Sound>& Actor::getSounds() { return newSounds; }
+void Actor::gotSounds() { newSounds.clear(); }
 
-
+void Actor::dealDamage(float damage) {
+	curHealth -= damage;
 }
-
-std::vector<Attack*>& Actor::getAttacks() {
-	return newAttacks;
-}
-
-std::vector<Sound>& Actor::getSounds() {
-	return newSounds;
-}
-
