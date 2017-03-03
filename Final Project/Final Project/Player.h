@@ -1,6 +1,6 @@
 #pragma once
 #include "Actor.h"
-#include <map>
+#include "Item.h"
 
 class Player : public Actor {
 public:
@@ -12,6 +12,10 @@ public:
 
 	bool jump = false, moveSlow = false, moveFast = false;// , attack = false;
 	bool up = false , down = false, left = false, right = false;
+
+	
+
+
 	sf::Vector2f looking;
 
 	float attackTimer = 0;

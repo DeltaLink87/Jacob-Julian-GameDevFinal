@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 #include <stdlib.h>
+#include <string>
+#include <map>
 
 class WorldObject{
 protected:

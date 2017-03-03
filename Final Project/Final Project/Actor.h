@@ -2,6 +2,10 @@
 
 #include "Entity.h"
 #include "Sound.h"
+#include "UseableItem.h"
+#include "Equipment.h"
+#include "Item.h"
+
 //#include "Attack.h"
 class Attack;
 
@@ -9,6 +13,10 @@ class Actor : public Entity {
 public:
 	Actor(int, int, int, int);
 	~Actor();
+
+
+	void addInventory(Item*);
+
 
 	std::vector<Sound>& getSounds();
 	void gotSounds();
@@ -24,6 +32,8 @@ protected:
 	std::vector<Attack*>& getAttacks();
 	float attackTimer = 0;
 	bool attack = false;
+  
+	std::map<std::string, Item*> inventory;
 
 	bool climbing = false;
 

@@ -7,6 +7,16 @@ Entity::Entity(int x, int y, int width, int height){
 	sprite.setPosition(position);
 	hitBox = sf::RectangleShape(sf::Vector2f(width, height));
 	hitBox.setPosition(position);
+
+	/*
+	stats.insert(std::pair<std::string, int>("Health",0));
+	stats.insert(std::pair<std::string, int>("Strength", 0));
+	stats.insert(std::pair<std::string, int>("Intelligence", 0));
+	stats.insert(std::pair<std::string, int>("Defense", 0));
+	stats.insert(std::pair<std::string, int>("Agility", 0));
+	*/
+
+
 }
 
 Entity::~Entity(){ }

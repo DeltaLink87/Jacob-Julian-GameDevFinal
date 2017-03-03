@@ -7,7 +7,7 @@
 #include "Attack.h"
 #include "Sound.h"
 #include "Enemy.h"
-
+#include "ItemManager.h"
 class Model {
 public:
 	Model();
@@ -25,6 +25,9 @@ public:
 
 	int mapWidth, mapHeight, tileSize;
 	Tile*** tileMap;
+
+	ItemManager* itemManager;
+	
 
 };
 

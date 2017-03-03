@@ -12,6 +12,19 @@ Render::Render(Model* newModel){
 	window.setFramerateLimit(60);
 
 	camera.setSize(sf::Vector2f(windowWidth, windowHeight));
+
+	menuCamera.setSize(sf::Vector2f(410, 310));
+	menuCamera.setCenter(-1202.5, 155.0);
+
+	font.loadFromFile("Assets/times.ttf");
+	
+	textBrush.setFont(font);
+	textBrush.setCharacterSize(20);
+	textBrush.setFillColor(sf::Color::White);
+	textBrush.setStyle(sf::Text::Regular);
+
+
+
 }
 
 Render::~Render(){ }
@@ -63,14 +76,44 @@ void Render::render() {
 		soundSphere.setFillColor(sf::Color(0,0,255,100));
 		window.draw(soundSphere);
 	}
-
-	/*camera.setCenter(sf::Vector2f(0, 0));
+  
+	camera.setCenter(menuCamera.getCenter());
 	window.setView(camera);
-	for (int y = 0; y < model->mapHeight; y++) {
-		for (int x = 0; x < model->mapWidth; x++) {
-			window.draw(model->tileMap[y][x]->sprite);
-		}
-	}*/
-
+	renderMenu();
+  
 	window.display();
+}
+
+void Render::renderMenu() {
+
+	sf::RectangleShape border = sf::RectangleShape(sf::Vector2f(410, 310));
+	border.setPosition(sf::Vector2f(-1405, 0));
+	border.setFillColor(sf::Color::White);
+
+	sf::RectangleShape center = sf::RectangleShape(sf::Vector2f(400, 300));
+	center.setPosition(sf::Vector2f(-1400, 5));
+	center.setFillColor(sf::Color::Black);
+
+	sf::RectangleShape divide = sf::RectangleShape(sf::Vector2f(5, 300));
+	divide.setPosition(sf::Vector2f(-1270, 5));
+	divide.setFillColor(sf::Color::White);
+
+	window.draw(border);
+	window.draw(center);
+	window.draw(divide);
+
+	textBrush.setString("Items:");
+	textBrush.setPosition(sf::Vector2f(-1395, 5));
+	window.draw(textBrush);
+	
+	for (int i = 0; i < model->itemManager->itemIndex.size(); i++) {
+		//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
+		model->itemManager->items.at(model->itemManager->itemIndex.at(i + 1))->menuIcon.setPosition(sf::Vector2f(-1400, 20 + 75 * i));
+		window.draw(model->itemManager->items.at(model->itemManager->itemIndex.at(i+1))->menuIcon);
+		//textBrush.setPosition(sf::Vector2f(-1395, 30 * (i + 1)));
+		//window.draw(textBrush);
+	}
+	
+
+
 }

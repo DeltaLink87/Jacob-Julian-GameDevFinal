@@ -39,9 +39,17 @@ Model::Model(){
 				enemies.push_back(new Enemy(sf::Vector2f(x*tileSize, y*tileSize)));
 		}
 	}
+
+
+	itemManager = new ItemManager();
+
 }
 
-Model::~Model(){ }
+Model::~Model(){ 
+	delete(itemManager);
+	delete(test);
+
+}
 
 void Model::update(float deltaTime) {
 	updateModel(deltaTime);

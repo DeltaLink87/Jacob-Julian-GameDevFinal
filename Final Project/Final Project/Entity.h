@@ -25,6 +25,9 @@ public:
 
 	bool nextToClimbable = false;
 
+	
+	//std::map<std::string, int> stats;
+
 	void remove();
 	bool isRemoved();
 protected:
