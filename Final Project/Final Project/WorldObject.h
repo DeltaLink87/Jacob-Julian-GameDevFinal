@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 #include <stdlib.h>
+#include <string>
 
 class WorldObject{
 public:

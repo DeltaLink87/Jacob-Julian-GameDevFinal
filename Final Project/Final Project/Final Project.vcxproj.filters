@@ -40,6 +40,12 @@
     <Filter Include="Source Files\Objects\Attacks">
       <UniqueIdentifier>{2088d45f-ea8b-4eb5-b59f-bf7aebdf2c04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Items">
+      <UniqueIdentifier>{8aa15286-ee00-4228-9e31-1bf5bc06d139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Items">
+      <UniqueIdentifier>{0fba9815-79d0-4c05-866e-3de4c8515244}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -83,6 +89,15 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Objects\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Objects\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment.cpp">
+      <Filter>Source Files\Objects\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="UseableItem.cpp">
+      <Filter>Source Files\Objects\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +151,15 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Objects\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment.h">
+      <Filter>Header Files\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="UseableItem.h">
+      <Filter>Header Files\Objects\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
