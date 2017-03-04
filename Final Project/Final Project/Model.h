@@ -7,7 +7,9 @@
 #include "Attack.h"
 #include "Sound.h"
 #include "Enemy.h"
-#include "ItemManager.h"
+#include "Loot.h"
+#include "CraftingMenu.h"
+
 class Model {
 public:
 	Model();
@@ -26,8 +28,9 @@ public:
 	int mapWidth, mapHeight, tileSize;
 	Tile*** tileMap;
 
-	ItemManager* itemManager;
-	
+	std::vector<Loot*> droppedLoot;
+	ItemManager* itemManager = new ItemManager();
+	CraftingMenu* craftMenu;
 
 };
 

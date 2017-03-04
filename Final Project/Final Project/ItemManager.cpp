@@ -1,5 +1,6 @@
 #include "ItemManager.h"
-#include "fstream"
+#include <fstream>
+
 
 ItemManager::ItemManager() {
 	std::ifstream filehandle;
@@ -33,5 +34,21 @@ ItemManager::ItemManager() {
 
 ItemManager::~ItemManager() {
 
+}
 
+Item* ItemManager::getItem(std::string name) {
+	return new Item(*items.at(name));
+}
+
+int ItemManager::getTotalItems() { return items.size(); }
+
+std::vector<std::string>* ItemManager::getItemList() {
+	std::vector<std::string>* list = new std::vector<std::string>;
+	//std::cout << items.size() << std::endl;
+	for (std::map<std::string, Item*>::iterator i = items.begin(); i != items.end(); i++) {
+		std::cout << "Thing" << std::endl;
+		list->push_back(i->first);
+	}
+	//std::cout << list.size() << std::endl;
+	return list;
 }

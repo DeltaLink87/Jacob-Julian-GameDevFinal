@@ -85,6 +85,6 @@ void Controller::inputs() {
 	}
 	else model->player.isAttacking(false);
 
-	model->player.looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->window.getView().getCenter() - (sf::Vector2f)view->window.getSize() * 0.5f);
+	model->player.looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
 	//std::cout << model->player.looking.x << "," << model->player.looking.y << std::endl;
 }

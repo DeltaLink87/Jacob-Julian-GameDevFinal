@@ -18,6 +18,7 @@ public:
 	void renderMenu();
 
 	sf::View camera;
+	sf::Vector2f camPosition;
 
 	sf::View menuCamera;
 	

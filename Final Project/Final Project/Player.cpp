@@ -15,7 +15,7 @@ Player::~Player() { }
 void Player::update(float deltaTime) {
 	//position.x += velocity.x * deltaTime;
 	//position.y += velocity.y * deltaTime;
-	std::cout << curHealth << std::endl;
+	//std::cout << curHealth << std::endl;
 
 	//moving the player horizontally
 	if (left)

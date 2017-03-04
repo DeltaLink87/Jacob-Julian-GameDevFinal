@@ -13,19 +13,13 @@ public:
 
 	//std::string** itemIndex = { "Dagger", "Health Potion" };
 
+	Item* getItem(std::string);
+	int getTotalItems();
+	std::vector<std::string>* getItemList();
+
+private:
 	std::map<std::string, Item*> items;
-	std::map<std::string, Equipment*> equipment;
-	std::map<std::string, UseableItem*> consumables;
-
-
-
-
-
-
-
-	
-
-
-
+	//std::map<std::string, Equipment*> equipment;
+	//std::map<std::string, UseableItem*> consumables;
 
 };

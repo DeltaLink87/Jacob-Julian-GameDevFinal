@@ -15,3 +15,8 @@ void Actor::gotSounds() { newSounds.clear(); }
 void Actor::dealDamage(float damage) {
 	curHealth -= damage;
 }
+
+void Actor::addInventory(Item* newItem) {
+	std::cout << newItem->name << std::endl;
+	inventory.push_back(newItem);
+}

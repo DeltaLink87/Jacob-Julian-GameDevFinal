@@ -22,11 +22,14 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="CraftingMenu.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="LadderTile.cpp" />
+    <ClCompile Include="Loot.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -36,7 +39,6 @@
     <ClCompile Include="SolidTile.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="UseableItem.cpp" />
   </ItemGroup>
@@ -44,6 +46,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="CraftingMenu.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Equipment.h" />
@@ -51,6 +54,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="LadderTile.h" />
+    <ClInclude Include="Loot.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Model.h" />

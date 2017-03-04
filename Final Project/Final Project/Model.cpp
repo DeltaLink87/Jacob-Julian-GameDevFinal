@@ -36,19 +36,15 @@ Model::Model(){
 			if (tileType == 2)
 				player.setPostion(sf::Vector2f(x * tileSize, y * tileSize));
 			else if (tileType == 3)
-				enemies.push_back(new Enemy(sf::Vector2f(x*tileSize, y*tileSize)));
+				enemies.push_back(new Enemy(sf::Vector2f(x*tileSize, y*tileSize), itemManager));
 		}
 	}
 
-
-	itemManager = new ItemManager();
-
+	craftMenu = new CraftingMenu(itemManager);
 }
 
 Model::~Model(){ 
 	delete(itemManager);
-	delete(test);
-
 }
 
 void Model::update(float deltaTime) {
@@ -87,6 +83,9 @@ void Model::updateModel(float deltaTime) {
 		if ((*e)->isRemoved()) {
 			Enemy* removedEnemy = *e;
 			e = enemies.erase(e);
+			Loot* dropped = removedEnemy->lootDrop();
+			if (dropped != NULL)
+				droppedLoot.push_back(dropped);
 			delete removedEnemy;
 		}
 		else e++;
@@ -128,6 +127,16 @@ void Model::collisionDetection() {
 	for (std::vector<Attack*>::iterator a = attacks.begin(); a != attacks.end(); a++) 
 		if ((*a)->intersects(player.getHitBox()))
 			(*a)->hitActor(&player);
+
+	for (std::vector<Loot*>::iterator l = droppedLoot.begin(); l != droppedLoot.end(); ) {
+		if ((*l)->intersects(player.getHitBox())) {
+			Loot* removedLoot = *l;
+			l = droppedLoot.erase(l);
+			player.addInventory(removedLoot->getDrop());
+			delete removedLoot;
+		}
+		else l++;
+	}
 	// ---------------------player collision detection end-------------------- //
 
 	// -----------------------Enemy collision detection--------------------- //
@@ -139,8 +148,10 @@ void Model::collisionDetection() {
 					tileMap[y][x]->hit(*e);
 
 		//checking if enemy moved over an edge
-		if (!tileMap[(int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize)][(int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x / 2) / tileSize)]->isSolid())
-			(*e)->overEdge();
+		if ((int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize) < mapHeight && (int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize) >= 0 &&
+			(int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x / 2) / tileSize) < mapWidth && (int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x / 2) / tileSize) >= 0)
+			if (!tileMap[(int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize)][(int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x / 2) / tileSize)]->isSolid())
+				(*e)->overEdge();
 
 		(*e)->doesSee(&player);	//checking if the enemy can see the player
 

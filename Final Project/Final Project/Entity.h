@@ -24,7 +24,6 @@ public:
 	
 
 	bool nextToClimbable = false;
-
 	
 	//std::map<std::string, int> stats;
 
@@ -33,6 +32,8 @@ public:
 protected:
 	sf::RectangleShape hitBox;
 	sf::Vector2f velocity;
+
+	
 private:
 	bool removed = false;
 };

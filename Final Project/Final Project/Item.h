@@ -1,9 +1,12 @@
 #pragma once
 
-#include "Entity.h"
+#include <string>
+#include <fstream>
+#include <SFML\Graphics.hpp>
+#include <iostream>
 
-
-class Item {
+class Item
+{
 public:
 	Item(std::string, int);
 	Item(int);
@@ -16,16 +19,16 @@ public:
 	void setTextureWithMask(sf::Texture*, std::string);
 
 	/*
-		key = string(name)
-		value = int(quantity required)
+	key = string(name)
+	value = int(quantity required)
 	*/
 	std::map<std::string, int> recipe;
 
 	/*
-		To distinguish between a basic item to be used as a material, and the further defined Equipment/UseableItem classes
-		1 = material
-		2 = Equipment
-		3 = UseableItem
+	To distinguish between a basic item to be used as a material, and the further defined Equipment/UseableItem classes
+	1 = material
+	2 = Equipment
+	3 = UseableItem
 	*/
 	int id;
 
@@ -34,7 +37,7 @@ public:
 	sf::Image image;
 
 	std::string name;
-	
+
 	sf::Sprite smallIcon;
 	sf::Sprite menuIcon;
 	sf::Sprite menuDescription;
@@ -43,12 +46,5 @@ public:
 	sf::Texture smallIconTexture;
 	sf::Texture menuIconTexture;
 	sf::Texture menuDescriptionTexture;
-
-
-
-
-
-
-
 };
 

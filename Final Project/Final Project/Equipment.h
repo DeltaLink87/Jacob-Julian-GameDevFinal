@@ -19,8 +19,4 @@ public:
 	int resistance = 0;
 	int agility = 0;
 
-
-
-
-
 };

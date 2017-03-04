@@ -5,6 +5,7 @@
 #include "UseableItem.h"
 #include "Equipment.h"
 #include "Item.h"
+#include "Loot.h"
 
 //#include "Attack.h"
 class Attack;
@@ -33,7 +34,7 @@ protected:
 	float attackTimer = 0;
 	bool attack = false;
   
-	std::map<std::string, Item*> inventory;
+	std::vector<Item*> inventory;
 
 	bool climbing = false;
 

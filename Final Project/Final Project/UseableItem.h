@@ -3,7 +3,7 @@
 #include "Item.h"
 
 
-class UseableItem: public Item {
+class UseableItem : public Item {
 public:
 	UseableItem();
 	UseableItem(std::string, int);

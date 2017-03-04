@@ -31,7 +31,7 @@ Render::~Render(){ }
 
 void Render::render() {
 	//finding camera position
-	sf::Vector2f camPosition = model->player.getPosition();
+	camPosition = model->player.getPosition();
 	if (camPosition.x < windowWidth / 2)
 		camPosition.x = windowWidth / 2;
 	else if (camPosition.x > model->mapWidth * model->tileSize - windowWidth / 2)
@@ -76,6 +76,9 @@ void Render::render() {
 		soundSphere.setFillColor(sf::Color(0,0,255,100));
 		window.draw(soundSphere);
 	}
+
+	for (std::vector<Loot*>::iterator i = model->droppedLoot.begin(); i != model->droppedLoot.end(); i++)
+		window.draw((*i)->sprite);
   
 	camera.setCenter(menuCamera.getCenter());
 	window.setView(camera);
@@ -106,12 +109,14 @@ void Render::renderMenu() {
 	textBrush.setPosition(sf::Vector2f(-1395, 5));
 	window.draw(textBrush);
 	
-	for (int i = 0; i < model->itemManager->itemIndex.size(); i++) {
+	int counter = 0;
+	for (std::map<std::string, Item*>::iterator i = model->craftMenu->itemList.begin(); i != model->craftMenu->itemList.end(); i++) {
 		//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
-		model->itemManager->items.at(model->itemManager->itemIndex.at(i + 1))->menuIcon.setPosition(sf::Vector2f(-1400, 20 + 75 * i));
-		window.draw(model->itemManager->items.at(model->itemManager->itemIndex.at(i+1))->menuIcon);
+		(*i).second->smallIcon.setPosition(sf::Vector2f(-1400, 20 + 75 * counter));
+		window.draw((*i).second->smallIcon);
 		//textBrush.setPosition(sf::Vector2f(-1395, 30 * (i + 1)));
 		//window.draw(textBrush);
+		counter++;
 	}
 	
 

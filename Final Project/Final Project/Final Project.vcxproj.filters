@@ -43,9 +43,6 @@
     <ClCompile Include="UseableItem.cpp">
       <Filter>Source Files\Objects\Items</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Objects\Items</Filter>
-    </ClCompile>
     <ClCompile Include="Equipment.cpp">
       <Filter>Source Files\Objects\Items</Filter>
     </ClCompile>
@@ -60,6 +57,15 @@
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Objects\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Loot.cpp">
+      <Filter>Source Files\Objects\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="CraftingMenu.cpp">
+      <Filter>Source Files\Engine\Menus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +120,6 @@
     <ClInclude Include="Equipment.h">
       <Filter>Header Files\Objects\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Header Files\Objects\Items</Filter>
-    </ClInclude>
     <ClInclude Include="LadderTile.h">
       <Filter>Header Files\Objects\Tiles</Filter>
     </ClInclude>
@@ -134,6 +137,15 @@
     </ClInclude>
     <ClInclude Include="ItemManager.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Loot.h">
+      <Filter>Header Files\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="CraftingMenu.h">
+      <Filter>Header Files\Engine\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +196,12 @@
     </Filter>
     <Filter Include="Source Files\Objects\Tiles">
       <UniqueIdentifier>{b68dbabf-5f91-468f-b2b0-0d41a93763d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Menus">
+      <UniqueIdentifier>{44e5c4d1-bd76-4cad-a513-c29135652fff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Menus">
+      <UniqueIdentifier>{5ebd524d-4289-4700-997b-ca29172fd2d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

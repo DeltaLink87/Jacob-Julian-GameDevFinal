@@ -2,11 +2,12 @@
 #include "Actor.h"
 #include "Sound.h"
 #include "MeleeAttack.h"
+#include "ItemManager.h"
 
 class Enemy : public Actor {
 public:
 	Enemy();
-	Enemy(sf::Vector2f);
+	Enemy(sf::Vector2f, ItemManager*);
 
 
 	~Enemy();
@@ -20,6 +21,8 @@ public:
 
 	void hitWall(sf::Vector2f, int);
 	void overEdge();
+
+	Loot* lootDrop();
 
 protected:
 	int timer = 0;
