@@ -17,7 +17,7 @@ Item::Item(int identifier) {
 
 void Item::setTextureWithMask(sf::Texture* texture, std::string file) {
 	this->image.loadFromFile(file);
-	this->image.createMaskFromColor(sf::Color::Black);
+	this->image.createMaskFromColor(sf::Color::White);
 	texture->loadFromImage(image);
 
 }
@@ -26,7 +26,7 @@ void Item::setTextureWithMask(sf::Texture* texture, std::string file) {
 void Item::setTextures(std::string string) {
 
 	//smallIcon.setScale(sf::Vector2f(50, 50));
-	menuIcon.setScale(sf::Vector2f(2.6, 1.4));
+	//menuIcon.setScale(sf::Vector2f(2.6, 1.4));
 	//menuDescription.setScale(sf::Vector2f(265, 300));
 
 	//image.loadFromFile("Assets/Textures/" + string + ".png");
@@ -39,8 +39,9 @@ void Item::setTextures(std::string string) {
 	menuDescription.setTexture(menuDescriptionTexture);
 
 	smallIcon.setScale(sf::Vector2f(75.0 / smallIcon.getTexture()->getSize().x, 75.0 / smallIcon.getTexture()->getSize().y));
-	menuIcon.setScale(sf::Vector2f(100.0 / menuIcon.getTexture()->getSize().x, 75.0 / menuIcon.getTexture()->getSize().y));
-	menuDescription.setScale(sf::Vector2f(280.0 / menuDescription.getTexture()->getSize().x, 350.0 / menuDescription.getTexture()->getSize().y));
+	menuIcon.setScale(sf::Vector2f(.5, .5));
+	//menuIcon.setScale(sf::Vector2f(100.0 / menuIcon.getTexture()->getSize().x, 75.0 / menuIcon.getTexture()->getSize().y));
+	//menuDescription.setScale(sf::Vector2f(280.0 / menuDescription.getTexture()->getSize().x, 350.0 / menuDescription.getTexture()->getSize().y));
 
 	//std::cout << id << std::endl;
 }

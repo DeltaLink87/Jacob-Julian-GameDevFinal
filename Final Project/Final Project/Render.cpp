@@ -114,12 +114,12 @@ void Render::renderMenu() {
 	int counter = 0;
 	for (std::map<std::string, Item*>::iterator i = model->craftMenu->itemList.begin(); i != model->craftMenu->itemList.end(); i++) {
 		//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
-		(*i).second->menuIcon.setPosition(sf::Vector2f(-1400, 40 + 75 * counter));
+		(*i).second->menuIcon.setPosition(sf::Vector2f(-1400, 30 + 75 * counter));
 		window.draw((*i).second->menuIcon);
 
 		if (!model->craftMenu->canMake[counter]) {
-			sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(100, 75));
-			rect.setPosition(sf::Vector2f(-1400, 40 + 75 * counter));
+			sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(130, 70));
+			rect.setPosition(sf::Vector2f(-1400, 30 + 75 * counter));
 			rect.setFillColor(sf::Color(0, 0, 0, 100));
 			window.draw(rect);
 		}
@@ -127,9 +127,9 @@ void Render::renderMenu() {
 		//window.draw(textBrush);
 		counter++;
 	}
-	model->craftMenu->selectedBox.setPosition(-1400, 40 + 75 * model->craftMenu->curSelected);
+	model->craftMenu->selectedBox.setPosition(-1400, 30 + 75 * model->craftMenu->curSelected);
 	window.draw(model->craftMenu->selectedBox);
 
-	model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription.setPosition(sf::Vector2f(-1270, 20));
+	model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription.setPosition(sf::Vector2f(-1265, 5));
 	window.draw(model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription);
 }

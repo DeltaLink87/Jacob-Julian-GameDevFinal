@@ -20,7 +20,7 @@ CraftingMenu::CraftingMenu(ItemManager* newItemManager, Player* newPlayer) {
 
 	canMake = new bool[totalItems];
 
-	selectedBox = sf::RectangleShape(sf::Vector2f(100, 75));
+	selectedBox = sf::RectangleShape(sf::Vector2f(130, 70));
 	selectedBox.setFillColor(sf::Color::Transparent);
 	selectedBox.setOutlineColor(sf::Color::White);
 	selectedBox.setOutlineThickness(4);
