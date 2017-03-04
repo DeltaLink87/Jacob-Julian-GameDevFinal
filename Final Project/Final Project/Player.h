@@ -1,8 +1,9 @@
 #pragma once
 #include "Actor.h"
 #include "Item.h"
+#include "Inputable.h"
 
-class Player : public Actor {
+class Player : public Actor,  public Inputable{
 public:
 	Player();
 	~Player();
@@ -10,13 +11,8 @@ public:
 	void update(float);
 	void isAttacking(bool);
 
-	bool jump = false, moveSlow = false, moveFast = false;// , attack = false;
-	bool up = false , down = false, left = false, right = false;
-
-	
-
-
-	sf::Vector2f looking;
+	std::map<std::string, Item*>* getInventory();
+	bool craftItem(Item*);
 
 	float attackTimer = 0;
 };

@@ -80,9 +80,11 @@ void Render::render() {
 	for (std::vector<Loot*>::iterator i = model->droppedLoot.begin(); i != model->droppedLoot.end(); i++)
 		window.draw((*i)->sprite);
   
-	camera.setCenter(menuCamera.getCenter());
-	window.setView(camera);
-	renderMenu();
+	if (model->gameMode == 1) {
+		camera.setCenter(menuCamera.getCenter());
+		window.setView(camera);
+		renderMenu();
+	}
   
 	window.display();
 }
@@ -95,7 +97,7 @@ void Render::renderMenu() {
 
 	sf::RectangleShape center = sf::RectangleShape(sf::Vector2f(400, 300));
 	center.setPosition(sf::Vector2f(-1400, 5));
-	center.setFillColor(sf::Color::Black);
+	center.setFillColor(sf::Color(100, 100, 100));
 
 	sf::RectangleShape divide = sf::RectangleShape(sf::Vector2f(5, 300));
 	divide.setPosition(sf::Vector2f(-1270, 5));
@@ -112,13 +114,22 @@ void Render::renderMenu() {
 	int counter = 0;
 	for (std::map<std::string, Item*>::iterator i = model->craftMenu->itemList.begin(); i != model->craftMenu->itemList.end(); i++) {
 		//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
-		(*i).second->smallIcon.setPosition(sf::Vector2f(-1400, 20 + 75 * counter));
-		window.draw((*i).second->smallIcon);
+		(*i).second->menuIcon.setPosition(sf::Vector2f(-1400, 40 + 75 * counter));
+		window.draw((*i).second->menuIcon);
+
+		if (!model->craftMenu->canMake[counter]) {
+			sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(100, 75));
+			rect.setPosition(sf::Vector2f(-1400, 40 + 75 * counter));
+			rect.setFillColor(sf::Color(0, 0, 0, 100));
+			window.draw(rect);
+		}
 		//textBrush.setPosition(sf::Vector2f(-1395, 30 * (i + 1)));
 		//window.draw(textBrush);
 		counter++;
 	}
-	
+	model->craftMenu->selectedBox.setPosition(-1400, 40 + 75 * model->craftMenu->curSelected);
+	window.draw(model->craftMenu->selectedBox);
 
-
+	model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription.setPosition(sf::Vector2f(-1270, 20));
+	window.draw(model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription);
 }

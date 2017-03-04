@@ -16,6 +16,9 @@ private:
 	Model* model;
 	Render* view;
 
+	Inputable* inputTo;
+
 	bool prevSpacePressed = false;
+	bool prevMenuPressed = false;
 };
 

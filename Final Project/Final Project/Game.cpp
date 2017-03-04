@@ -19,6 +19,8 @@ Game::~Game() {
 
 void Game::loop() {
 	gameTime.restart();
+	int framesSkipped = 0;
+	float timeForLoop = 1000 / 30;
 
 	while (view->window.isOpen()) {
 		float deltaTime = (float)gameTime.restart().asMilliseconds() / 1000;
@@ -26,7 +28,11 @@ void Game::loop() {
 		controller->inputs();
 		//std::cout << "start" << std::endl;
 		model->update(deltaTime);
-		//std::cout << "done" << std::endl;
-		view->render();
+		//std::cout << gameTime.getElapsedTime().asMilliseconds() << std::endl;
+		if (gameTime.getElapsedTime().asMilliseconds() < timeForLoop || framesSkipped > 2) {
+			view->render();
+			framesSkipped = 0;
+		}
+		else framesSkipped++;
 	}
 }

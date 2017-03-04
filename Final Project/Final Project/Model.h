@@ -31,7 +31,7 @@ public:
 	std::vector<Loot*> droppedLoot;
 	ItemManager* itemManager = new ItemManager();
 	CraftingMenu* craftMenu;
-
+	int gameMode = 0;
 };
 
 /*

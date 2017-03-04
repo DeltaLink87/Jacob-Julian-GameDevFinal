@@ -18,5 +18,5 @@ void Actor::dealDamage(float damage) {
 
 void Actor::addInventory(Item* newItem) {
 	std::cout << newItem->name << std::endl;
-	inventory.push_back(newItem);
+	inventory.insert(std::make_pair(newItem->name, newItem));
 }

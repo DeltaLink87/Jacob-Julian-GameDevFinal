@@ -147,6 +147,9 @@
     <ClInclude Include="CraftingMenu.h">
       <Filter>Header Files\Engine\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="Inputable.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

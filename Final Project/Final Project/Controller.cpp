@@ -5,12 +5,20 @@
 Controller::Controller(Model* newModel, Render* newView){
 	model = newModel;
 	view = newView;
+
+	inputTo = &(model->player);
+	//inputTo = model->craftMenu;
 }
 
 
 Controller::~Controller(){ }
 
 void Controller::inputs() {
+	if (model->gameMode == 0)
+		inputTo = &(model->player);
+	else if (model->gameMode == 1)
+		inputTo = model->craftMenu;
+
 	sf::Event event;
 
 	while (view->window.pollEvent(event)) {
@@ -40,51 +48,65 @@ void Controller::inputs() {
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		model->player.up = true;
+		inputTo->up = true;
 	}
-	else model->player.up = false;
+	else inputTo->up = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		model->player.down = true;
+		inputTo->down = true;
 	}
-	else model->player.down = false;
+	else inputTo->down = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		model->player.left = true;
+		inputTo->left = true;
 	}
-	else model->player.left = false;
+	else inputTo->left = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		model->player.right = true;
+		inputTo->right = true;
 	}
-	else model->player.right = false;
+	else inputTo->right = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-		model->player.moveSlow = true;
+		inputTo->moveSlow = true;
 	}
 	else model->player.moveSlow = false;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-		model->player.moveFast = true;
+		inputTo->moveFast = true;
 	}
-	else model->player.moveFast = false;
+	else inputTo->moveFast = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		if (!prevSpacePressed) {
-			model->player.jump = true;
+			inputTo->jump = true;
 			prevSpacePressed = true;
 		}
-		else model->player.jump = false;
+		else inputTo->jump = false;
+		inputTo->select = true;
 	}
 	else {
 		prevSpacePressed = false;
-		model->player.jump = false;
+		inputTo->jump = false;
+		inputTo->select = false;
 	}
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		model->player.isAttacking(true);
+		inputTo->pressAttack = true;
 	}
-	else model->player.isAttacking(false);
+	else inputTo->pressAttack = false;
 
-	model->player.looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+		if (!prevMenuPressed) {
+			inputTo->craftingMenu = true;
+			prevMenuPressed = true;
+		}
+		else inputTo->craftingMenu = false;
+	}
+	else {
+		inputTo->craftingMenu = false;
+		prevMenuPressed = false;
+	}
+
+	inputTo->looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
 	//std::cout << model->player.looking.x << "," << model->player.looking.y << std::endl;
 }

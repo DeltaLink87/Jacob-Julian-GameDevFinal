@@ -46,6 +46,7 @@ void Player::update(float deltaTime) {
 	}
 
 	//creating a new attack from the player if instructed to 
+	attack = pressAttack;
 	attackTimer -= deltaTime;
 	if (attack && attackTimer <= 0) {
 		attackTimer = 0.5;
@@ -101,3 +102,21 @@ void Player::update(float deltaTime) {
 }
 
 void Player::isAttacking(bool value) { attack = value; }
+
+std::map<std::string, Item*>*  Player::getInventory() { return &inventory; }
+
+bool Player::craftItem(Item* item) {
+	for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
+		if (inventory.count((*i).first) == 0)
+			return false;
+	}
+
+	for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
+		//Item* removedItem = (inventory.find((*i).first))->second;
+		inventory.erase(inventory.find((*i).first));
+		//delete removedItem;
+	}
+	addInventory(item);
+
+	return true;
+}

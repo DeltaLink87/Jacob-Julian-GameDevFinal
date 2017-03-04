@@ -34,7 +34,7 @@ protected:
 	float attackTimer = 0;
 	bool attack = false;
   
-	std::vector<Item*> inventory;
+	std::map<std::string, Item*> inventory;
 
 	bool climbing = false;
 

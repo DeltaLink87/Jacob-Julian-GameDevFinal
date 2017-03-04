@@ -2,23 +2,28 @@
 
 #include "Updatable.h"
 #include "ItemManager.h"
+#include "Inputable.h"
+#include "Player.h"
 
-class CraftingMenu {
+class CraftingMenu : public Inputable{
 public:
-	CraftingMenu(ItemManager*);
+	CraftingMenu(ItemManager*, Player*);
 	~CraftingMenu();
 
 	void update(float);
 
-	bool up, down, left, right, select;
+	sf::RectangleShape selectedBox;
 
 //private:
 	int curSelected;
 	int totalItems;
+	float inputTimer = 0;
 
 	std::vector<std::string> itemNameList;
 	std::map<std::string, Item*> itemList;
+	bool* canMake;
 
 	ItemManager* itemManager;
+	Player* craftingPlayer;
 };
 

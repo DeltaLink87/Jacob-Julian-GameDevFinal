@@ -22,8 +22,8 @@ ItemManager::ItemManager() {
 	itemIndex.insert(std::pair<int, std::string>(6, "Wood"));
 	*/
 
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Dagger",2)));
-	items.insert(std::pair<std::string, UseableItem*>("Health_Potion", new UseableItem("Health_Potion",3)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Dagger",1)));
+	items.insert(std::pair<std::string, UseableItem*>("Health_Potion", new UseableItem("Health_Potion",2)));
 	items.insert(std::pair<std::string, Item*>("Herb", new Item("Herb", 1)));
 	items.insert(std::pair<std::string, Item*>("Bottle", new Item("Bottle", 1)));
 	items.insert(std::pair<std::string, Item*>("Blade", new Item("Blade", 1)));
@@ -46,7 +46,7 @@ std::vector<std::string>* ItemManager::getItemList() {
 	std::vector<std::string>* list = new std::vector<std::string>;
 	//std::cout << items.size() << std::endl;
 	for (std::map<std::string, Item*>::iterator i = items.begin(); i != items.end(); i++) {
-		std::cout << "Thing" << std::endl;
+		//std::cout << "Thing" << std::endl;
 		list->push_back(i->first);
 	}
 	//std::cout << list.size() << std::endl;

@@ -40,7 +40,7 @@ Model::Model(){
 		}
 	}
 
-	craftMenu = new CraftingMenu(itemManager);
+	craftMenu = new CraftingMenu(itemManager, &player);
 }
 
 Model::~Model(){ 
@@ -48,8 +48,18 @@ Model::~Model(){
 }
 
 void Model::update(float deltaTime) {
-	updateModel(deltaTime);
-	collisionDetection();
+	if (gameMode == 0) {
+		updateModel(deltaTime);
+		collisionDetection();
+		if (player.craftingMenu)
+			gameMode = 1;
+	}
+	else if (gameMode == 1) {
+		craftMenu->update(deltaTime);
+		if (craftMenu->craftingMenu)
+			gameMode = 0;
+	}
+	
 }
 
 

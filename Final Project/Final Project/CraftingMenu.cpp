@@ -2,28 +2,64 @@
 
 
 
-CraftingMenu::CraftingMenu(ItemManager* newItemManager) {
+CraftingMenu::CraftingMenu(ItemManager* newItemManager, Player* newPlayer) {
 	itemManager = newItemManager;
+	craftingPlayer = newPlayer;
 	curSelected = 0;
 
 	std::vector<std::string>* tempList = itemManager->getItemList();
-	std::cout << tempList->size() << std::endl;
+	//std::cout << tempList->size() << std::endl;
 	for (std::vector<std::string>::iterator i = tempList->begin(); i != tempList->end(); i++) {
 		if (itemManager->getItem(*i)->id != 1) {
 			itemNameList.push_back(*i);
 			itemList.insert(std::pair<std::string, Item*>(*i, itemManager->getItem(*i)));
 		}
 	}
-	totalItems = tempList->size();
-	std::cout << totalItems << std::endl;
+	totalItems = itemList.size();
+	//std::cout << totalItems << std::endl;
+
+	canMake = new bool[totalItems];
+
+	selectedBox = sf::RectangleShape(sf::Vector2f(100, 75));
+	selectedBox.setFillColor(sf::Color::Transparent);
+	selectedBox.setOutlineColor(sf::Color::White);
+	selectedBox.setOutlineThickness(4);
 }
 
-CraftingMenu::~CraftingMenu() { }
+CraftingMenu::~CraftingMenu() {
+	delete[] canMake;
+}
 
 void CraftingMenu::update(float deltaTime) {
-	if (up)
-		curSelected--;
-	else if (down)
-		curSelected++;
-	curSelected = (curSelected + totalItems) % totalItems;
+	//checking if the player has the inventory to craft a given item
+	std::map<std::string, Item*>* playerInventory = craftingPlayer->getInventory();
+	int counter = 0;
+	for (std::map<std::string, Item*>::iterator i = itemList.begin(); i != itemList.end(); i++) {
+		bool hasRequirements = true;
+		for (std::map<std::string, int>::iterator r = (*i).second->recipe.begin(); r != (*i).second->recipe.end() && hasRequirements; r++) {
+			if (playerInventory->count((*r).first) == 0)
+				hasRequirements = false;
+			//std::cout << (playerInventory->count((*r).first) == 0) << std::endl;
+		}
+		//std::cout << (*i).second->recipe.size() << std::endl;
+		canMake[counter] = hasRequirements;
+		//std::cout << canMake[counter] << std::endl;
+		counter++;
+	}
+
+	inputTimer -= deltaTime;
+	if (inputTimer <= 0) {
+		if (up)
+			curSelected--;
+		else if (down)
+			curSelected++;
+		curSelected = (curSelected + totalItems) % totalItems;
+
+		if (select && canMake[curSelected]) {
+			craftingPlayer->craftItem(itemList.at(itemNameList.at(curSelected)));
+		}
+
+		if (up || down || select)
+			inputTimer = 0.25;
+	}
 }
