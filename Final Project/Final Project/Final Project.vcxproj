@@ -26,6 +26,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="InventoryMenu.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="LadderTile.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Inputable.h" />
+    <ClInclude Include="InventoryMenu.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="LadderTile.h" />

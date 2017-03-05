@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "Loot.h"
 #include "CraftingMenu.h"
+#include "InventoryMenu.h"
 
 class Model {
 public:
@@ -31,6 +32,7 @@ public:
 	std::vector<Loot*> droppedLoot;
 	ItemManager* itemManager = new ItemManager();
 	CraftingMenu* craftMenu;
+	InventoryMenu* invMenu;
 	int gameMode = 0;
 };
 

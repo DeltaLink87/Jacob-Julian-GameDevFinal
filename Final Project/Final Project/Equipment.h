@@ -13,6 +13,10 @@ public:
 
 	Item* getEquipment(std::string);
 
+
+	bool isWeapon = false;
+	bool isEquipped = false;
+
 	int health = 0;
 	int strength = 0;
 	int intelligence = 0;

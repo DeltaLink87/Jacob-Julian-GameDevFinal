@@ -12,6 +12,12 @@ public:
 	void isAttacking(bool);
 
 	std::map<std::string, Item*>* getInventory();
+
+	Equipment* eWeapon;
+
+	
+	int maxInventorySize = 5;
+
 	bool craftItem(Item*);
 
 	float attackTimer = 0;

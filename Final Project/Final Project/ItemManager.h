@@ -17,6 +17,10 @@ public:
 	int getTotalItems();
 	std::vector<std::string>* getItemList();
 
+	
+
+
+
 private:
 	std::map<std::string, Item*> items;
 	//std::map<std::string, Equipment*> equipment;

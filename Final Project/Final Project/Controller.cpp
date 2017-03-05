@@ -18,6 +18,8 @@ void Controller::inputs() {
 		inputTo = &(model->player);
 	else if (model->gameMode == 1)
 		inputTo = model->craftMenu;
+	else if (model->gameMode == 2)
+		inputTo = model->invMenu;
 
 	sf::Event event;
 
@@ -100,10 +102,24 @@ void Controller::inputs() {
 			inputTo->craftingMenu = true;
 			prevMenuPressed = true;
 		}
-		else inputTo->craftingMenu = false;
+		else
+			inputTo->craftingMenu = false;
 	}
 	else {
 		inputTo->craftingMenu = false;
+		prevMenuPressed = false;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+		if (!inputTo->inventoryMenu) {
+			inputTo->inventoryMenu = true;
+			prevMenuPressed = false;
+		}
+		else
+			inputTo->inventoryMenu = false;
+	}
+	else {
+		inputTo->inventoryMenu = false;
 		prevMenuPressed = false;
 	}
 

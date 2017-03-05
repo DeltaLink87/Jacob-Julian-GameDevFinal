@@ -25,6 +25,11 @@ public:
 	sf::Text textBrush;
 	sf::Font font;
 
+
+	sf::RectangleShape border;
+	sf::RectangleShape center;
+	sf::RectangleShape divide;
+
 	bool menuOpen = false;
 
 private:

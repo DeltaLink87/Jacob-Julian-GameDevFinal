@@ -67,6 +67,9 @@
     <ClCompile Include="CraftingMenu.cpp">
       <Filter>Source Files\Engine\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryMenu.cpp">
+      <Filter>Source Files\Engine\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderable.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="Inputable.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryMenu.h">
+      <Filter>Header Files\Engine\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

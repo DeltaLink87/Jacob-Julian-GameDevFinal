@@ -5,7 +5,7 @@
 CraftingMenu::CraftingMenu(ItemManager* newItemManager, Player* newPlayer) {
 	itemManager = newItemManager;
 	craftingPlayer = newPlayer;
-	curSelected = 0;
+	this->curSelected = 0;
 
 	std::vector<std::string>* tempList = itemManager->getItemList();
 	//std::cout << tempList->size() << std::endl;
@@ -50,13 +50,13 @@ void CraftingMenu::update(float deltaTime) {
 	inputTimer -= deltaTime;
 	if (inputTimer <= 0) {
 		if (up)
-			curSelected--;
+			this->curSelected--;
 		else if (down)
-			curSelected++;
-		curSelected = (curSelected + totalItems) % totalItems;
+			this->curSelected++;
+		this->curSelected = (this->curSelected + totalItems) % totalItems;
 
-		if (select && canMake[curSelected]) {
-			craftingPlayer->craftItem(itemList.at(itemNameList.at(curSelected)));
+		if (select && canMake[this->curSelected]) {
+			craftingPlayer->craftItem(itemList.at(itemNameList.at(this->curSelected)));
 		}
 
 		if (up || down || select)

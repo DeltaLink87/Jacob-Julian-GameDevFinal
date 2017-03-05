@@ -41,6 +41,7 @@ Model::Model(){
 	}
 
 	craftMenu = new CraftingMenu(itemManager, &player);
+	invMenu = new InventoryMenu(itemManager, &player);
 }
 
 Model::~Model(){ 
@@ -53,11 +54,29 @@ void Model::update(float deltaTime) {
 		collisionDetection();
 		if (player.craftingMenu)
 			gameMode = 1;
+		else if (player.inventoryMenu)
+			gameMode = 2;
 	}
 	else if (gameMode == 1) {
 		craftMenu->update(deltaTime);
 		if (craftMenu->craftingMenu)
 			gameMode = 0;
+		else if (player.inventoryMenu) {
+			craftMenu->craftingMenu = true;
+			player.craftingMenu = false;
+			gameMode = 2;
+		}
+	}
+	else if (gameMode == 2) {
+		invMenu->update(deltaTime);
+		if (invMenu->inventoryMenu)
+			gameMode = 0;
+		else if (player.craftingMenu) {
+			invMenu->inventoryMenu = true;
+			player.inventoryMenu = false;
+			gameMode = 1;
+
+		}
 	}
 	
 }
