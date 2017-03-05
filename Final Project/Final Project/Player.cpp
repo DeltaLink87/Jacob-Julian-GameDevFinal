@@ -85,7 +85,7 @@ void Player::update(float deltaTime) {
 		else if (moveSlow)
 			loudness /= 2;
 		//creating new sound
-		newSounds.push_back(Sound(position.x, position.y, loudness, 0.5, false));
+		newSounds.push_back(Sound(position.x, position.y, loudness / 3, 0.5, false));
 	}
 
 	//updating player location
