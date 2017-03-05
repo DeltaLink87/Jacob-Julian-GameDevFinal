@@ -98,29 +98,29 @@ void Controller::inputs() {
 	else inputTo->pressAttack = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		if (!prevMenuPressed) {
+		if (!prevCMenuPressed) {
 			inputTo->craftingMenu = true;
-			prevMenuPressed = true;
+			prevCMenuPressed = true;
 		}
 		else
 			inputTo->craftingMenu = false;
 	}
 	else {
 		inputTo->craftingMenu = false;
-		prevMenuPressed = false;
+		prevCMenuPressed = false;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
-		if (!inputTo->inventoryMenu) {
+		if (!prevIMenuPressed) {
 			inputTo->inventoryMenu = true;
-			prevMenuPressed = false;
+			prevIMenuPressed = true;
 		}
 		else
 			inputTo->inventoryMenu = false;
 	}
 	else {
 		inputTo->inventoryMenu = false;
-		prevMenuPressed = false;
+		prevIMenuPressed = false;
 	}
 
 	inputTo->looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
