@@ -8,7 +8,7 @@ Model::Model(){
 	std::ifstream fileHndl;
 
 	//loading the tileamp file
-	fileHndl.open("Assets/tilemap2.txt");
+	fileHndl.open("Assets/VerticalSlice.txt");
 
 	//getting the size of the map
 	fileHndl >> mapWidth;

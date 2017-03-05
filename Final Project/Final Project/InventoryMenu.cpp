@@ -36,18 +36,17 @@ void InventoryMenu::update(float deltaTime) {
 	//checking if the player has the inventory to craft a given item
 	//std::map<std::string, Item*>* playerInventory = menuPlayer->getInventory();
 	
-	totalItems = menuPlayer->maxInventorySize;
+	totalItems = menuPlayer->getInventory()->size();
 
-	std::cout << totalItems << std::endl;
 	inputTimer -= deltaTime;
 	if (inputTimer <= 0) {
 		if (up)
 			this->curSelected--;
 		else if (down)
 			this->curSelected++;
-		//if(totalItems > 0)
-		//	this->curSelected = 1 + ((this->curSelected + 5) % 5);
-		this->curSelected = (this->curSelected + menuPlayer->maxInventorySize) % menuPlayer->maxInventorySize;
+
+		this->curSelected = (this->curSelected + 5) % 5;
+
 
 		if (up || down || select)
 			inputTimer = 0.25;
