@@ -21,18 +21,24 @@ void Game::loop() {
 	gameTime.restart();
 	int framesSkipped = 0;
 	float timeForLoop = 1000 / 30;
+	bool start = false;
 
 	while (view->window.isOpen()) {
 		float deltaTime = (float)gameTime.restart().asMilliseconds() / 1000;
 
-		controller->inputs();
-		//std::cout << "start" << std::endl;
-		model->update(deltaTime);
-		//std::cout << gameTime.getElapsedTime().asMilliseconds() << std::endl;
+		if (start) {
+			controller->inputs();
+			//std::cout << "start" << std::endl;
+			model->update(deltaTime);
+			//std::cout << gameTime.getElapsedTime().asMilliseconds() << std::endl;
+		}
 		if (gameTime.getElapsedTime().asMilliseconds() < timeForLoop || framesSkipped > 2) {
 			view->render();
 			framesSkipped = 0;
 		}
 		else framesSkipped++;
+
+		if (gameTime.getElapsedTime().asMilliseconds() < timeForLoop)
+			start = true;
 	}
 }
