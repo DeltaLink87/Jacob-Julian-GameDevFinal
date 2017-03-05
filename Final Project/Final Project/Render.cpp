@@ -168,10 +168,10 @@ void Render::renderMenu() {
 		}		
 		
 		model->invMenu->selectedBox.setPosition(
-			-1400 + model->invMenu->iSlotStart.x - model->invMenu->iSlotOff.x,
-		        5 + (model->invMenu->iSlotStart.y -	model->invMenu->iSlotOff.y) * model->invMenu->curSelected);
+			-1400 + 1 + model->invMenu->iSlotStart.x,
+		        5 + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->curSelected + 1)));
 		model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
-		window.draw(model->craftMenu->selectedBox);
+		window.draw(model->invMenu->selectedBox);
 
 
 	}

@@ -23,7 +23,7 @@ InventoryMenu::InventoryMenu(ItemManager* newItemManager, Player* newPlayer) {
 	totalItems = itemList.size();
 	//std::cout << totalItems << std::endl;
 
-	selectedBox = sf::RectangleShape(sf::Vector2f(iSlotDim.x + iSlotOff.x * 2, iSlotDim.y + iSlotOff.y * 2));
+	selectedBox = sf::RectangleShape(sf::Vector2f(iSlotDim.x, iSlotDim.y - 1));
 	selectedBox.setFillColor(sf::Color::Transparent);
 	selectedBox.setOutlineColor(sf::Color::Green);
 	selectedBox.setOutlineThickness(3);
