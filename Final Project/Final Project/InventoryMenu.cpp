@@ -38,15 +38,14 @@ void InventoryMenu::update(float deltaTime) {
 	
 	totalItems = menuPlayer->getInventory()->size();
 
-	std::cout << totalItems << std::endl;
 	inputTimer -= deltaTime;
 	if (inputTimer <= 0) {
 		if (up)
 			this->curSelected--;
 		else if (down)
 			this->curSelected++;
-		if(totalItems > 0)
-			this->curSelected = 1 + ((this->curSelected + 5) % 5);
+
+		this->curSelected = (this->curSelected + 5) % 5;
 
 
 		if (up || down || select)
