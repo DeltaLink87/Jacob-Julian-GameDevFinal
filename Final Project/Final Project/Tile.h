@@ -7,8 +7,13 @@ public:
 	Tile(int, int, int, int);
 	~Tile();
 
-	void update(float);
+	virtual void update(float);
 
-	void hit(Entity*);
+	virtual void hit(Entity*);
+
+	bool isSolid();
+
+protected:
+	bool solid = false;
 };
 

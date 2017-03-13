@@ -19,6 +19,7 @@ private:
 	Inputable* inputTo;
 
 	bool prevSpacePressed = false;
-	bool prevMenuPressed = false;
+	bool prevCMenuPressed = false;
+	bool prevIMenuPressed = false;
 };
 

@@ -2,9 +2,15 @@
 
 #include "Player.h"
 #include "Tile.h"
+#include "LadderTile.h"
+#include "SolidTile.h"
+#include "TopTile.h"
 #include "Attack.h"
 #include "Sound.h"
 #include "Enemy.h"
+#include "Loot.h"
+#include "CraftingMenu.h"
+#include "InventoryMenu.h"
 
 class Model {
 public:
@@ -12,15 +18,26 @@ public:
 	~Model();
 
 	void update(float);
+	void updateModel(float);
+	void collisionDetection();
 
-	Player player;
+	Player* player;
 
 	std::vector<Attack*> attacks;
 	std::vector<Sound> sounds;
-	Enemy* test;
+	std::vector<Enemy*> enemies;
 
 	int mapWidth, mapHeight, tileSize;
-	std::vector<Tile> tileMap;
+	Tile*** tileMap;
 
+	std::vector<Loot*> droppedLoot;
+	ItemManager* itemManager = new ItemManager();
+	CraftingMenu* craftMenu;
+	InventoryMenu* invMenu;
+	int gameMode = 0;
 };
 
+/*
+	loot drops
+	player inventory
+*/

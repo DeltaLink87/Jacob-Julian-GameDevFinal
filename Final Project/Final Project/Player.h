@@ -1,16 +1,20 @@
 #pragma once
 #include "Actor.h"
-class Player : public Actor {
+#include "Item.h"
+#include "Inputable.h"
+
+class Player : public Actor,  public Inputable{
 public:
-	Player();
+	Player(int, int);
 	~Player();
 
 	void update(float);
+	void isAttacking(bool);
 
-	void hit(Entity*);
+	Inventory* getInventory();
 
-	bool jump = false, moveSlow = false, moveFast = false;// , attack = false;
-	bool up = false , down = false, left = false, right = false;
-	sf::Vector2f looking;
+	bool craftItem(Item*);
+
+	float attackTimer = 0;
 };
 

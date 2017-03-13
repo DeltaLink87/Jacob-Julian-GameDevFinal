@@ -5,7 +5,7 @@
 CraftingMenu::CraftingMenu(ItemManager* newItemManager, Player* newPlayer) {
 	itemManager = newItemManager;
 	craftingPlayer = newPlayer;
-	curSelected = 0;
+	this->curSelected = 0;
 
 	std::vector<std::string>* tempList = itemManager->getItemList();
 	//std::cout << tempList->size() << std::endl;
@@ -32,12 +32,12 @@ CraftingMenu::~CraftingMenu() {
 
 void CraftingMenu::update(float deltaTime) {
 	//checking if the player has the inventory to craft a given item
-	std::map<std::string, Item*>* playerInventory = craftingPlayer->getInventory();
+	Inventory* playerInventory = craftingPlayer->getInventory();
 	int counter = 0;
 	for (std::map<std::string, Item*>::iterator i = itemList.begin(); i != itemList.end(); i++) {
 		bool hasRequirements = true;
 		for (std::map<std::string, int>::iterator r = (*i).second->recipe.begin(); r != (*i).second->recipe.end() && hasRequirements; r++) {
-			if (playerInventory->count((*r).first) == 0)
+			if (!playerInventory->contains((*r).first))
 				hasRequirements = false;
 			//std::cout << (playerInventory->count((*r).first) == 0) << std::endl;
 		}
@@ -50,13 +50,13 @@ void CraftingMenu::update(float deltaTime) {
 	inputTimer -= deltaTime;
 	if (inputTimer <= 0) {
 		if (up)
-			curSelected--;
+			this->curSelected--;
 		else if (down)
-			curSelected++;
-		curSelected = (curSelected + totalItems) % totalItems;
+			this->curSelected++;
+		this->curSelected = (this->curSelected + totalItems) % totalItems;
 
-		if (select && canMake[curSelected]) {
-			craftingPlayer->craftItem(itemList.at(itemNameList.at(curSelected)));
+		if (select && canMake[this->curSelected]) {
+			craftingPlayer->craftItem(itemList.at(itemNameList.at(this->curSelected)));
 		}
 
 		if (up || down || select)

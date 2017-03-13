@@ -13,6 +13,10 @@ void Sound::update(float deltaTime) {
 	duration -= deltaTime;
 }
 
+sf::Vector2f& Sound::getPosition() { return position; }
+float Sound::getLoudness() { return loudness; }
+bool Sound::isNatural() { return natural; }
+
 bool Sound::done() {
 	return (duration < 0);
 }

@@ -2,6 +2,7 @@
 #include <SFML/System.hpp>
 
 #include <Windows.h>
+#include <iostream>
 #include "Game.h"
 
 Game::Game() {
@@ -18,12 +19,26 @@ Game::~Game() {
 
 void Game::loop() {
 	gameTime.restart();
+	int framesSkipped = 0;
+	float timeForLoop = 1000 / 30;
+	bool start = false;
 
 	while (view->window.isOpen()) {
 		float deltaTime = (float)gameTime.restart().asMilliseconds() / 1000;
 
-		controller->inputs();
-		model->update(deltaTime);
-		view->render();
+		if (start) {
+			controller->inputs();
+			//std::cout << "start" << std::endl;
+			model->update(deltaTime);
+			//std::cout << gameTime.getElapsedTime().asMilliseconds() << std::endl;
+		}
+		if (gameTime.getElapsedTime().asMilliseconds() < timeForLoop || framesSkipped > 2) {
+			view->render();
+			framesSkipped = 0;
+		}
+		else framesSkipped++;
+
+		if (gameTime.getElapsedTime().asMilliseconds() < timeForLoop)
+			start = true;
 	}
 }

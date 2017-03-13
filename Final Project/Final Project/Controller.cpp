@@ -6,7 +6,7 @@ Controller::Controller(Model* newModel, Render* newView){
 	model = newModel;
 	view = newView;
 
-	inputTo = &(model->player);
+	inputTo = model->player;
 	//inputTo = model->craftMenu;
 }
 
@@ -15,11 +15,15 @@ Controller::~Controller(){ }
 
 void Controller::inputs() {
 	if (model->gameMode == 0)
-		inputTo = &(model->player);
+		inputTo = model->player;
 	else if (model->gameMode == 1)
 		inputTo = model->craftMenu;
+	else if (model->gameMode == 2)
+		inputTo = model->invMenu;
 
 	sf::Event event;
+
+	inputTo->scroll = 0;
 
 	while (view->window.pollEvent(event)) {
 		switch (event.type) {
@@ -35,7 +39,8 @@ void Controller::inputs() {
 						*/
 		case sf::Event::MouseWheelScrolled:
 			if (event.mouseWheelScroll.delta != 0) {
-				this->view->camera.zoom(1.0 - (((float)event.mouseWheelScroll.delta) * 0.1));
+				//this->view->camera.zoom(1.0 - (((float)event.mouseWheelScroll.delta) * 0.1));
+				inputTo->scroll = event.mouseWheelScroll.delta;
 			}
 			break;
 		case sf::Event::KeyPressed:
@@ -70,7 +75,8 @@ void Controller::inputs() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
 		inputTo->moveSlow = true;
 	}
-	else model->player.moveSlow = false;
+	else inputTo->moveSlow = false;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
 		inputTo->moveFast = true;
 	}
@@ -96,15 +102,29 @@ void Controller::inputs() {
 	else inputTo->pressAttack = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		if (!prevMenuPressed) {
+		if (!prevCMenuPressed) {
 			inputTo->craftingMenu = true;
-			prevMenuPressed = true;
+			prevCMenuPressed = true;
 		}
-		else inputTo->craftingMenu = false;
+		else
+			inputTo->craftingMenu = false;
 	}
 	else {
 		inputTo->craftingMenu = false;
-		prevMenuPressed = false;
+		prevCMenuPressed = false;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+		if (!prevIMenuPressed) {
+			inputTo->inventoryMenu = true;
+			prevIMenuPressed = true;
+		}
+		else
+			inputTo->inventoryMenu = false;
+	}
+	else {
+		inputTo->inventoryMenu = false;
+		prevIMenuPressed = false;
 	}
 
 	inputTo->looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
