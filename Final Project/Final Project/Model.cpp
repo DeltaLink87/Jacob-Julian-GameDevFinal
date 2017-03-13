@@ -8,7 +8,8 @@ Model::Model(){
 	std::ifstream fileHndl;
 
 	//loading the tileamp file
-	fileHndl.open("Assets/VerticalSlice.txt");
+	//fileHndl.open("Assets/VerticalSlice.txt");
+	fileHndl.open("Assets/tilemap2.txt");
 
 	//getting the size of the map
 	fileHndl >> mapWidth;
@@ -30,18 +31,20 @@ Model::Model(){
 				tileMap[y][x] = new SolidTile(x * tileSize, y * tileSize, tileSize, tileSize);
 			else if (tileType == 4)
 				tileMap[y][x] = new LadderTile(x * tileSize, y * tileSize, tileSize, tileSize);
+			else if (tileType == 6)
+				tileMap[y][x] = new TopTile(x * tileSize, y * tileSize, tileSize, tileSize);
 			else 
 				tileMap[y][x] = new Tile(x * tileSize, y * tileSize, tileSize, tileSize);
 
 			if (tileType == 2)
-				player.setPostion(sf::Vector2f(x * tileSize, y * tileSize));
+				player = new Player(x * tileSize, y * tileSize);
 			else if (tileType == 3)
 				enemies.push_back(new Enemy(sf::Vector2f(x*tileSize, y*tileSize), itemManager));
 		}
 	}
 
-	craftMenu = new CraftingMenu(itemManager, &player);
-	invMenu = new InventoryMenu(itemManager, &player);
+	craftMenu = new CraftingMenu(itemManager, player);
+	invMenu = new InventoryMenu(itemManager, player);
 }
 
 Model::~Model(){ 
@@ -52,18 +55,18 @@ void Model::update(float deltaTime) {
 	if (gameMode == 0) {
 		updateModel(deltaTime);
 		collisionDetection();
-		if (player.craftingMenu)
+		if (player->craftingMenu)
 			gameMode = 1;
-		else if (player.inventoryMenu)
+		else if (player->inventoryMenu)
 			gameMode = 2;
 	}
 	else if (gameMode == 1) {
 		craftMenu->update(deltaTime);
 		if (craftMenu->craftingMenu)
 			gameMode = 0;
-		else if (player.inventoryMenu) {
+		else if (player->inventoryMenu) {
 			craftMenu->craftingMenu = true;
-			player.craftingMenu = false;
+			player->craftingMenu = false;
 			gameMode = 2;
 		}
 	}
@@ -71,9 +74,9 @@ void Model::update(float deltaTime) {
 		invMenu->update(deltaTime);
 		if (invMenu->inventoryMenu)
 			gameMode = 0;
-		else if (player.craftingMenu) {
+		else if (player->craftingMenu) {
 			invMenu->inventoryMenu = true;
-			player.inventoryMenu = false;
+			player->inventoryMenu = false;
 			gameMode = 1;
 
 		}
@@ -83,19 +86,19 @@ void Model::update(float deltaTime) {
 
 
 void Model::updateModel(float deltaTime) {
-	player.update(deltaTime);	//updates player
+	player->update(deltaTime);	//updates player
 
 	//adds new player attacks to the list of attacks currently being made
-	if (!player.newAttacks.empty()) {
-		for (std::vector<Attack*>::iterator i = player.newAttacks.begin(); i != player.newAttacks.end(); i++)
+	if (!player->newAttacks.empty()) {
+		for (std::vector<Attack*>::iterator i = player->newAttacks.begin(); i != player->newAttacks.end(); i++)
 			attacks.push_back(*i);
-		player.gotAttacks();
+		player->gotAttacks();
 	}
 	//adds new player sounds to the list of sounds currently being made
-	if (!player.getSounds().empty()) {
-		for (std::vector<Sound>::iterator i = player.getSounds().begin(); i != player.getSounds().end(); i++)
+	if (!player->getSounds().empty()) {
+		for (std::vector<Sound>::iterator i = player->getSounds().begin(); i != player->getSounds().end(); i++)
 			sounds.push_back(*i);
-		player.gotSounds();
+		player->gotSounds();
 	}
 
 	//updating enemies
@@ -147,21 +150,21 @@ void Model::updateModel(float deltaTime) {
 void Model::collisionDetection() {
 	// -----------------------player collision detection--------------------- //
 	//player collision against the map
-	for (int y = std::max(0, (int)(player.getPosition().y / tileSize)); y < std::min(mapHeight, (int)((player.getPosition().y + player.getHitBox().getSize().y) / tileSize + 1)); y++)
-		for (int x = std::max(0, (int)(player.getPosition().x / tileSize)); x < std::min(mapWidth, (int)((player.getPosition().x + player.getHitBox().getSize().x) / tileSize + 1)); x++)
-			if (player.intersects(tileMap[y][x]->getHitBox()))
-				tileMap[y][x]->hit(&player);
+	for (int y = std::max(0, (int)(player->getPosition().y / tileSize)); y < std::min(mapHeight, (int)((player->getPosition().y + player->getHitBox().getSize().y) / tileSize + 1)); y++)
+		for (int x = std::max(0, (int)(player->getPosition().x / tileSize)); x < std::min(mapWidth, (int)((player->getPosition().x + player->getHitBox().getSize().x) / tileSize + 1)); x++)
+			if (player->intersects(tileMap[y][x]->getHitBox()))
+				tileMap[y][x]->hit(player);
 
 	//player collision against other attacks
 	for (std::vector<Attack*>::iterator a = attacks.begin(); a != attacks.end(); a++) 
-		if ((*a)->intersects(player.getHitBox()))
-			(*a)->hitActor(&player);
+		if ((*a)->intersects(player->getHitBox()))
+			(*a)->hitActor(player);
 
 	for (std::vector<Loot*>::iterator l = droppedLoot.begin(); l != droppedLoot.end(); ) {
-		if ((*l)->intersects(player.getHitBox())) {
+		if ((*l)->intersects(player->getHitBox())) {
 			Loot* removedLoot = *l;
 			l = droppedLoot.erase(l);
-			player.addInventory(removedLoot->getDrop());
+			player->addInventory(removedLoot->getDrop());
 			delete removedLoot;
 		}
 		else l++;
@@ -182,7 +185,7 @@ void Model::collisionDetection() {
 			if (!tileMap[(int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize)][(int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x / 2) / tileSize)]->isSolid())
 				(*e)->overEdge();
 
-		(*e)->doesSee(&player);	//checking if the enemy can see the player
+		(*e)->doesSee(player);	//checking if the enemy can see the player
 
 		//checking if the enemy can hear any sounds
 		for (std::vector<Sound>::iterator s = sounds.begin(); s != sounds.end(); s++)

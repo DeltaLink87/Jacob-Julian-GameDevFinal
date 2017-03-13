@@ -9,8 +9,8 @@ public:
 	Attack(int, int, int, int, Actor*);
 	~Attack();
 
-	void hitTile(Tile*);
-	void hitActor(Actor*);
+	virtual void hitTile(Tile*);
+	virtual void hitActor(Actor*);
 
 	Actor* source;
 

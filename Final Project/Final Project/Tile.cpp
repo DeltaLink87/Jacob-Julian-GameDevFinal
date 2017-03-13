@@ -9,12 +9,8 @@ Tile::Tile(int x, int y, int width, int height) : Entity(x, y, width, height){
 
 Tile::~Tile() { }
 
-void Tile::update(float deltaTime) {
+void Tile::update(float deltaTime) { }
 
-}
-
-void Tile::hit(Entity* hitThis) {
-	
-}
+void Tile::hit(Entity* hitThis) { }
 
 bool Tile::isSolid() { return solid;  }

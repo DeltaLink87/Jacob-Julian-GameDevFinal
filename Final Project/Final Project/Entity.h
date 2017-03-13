@@ -20,8 +20,8 @@ public:
 	0:Up	1:Left	2:Down	3:Right
 	*/
 	virtual void hitWall(sf::Vector2f, int);
-	
-	
+
+	sf::Vector2f getVelocity();
 
 	bool nextToClimbable = false;
 	
@@ -32,7 +32,6 @@ public:
 protected:
 	sf::RectangleShape hitBox;
 	sf::Vector2f velocity;
-
 	
 private:
 	bool removed = false;

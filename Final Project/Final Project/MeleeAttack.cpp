@@ -18,3 +18,5 @@ void MeleeAttack::update(float deltaTime) {
 
 	hitBox.setPosition(position);
 }
+
+void MeleeAttack::hitTile(Tile*) { }

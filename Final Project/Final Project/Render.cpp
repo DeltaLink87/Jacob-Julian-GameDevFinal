@@ -31,7 +31,7 @@ Render::~Render(){ }
 
 void Render::render() {
 	//finding camera position
-	camPosition = model->player.getPosition();
+	camPosition = model->player->getPosition();
 	if (camPosition.x < windowWidth / 2)
 		camPosition.x = windowWidth / 2;
 	else if (camPosition.x > model->mapWidth * model->tileSize - windowWidth / 2)
@@ -55,8 +55,8 @@ void Render::render() {
 	}
 
 	//rendering player
-	model->player.sprite.setPosition(model->player.getPosition());
-	window.draw(model->player.sprite);
+	model->player->sprite.setPosition(model->player->getPosition());
+	window.draw(model->player->sprite);
 
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
 		(*i)->sprite.setPosition((*i)->getPosition());
@@ -149,7 +149,20 @@ void Render::renderMenu() {
 		model->invMenu->iMenuSprite.setPosition(-1400, 5);
 		window.draw(model->invMenu->iMenuSprite);
 		int counter = 0;
-		for (std::map<std::string, Item*>::iterator i = model->player.getInventory()->begin(); i != model->player.getInventory()->end(); i++) {
+		Inventory* inv = model->player->getInventory();
+		for (int y = 0; y < inv->getHeight(); y++)
+			for (int x = 0; x < inv->getWidth(); x++) {
+				Item* curItem = inv->getCurSeletected(x, y);
+				if (curItem != NULL) {
+					curItem->smallIcon.setPosition(
+						-1400 + model->invMenu->iSlotStart.x + x * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
+						5 + model->invMenu->iSlotStart.y + y * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y));
+					curItem->smallIcon.setScale(1.0 / (curItem->smallIcon.getLocalBounds().width / model->invMenu->iSlotDim.x),
+						1.0 / (curItem->smallIcon.getLocalBounds().height / model->invMenu->iSlotDim.y));
+					window.draw(curItem->smallIcon);
+				}
+			}
+		/*for (std::map<std::string, Item*>::iterator i = model->player.getInventory()->begin(); i != model->player.getInventory()->end(); i++) {
 			i->second->smallIcon.setPosition(
 				-1400 + model->invMenu->iSlotStart.x + (counter / 5) * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
 				5 + model->invMenu->iSlotStart.y + (counter % 5) * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y));
@@ -160,16 +173,16 @@ void Render::renderMenu() {
 		}
 
 
-		if (model->player.hasWeaponEquipped) {
+		/*if (model->player.hasWeaponEquipped) {
 			model->player.eWeapon->smallIcon.setPosition(this->center.getPosition() + model->invMenu->wSlotStart);
 			model->player.eWeapon->smallIcon.setScale(1.0 / (model->player.eWeapon->smallIcon.getLocalBounds().width / model->invMenu->wSlotDim.x),
 				1.0 / (model->player.eWeapon->smallIcon.getLocalBounds().height / model->invMenu->wSlotDim.y));
 			window.draw(model->player.eWeapon->smallIcon);
-		}		
+		}*/		
 		
 		model->invMenu->selectedBox.setPosition(
-			-1400 + 1 + model->invMenu->iSlotStart.x,
-		        5 + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->curSelected + 1)));
+			-1400 + 1 + model->invMenu->iSlotStart.x + ((model->invMenu->iSlotDim.x + model->invMenu->iSlotOff.x) * model->invMenu->curX + 1),
+		        5 + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->curY + 1)));
 		model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
 		window.draw(model->invMenu->selectedBox);
 

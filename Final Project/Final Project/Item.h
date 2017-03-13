@@ -10,7 +10,6 @@ class Item
 public:
 	Item(std::string, int);
 	Item(int);
-	Item(Item*);
 	~Item();
 
 	//string to be used in finding filename
@@ -31,6 +30,22 @@ public:
 	3 = UseableItem
 	*/
 	int id;
+
+	//amount of damage this item will do
+	int attack = 1;
+	/*type of attack this items makes
+	1: melee attack
+	2: projectile attack*/
+	int attackType = 0;
+	/*type of armour this item is
+	0: not armour
+	1: helmet
+	2: chestplate
+	3: leggings
+	4: boots*/
+	int armourType = 0;
+	//amount of damage this item will block if used as armour
+	int defence = 0;
 
 	int quantity = 0;
 

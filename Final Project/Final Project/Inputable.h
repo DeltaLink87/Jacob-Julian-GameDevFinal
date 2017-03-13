@@ -9,4 +9,5 @@ public:
 	bool select = false, craftingMenu = false, inventoryMenu = false;
 	bool hasWeaponEquipped = false;
 	sf::Vector2f looking;
+	int scroll = 0;
 };

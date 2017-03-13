@@ -15,7 +15,8 @@ public:
 	sf::RectangleShape selectedBox;
 
 	//private:
-	int curSelected;
+	int curX = 0, curY = 0;
+	int selectedX = -2, selectedY = -2;
 	int totalItems;
 	float inputTimer = 0;
 

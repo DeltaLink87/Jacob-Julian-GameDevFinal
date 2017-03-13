@@ -32,12 +32,12 @@ CraftingMenu::~CraftingMenu() {
 
 void CraftingMenu::update(float deltaTime) {
 	//checking if the player has the inventory to craft a given item
-	std::map<std::string, Item*>* playerInventory = craftingPlayer->getInventory();
+	Inventory* playerInventory = craftingPlayer->getInventory();
 	int counter = 0;
 	for (std::map<std::string, Item*>::iterator i = itemList.begin(); i != itemList.end(); i++) {
 		bool hasRequirements = true;
 		for (std::map<std::string, int>::iterator r = (*i).second->recipe.begin(); r != (*i).second->recipe.end() && hasRequirements; r++) {
-			if (playerInventory->count((*r).first) == 0)
+			if (!playerInventory->contains((*r).first))
 				hasRequirements = false;
 			//std::cout << (playerInventory->count((*r).first) == 0) << std::endl;
 		}
