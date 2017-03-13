@@ -4,8 +4,10 @@
 #include <cmath>
 #include <iostream>
 #include <stdlib.h>
+#include <string>
+#include <map>
 
 class WorldObject{
-public:
+protected:
 	sf::Vector2f position;
 };

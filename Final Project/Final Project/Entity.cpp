@@ -34,6 +34,8 @@ void Entity::setPostion(sf::Vector2f newPosition) {
 	position = newPosition;
 	hitBox.setPosition(position);
 }
+sf::Vector2f& Entity::getPosition() { return position; }
+sf::RectangleShape& Entity::getHitBox() { return hitBox; }
 
 sf::Vector2f& Entity::getPosition() { return position; }
 sf::RectangleShape& Entity::getHitBox() { return hitBox; }
