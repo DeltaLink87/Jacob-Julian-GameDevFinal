@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="CraftingMenu.cpp" />
@@ -47,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="CraftingMenu.h" />

@@ -10,6 +10,7 @@ class Item
 public:
 	Item(std::string, int);
 	Item(int);
+	//Item(Item&);
 	~Item();
 
 	//string to be used in finding filename

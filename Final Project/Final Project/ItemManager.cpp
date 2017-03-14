@@ -37,7 +37,7 @@ ItemManager::~ItemManager() {
 }
 
 Item* ItemManager::getItem(std::string name, int quantity) {
-	Item* newItem = new Item(*items.at(name));
+	Item* newItem = new Item(*(items.at(name)));
 	newItem->quantity = quantity;
 	return newItem;
 }
@@ -54,3 +54,5 @@ std::vector<std::string>* ItemManager::getItemList() {
 	//std::cout << list.size() << std::endl;
 	return list;
 }
+
+std::map<std::string, Item*>& ItemManager::getAllItems() { return items; }

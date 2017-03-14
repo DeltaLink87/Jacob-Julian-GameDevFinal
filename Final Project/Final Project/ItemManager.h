@@ -16,7 +16,7 @@ public:
 	Item* getItem(std::string, int);
 	int getTotalItems();
 	std::vector<std::string>* getItemList();
-
+	std::map<std::string, Item*>& getAllItems();
 	
 
 

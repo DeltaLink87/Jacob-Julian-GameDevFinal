@@ -28,6 +28,19 @@ Render::Render(Model* newModel){
 	modelTexture.create(windowWidth, windowHeight);
 	invMenuTexture.create(windowWidth, windowHeight);
 	craftMenuTexture.create(windowWidth, windowHeight);
+
+	/*for (std::map<std::string, Item*>::iterator i = model->itemManager->getAllItems().begin(); i != model->itemManager->getAllItems().end(); i++) {
+		i->second->smallIconTexture = manager.loadTexture("Items/" + i->first + "Icon");
+		i->second->smallIcon.setTexture(i->second->smallIconTexture);
+		i->second->smallIcon.setScale(sf::Vector2f(75.0 / i->second->smallIcon.getTexture()->getSize().x, 75.0 / i->second->smallIcon.getTexture()->getSize().y));
+
+		i->second->menuIconTexture = manager.loadTexture("Items/" + i->first + "Menu");
+		i->second->menuIcon.setTexture(i->second->menuIconTexture);
+		i->second->menuIcon.setScale(sf::Vector2f(.5, .5));
+
+		i->second->menuDescriptionTexture = manager.loadTexture("Items/" + i->first + "Description");
+		i->second->menuDescription.setTexture(i->second->menuDescriptionTexture);
+	}*/
 }
 
 Render::~Render(){ }
@@ -52,6 +65,8 @@ void Render::render() {
 		invMenuSprite.setTexture(invMenuTexture.getTexture());
 		window.draw(invMenuSprite);
 	}
+
+	//window.draw(model->itemManager->getAllItems().at("Dagger")->menuIcon);
 
 	window.display();
 }

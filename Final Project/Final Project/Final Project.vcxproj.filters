@@ -76,6 +76,9 @@
     <ClCompile Include="TopTile.cpp">
       <Filter>Source Files\Objects\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderable.h">
@@ -167,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="TopTile.h">
       <Filter>Header Files\Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

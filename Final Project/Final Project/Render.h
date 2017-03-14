@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model.h"
+#include "AssetManager.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -18,6 +19,8 @@ public:
 	void renderModel();
 	void renderInvMenu();
 	void renderCraftMenu();
+
+	AssetManager manager;
 
 	sf::View camera;
 	sf::Vector2f camPosition;
