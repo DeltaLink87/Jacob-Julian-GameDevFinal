@@ -109,46 +109,6 @@ void Render::renderModel() {
 	modelTexture.display();
 }
 
-void Render::renderInvMenu() {
-	invMenuTexture.clear(sf::Color::Transparent);
-
-	border = sf::RectangleShape(sf::Vector2f(410, 310));
-	border.setPosition(sf::Vector2f(195, 145));
-	border.setFillColor(sf::Color::Black);
-	invMenuTexture.draw(border);
-
-	center = sf::RectangleShape(sf::Vector2f(400, 300));
-	center.setPosition(sf::Vector2f(200, 150));
-	center.setFillColor(sf::Color::White);
-	invMenuTexture.draw(center);
-
-	model->invMenu->iMenuSprite.setPosition(200, 150);
-	invMenuTexture.draw(model->invMenu->iMenuSprite);
-
-	int counter = 0;
-	Inventory* inv = model->player->getInventory();
-	for (int y = 0; y < inv->getHeight(); y++)
-		for (int x = 0; x < inv->getWidth(); x++) {
-			Item* curItem = inv->getCurSeletected(x, y);
-			if (curItem != NULL) {
-				curItem->smallIcon.setPosition(
-					200 + model->invMenu->iSlotStart.x + x * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
-					150 + model->invMenu->iSlotStart.y + y * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y));
-				curItem->smallIcon.setScale(1.0 / (curItem->smallIcon.getLocalBounds().width / model->invMenu->iSlotDim.x),
-					1.0 / (curItem->smallIcon.getLocalBounds().height / model->invMenu->iSlotDim.y));
-				invMenuTexture.draw(curItem->smallIcon);
-			}
-		}	
-		
-	model->invMenu->selectedBox.setPosition(
-		200 + model->invMenu->iSlotStart.x + ((model->invMenu->iSlotDim.x + model->invMenu->iSlotOff.x) * model->invMenu->curX),
-		    150 + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->curY)));
-	model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
-	invMenuTexture.draw(model->invMenu->selectedBox);
-
-	invMenuTexture.display();
-}
-
 void Render::renderCraftMenu() {
 	craftMenuTexture.clear(sf::Color::Transparent);
 
@@ -194,4 +154,44 @@ void Render::renderCraftMenu() {
 	craftMenuTexture.draw(model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription);
 
 	craftMenuTexture.display();
+}
+
+void Render::renderInvMenu() {
+	invMenuTexture.clear(sf::Color::Transparent);
+
+	border = sf::RectangleShape(sf::Vector2f(410, 310));
+	border.setPosition(sf::Vector2f(195, 145));
+	border.setFillColor(sf::Color::Black);
+	invMenuTexture.draw(border);
+
+	center = sf::RectangleShape(sf::Vector2f(400, 300));
+	center.setPosition(sf::Vector2f(200, 150));
+	center.setFillColor(sf::Color::White);
+	invMenuTexture.draw(center);
+
+	model->invMenu->iMenuSprite.setPosition(200, 150);
+	invMenuTexture.draw(model->invMenu->iMenuSprite);
+
+	int counter = 0;
+	Inventory* inv = model->player->getInventory();
+	for (int y = 0; y < inv->getHeight(); y++)
+		for (int x = 0; x < inv->getWidth(); x++) {
+			Item* curItem = inv->getCurSeletected(x, y);
+			if (curItem != NULL) {
+				curItem->smallIcon.setPosition(
+					200 + model->invMenu->iSlotStart.x + x * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
+					150 + model->invMenu->iSlotStart.y + y * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y));
+				curItem->smallIcon.setScale(1.0 / (curItem->smallIcon.getLocalBounds().width / model->invMenu->iSlotDim.x),
+					1.0 / (curItem->smallIcon.getLocalBounds().height / model->invMenu->iSlotDim.y));
+				invMenuTexture.draw(curItem->smallIcon);
+			}
+		}
+
+	model->invMenu->selectedBox.setPosition(
+		200 + model->invMenu->iSlotStart.x + ((model->invMenu->iSlotDim.x + model->invMenu->iSlotOff.x) * model->invMenu->curX),
+		150 + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->curY)));
+	model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
+	invMenuTexture.draw(model->invMenu->selectedBox);
+
+	invMenuTexture.display();
 }
