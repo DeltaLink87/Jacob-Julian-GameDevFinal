@@ -36,9 +36,6 @@ void Entity::setPostion(sf::Vector2f newPosition) {
 }
 sf::Vector2f& Entity::getPosition() { return position; }
 sf::RectangleShape& Entity::getHitBox() { return hitBox; }
-
-sf::Vector2f& Entity::getPosition() { return position; }
-sf::RectangleShape& Entity::getHitBox() { return hitBox; }
 sf::Vector2f Entity::getVelocity() { return velocity; }
 
 //stopping the entities velocity if it hits a wall or solid object
