@@ -18,7 +18,7 @@ public:
 	Item* getCurSeletected(int, int);
 	int getTotalArmourDefence();
 
-	bool contains(std::string);
+	bool contains(std::string, int);
 	bool craft(Item*);
 
 	int getInventorySize();

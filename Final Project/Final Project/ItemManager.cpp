@@ -36,8 +36,10 @@ ItemManager::~ItemManager() {
 
 }
 
-Item* ItemManager::getItem(std::string name) {
-	return new Item(*items.at(name));
+Item* ItemManager::getItem(std::string name, int quantity) {
+	Item* newItem = new Item(*items.at(name));
+	newItem->quantity = quantity;
+	return newItem;
 }
 
 int ItemManager::getTotalItems() { return items.size(); }

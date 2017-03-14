@@ -1,4 +1,5 @@
 #include "Render.h"
+#include <sstream>
 
 
 Render::Render(Model* newModel){
@@ -20,8 +21,9 @@ Render::Render(Model* newModel){
 	
 	textBrush.setFont(font);
 	textBrush.setCharacterSize(20);
-	textBrush.setFillColor(sf::Color::White);
+	//textBrush.setFillColor(sf::Color::White);
 	textBrush.setStyle(sf::Text::Regular);
+	textBrush.setFillColor(sf::Color::Black);
 
 	modelTexture.create(windowWidth, windowHeight);
 	invMenuTexture.create(windowWidth, windowHeight);
@@ -184,6 +186,15 @@ void Render::renderInvMenu() {
 				curItem->smallIcon.setScale(1.0 / (curItem->smallIcon.getLocalBounds().width / model->invMenu->iSlotDim.x),
 					1.0 / (curItem->smallIcon.getLocalBounds().height / model->invMenu->iSlotDim.y));
 				invMenuTexture.draw(curItem->smallIcon);
+				
+
+				std::stringstream ss;
+				ss << curItem->quantity;
+				textBrush.setString(ss.str());
+				textBrush.setPosition(sf::Vector2f(
+					200 + model->invMenu->iSlotStart.x + (x + 0.6) * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
+					150 + model->invMenu->iSlotStart.y + (y + 0.5) * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y)));
+				invMenuTexture.draw(textBrush);
 			}
 		}
 

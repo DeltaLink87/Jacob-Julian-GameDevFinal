@@ -13,7 +13,7 @@ public:
 
 	//std::string** itemIndex = { "Dagger", "Health Potion" };
 
-	Item* getItem(std::string);
+	Item* getItem(std::string, int);
 	int getTotalItems();
 	std::vector<std::string>* getItemList();
 

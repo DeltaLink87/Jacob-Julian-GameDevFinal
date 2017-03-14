@@ -47,7 +47,7 @@ public:
 	//amount of damage this item will block if used as armour
 	int defence = 0;
 
-	int quantity = 0;
+	int quantity = 1;
 
 	sf::Image image;
 

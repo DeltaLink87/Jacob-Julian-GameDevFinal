@@ -43,15 +43,29 @@ Inventory::~Inventory() {
 }
 
 bool Inventory::addToInventory(Item* newItem) {
+	int freeX = -1, freeY = -1;
 	for (int x = 0; x < invWidth; x++) {
 		for (int y = 0; y < invHeight; y++) {
-			if (items[y][x] == NULL) {
-				items[y][x] = newItem;
-				totalInv++;
-				return true;
+			if (items[y][x] != NULL) {
+				if (items[y][x]->name.compare(newItem->name) == 0) {
+					items[y][x]->quantity += newItem->quantity;
+					delete newItem;
+					return true;
+				}
+			}
+			else if (freeX == -1 && freeY == -1) {
+				freeX = x;
+				freeY = y;
 			}
 		}
 	}
+
+	if (freeX != -1 && freeY != -1) {
+		items[freeY][freeX] = newItem;
+		totalInv++;
+		return true;
+	}
+
 	return false;
 }
 
@@ -89,12 +103,14 @@ Item* Inventory::dropRandom() {
 	return NULL;
 }
 
-bool Inventory::contains(std::string itemName) {
+bool Inventory::contains(std::string itemName, int quantity) {
 	for (int x = 0; x < invWidth; x++) {
 		for (int y = 0; y < invHeight; y++) {
 			if (items[y][x] != NULL) {
 				if (items[y][x]->name.compare(itemName) == 0) {
-					return true;
+					quantity -= items[y][x]->quantity;
+					if (quantity <= 0)
+						return true;
 				}
 			}
 		}
@@ -104,19 +120,28 @@ bool Inventory::contains(std::string itemName) {
 
 bool Inventory::craft(Item* item) {
 	for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
-		bool found = contains(i->first);
+		bool found = contains(i->first, i->second);
 		if (!found) return false;
 	}
 
 	for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
 		bool found = false;
+		int totalNeeded = i->second;
 		for (int x = 0; x < invWidth && !found; x++) {
 			for (int y = 0; y < invHeight && !found; y++) {
 				if (items[y][x] != NULL) {
 					if (items[y][x]->name.compare(i->first) == 0) {
-						delete items[y][x];
-						items[y][x] = NULL;
-						found = true;
+						int quantity = items[y][x]->quantity;
+						items[y][x]->quantity -= totalNeeded;
+						totalNeeded -= quantity;
+
+						if (items[y][x]->quantity <= 0) {
+							delete items[y][x];
+							items[y][x] = NULL;
+						}
+
+						if (totalNeeded <= 0)
+							found = true;
 					}
 				}
 			}
