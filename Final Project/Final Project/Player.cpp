@@ -8,6 +8,7 @@
 Player::Player(int x, int y) : Actor(x, y, 20, 20) {
 	maxHealth = curHealth = 50;
 	isPlayer = true;
+	textureName = "Actors/Player";
 }
 
 

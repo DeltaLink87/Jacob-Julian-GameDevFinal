@@ -10,7 +10,9 @@ sf::Texture& AssetManager::loadTexture(std::string texturePath) {
 		return textures.at(texturePath);
 
 	sf::Texture newTexture;
-	newTexture.loadFromFile("Assets/Textures/" + texturePath + ".png");
-	textures.insert(std::pair<std::string, sf::Texture>(texturePath, newTexture));
-	return textures.at(texturePath);
+	if (newTexture.loadFromFile("Assets/Textures/" + texturePath + ".png")) {
+		textures.insert(std::pair<std::string, sf::Texture>(texturePath, newTexture));
+		return textures.at(texturePath);
+	}
+	return loadTexture("MissingTexture");
 }

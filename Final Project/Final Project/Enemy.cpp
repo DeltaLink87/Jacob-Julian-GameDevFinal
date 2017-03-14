@@ -14,6 +14,8 @@ Enemy::Enemy(sf::Vector2f startingPosition, ItemManager* itemManager) : Actor(40
 	behaviorState = 1;
 	maxHealth = curHealth = 10;
 
+	textureName = "Actors/Enemy";
+
 	addInventory(itemManager->getItem("Wood", 1));
 	addInventory(itemManager->getItem("Blade", 1));
 	//addInventory(itemManager->getItem("Herb"));

@@ -4,7 +4,8 @@
 #include <math.h>
 
 Tile::Tile(int x, int y, int width, int height) : Entity(x, y, width, height){
-	sprite.setFillColor(sf::Color::Transparent);
+	//sprite.setFillColor(sf::Color::Transparent);
+	textureName = "Tiles/EmptyTile";
 }
 
 Tile::~Tile() { }

@@ -3,8 +3,10 @@
 
 Entity::Entity(int x, int y, int width, int height){
 	position = sf::Vector2f(x, y);
-	sprite = sf::RectangleShape(sf::Vector2f(width, height));
-	sprite.setPosition(position);
+	//sprite = sf::RectangleShape(sf::Vector2f(width, height));
+	//sprite.setPosition(position);
+	spriteWidth = width;
+	spriteHeight = height;
 	hitBox = sf::RectangleShape(sf::Vector2f(width, height));
 	hitBox.setPosition(position);
 
@@ -34,7 +36,7 @@ void Entity::setPostion(sf::Vector2f newPosition) {
 	position = newPosition;
 	hitBox.setPosition(position);
 }
-sf::Vector2f& Entity::getPosition() { return position; }
+
 sf::RectangleShape& Entity::getHitBox() { return hitBox; }
 sf::Vector2f Entity::getVelocity() { return velocity; }
 

@@ -4,7 +4,8 @@
 
 TopTile::TopTile(int x, int y, int width, int height) : Tile(x, y, width, height) {
 	solid = false;
-	sprite.setFillColor(sf::Color::Green);
+	//sprite.setFillColor(sf::Color::Green);
+	textureName = "Tiles/TopLadderTile";
 }
 
 TopTile::~TopTile() { }

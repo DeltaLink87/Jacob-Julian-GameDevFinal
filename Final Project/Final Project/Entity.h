@@ -12,7 +12,6 @@ public:
 	bool intersects(sf::RectangleShape);
 
 	void setPostion(sf::Vector2f);	
-	sf::Vector2f& getPosition();
 	sf::RectangleShape& getHitBox();
 	/*
 	Sets position of the player and stops velocity in the direction of the wall hit

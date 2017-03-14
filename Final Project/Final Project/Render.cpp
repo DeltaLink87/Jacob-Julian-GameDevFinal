@@ -14,8 +14,8 @@ Render::Render(Model* newModel){
 
 	camera.setSize(sf::Vector2f(windowWidth, windowHeight));
 
-	menuCamera.setSize(sf::Vector2f(410, 310));
-	menuCamera.setCenter(-1202.5, 155.0);
+	//menuCamera.setSize(sf::Vector2f(410, 310));
+	//menuCamera.setCenter(-1202.5, 155.0);
 
 	font.loadFromFile("Assets/times.ttf");
 	
@@ -41,9 +41,33 @@ Render::Render(Model* newModel){
 		i->second->menuDescriptionTexture = manager.loadTexture("Items/" + i->first + "Description");
 		i->second->menuDescription.setTexture(i->second->menuDescriptionTexture);
 	}*/
+
+	initializeRenderable(model->player);
+	for (std::vector<Enemy*>::iterator e = model->enemies.begin(); e != model->enemies.end(); e++) {
+		initializeRenderable(*e);
+	}
+	for (int y = 0; y < model->mapHeight; y++) {
+		for (int x = 0; x < model->mapWidth; x++) {
+			initializeRenderable(model->tileMap[y][x]);
+		}
+	}
 }
 
 Render::~Render(){ }
+
+void Render::initializeRenderable(Renderable* renderable) {
+	//std::cout << renderable->textureName << std::endl;
+	renderable->sprite.setTexture(manager.loadTexture(renderable->textureName));
+	renderable->sprite.setScale(sf::Vector2f((float)renderable->spriteWidth / (float)renderable->sprite.getTextureRect().width, (float)renderable->spriteHeight / (float)renderable->sprite.getTextureRect().height));
+	renderable->sprite.setPosition(renderable->getPosition());
+	renderable->sprite.setRotation(renderable->rotation);
+	renderable->spriteInitialized = true;
+}
+
+void Render::drawRenderable(sf::RenderTarget& target, Renderable* renderable) {
+	renderable->sprite.setPosition(renderable->getPosition());
+	target.draw(renderable->sprite);
+}
 
 void Render::render() {
 	window.clear();
@@ -92,23 +116,22 @@ void Render::renderModel() {
 	//rendering tilemap
 	for (int y = 0; y < model->mapHeight; y++) {
 		for (int x = 0; x < model->mapWidth; x++) {
-			modelTexture.draw(model->tileMap[y][x]->sprite);
+			drawRenderable(modelTexture, model->tileMap[y][x]);
 		}
 	}
 
 	//rendering player
-	model->player->sprite.setPosition(model->player->getPosition());
-	modelTexture.draw(model->player->sprite);
+	drawRenderable(modelTexture, model->player);
 
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
-		(*i)->sprite.setPosition((*i)->getPosition());
-		modelTexture.draw((*i)->sprite);
+		drawRenderable(modelTexture, *i);
 	}
 
 	//rendering attacks
 	for (std::vector<Attack*>::iterator i = model->attacks.begin(); i != model->attacks.end(); i++) {
-		(*i)->sprite.setPosition((*i)->getPosition());
-		modelTexture.draw((*i)->sprite);
+		if (!(*i)->spriteInitialized)
+			initializeRenderable(*i);
+		drawRenderable(modelTexture, *i);
 	}
 
 	//rendering the area of affect for sounds
@@ -120,8 +143,11 @@ void Render::renderModel() {
 	}
 
 	//rendering loot
-	for (std::vector<Loot*>::iterator i = model->droppedLoot.begin(); i != model->droppedLoot.end(); i++)
-		modelTexture.draw((*i)->sprite);
+	for (std::vector<Loot*>::iterator i = model->droppedLoot.begin(); i != model->droppedLoot.end(); i++) {
+		if (!(*i)->spriteInitialized)
+			initializeRenderable(*i);
+		drawRenderable(modelTexture, *i);
+	}
 
 	modelTexture.display();
 }

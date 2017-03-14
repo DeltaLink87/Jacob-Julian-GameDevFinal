@@ -14,6 +14,10 @@ public:
 	Render(Model*);
 	~Render();
 
+	void initializeRenderable(Renderable*);
+
+	void drawRenderable(sf::RenderTarget&, Renderable*);
+
 	void render();
 
 	void renderModel();
@@ -25,14 +29,12 @@ public:
 	sf::View camera;
 	sf::Vector2f camPosition;
 
-	sf::View menuCamera;
 	sf::RenderTexture modelTexture;
 	sf::RenderTexture invMenuTexture;
 	sf::RenderTexture craftMenuTexture;
 	
 	sf::Text textBrush;
 	sf::Font font;
-
 
 	sf::RectangleShape border;
 	sf::RectangleShape center;
