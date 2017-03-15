@@ -16,12 +16,12 @@ void Attack::hitTile(Tile* hitThis) {
 			remove();
 	}
 }
-
+// --CHECK-- rotation needs to be improved later
 void Attack::rotation(float dir) {
 
 	//this->visualRepresentation.setPosition(this->visualRepresentation.getPosition() - sf::Vector2f(this->visualRepresentation.getScale().x /2,this->visualRepresentation.getScale().y / 2));
 	//std::cout << dir << std::endl;
-	this->visualRepresentation.setRotation(dir * 57.2957795);
+	this->sprite.setRotation(dir * 57.2957795);
 	
 	//this->visualRepresentation.setPosition(this->visualRepresentation.getPosition() + sf::Vector2f(this->visualRepresentation.getScale().x / 2, this->visualRepresentation.getScale().y / 2));
 }
