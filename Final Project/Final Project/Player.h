@@ -11,7 +11,7 @@ public:
 	void update(float);
 	void isAttacking(bool);
 
-
+	int getCurSelected();
 	Inventory* getInventory();
 
 	bool craftItem(Item*);

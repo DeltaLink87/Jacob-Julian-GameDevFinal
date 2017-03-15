@@ -37,6 +37,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ObjectiveEnemy.cpp" />
+    <ClCompile Include="ObjectiveTile.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Render.cpp" />
@@ -67,6 +69,9 @@
     <ClInclude Include="Loot.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Objective.h" />
+    <ClInclude Include="ObjectiveEnemy.h" />
+    <ClInclude Include="ObjectiveTile.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Render.h" />

@@ -44,9 +44,7 @@ Model::Model(){
 	}*/
 
 	tileSize = 32;
-	levelManager.loadLevelFile("tileMap2"); 
-	levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, player, itemManager);
-	loadingLevel = true;
+	loadLevel("tileMap2");
 
 	craftMenu = new CraftingMenu(itemManager, player);
 	invMenu = new InventoryMenu(itemManager, player);
@@ -59,23 +57,92 @@ Model::Model(){
 }
 
 Model::~Model(){ 
+	deallocteLevel();
+
 	delete(itemManager);
 }
+
+
+void Model::loadLevel(std::string levelName) {
+	levelManager.loadLevelFile(levelName);
+	levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, levelObjectives, player, itemManager);
+	loadingLevel = true;
+}
+
+void Model::deallocteLevel() {
+	delete player;
+
+	for (std::vector<Enemy*>::iterator e = enemies.begin(); e != enemies.end(); ) {
+		Enemy* deletedEnemy = *e;
+		e = enemies.erase(e);
+		delete deletedEnemy;
+	}
+	enemies.clear();
+
+	for (int y = 0; y < mapHeight; y++) {
+		for (int x = 0; x < mapWidth; x++) {
+			delete tileMap[y][x];
+		}
+		delete tileMap[y];
+	}
+	delete tileMap;
+
+	for (std::vector<Attack*>::iterator a = attacks.begin(); a != attacks.end(); ) {
+		Attack* deletedAttack = *a;
+		a = attacks.erase(a);
+		delete deletedAttack;
+	}
+	attacks.clear();
+
+	for (std::vector<Loot*>::iterator l = droppedLoot.begin(); l != droppedLoot.end(); ) {
+		Loot* deletedLoot = *l;
+		delete deletedLoot->getDrop();
+		l = droppedLoot.erase(l);
+		delete deletedLoot;
+	}
+	droppedLoot.clear();
+
+	sounds.clear();
+	levelObjectives.clear();
+}
+
+void Model::changeLevel(std::string levelName) {
+	std::cout << "saving player inventory" << std::endl;
+	levelManager.savePlayerInventory(player);
+	std::cout << "deallocating level" << std::endl;
+	deallocteLevel();
+	std::cout << "loading level" << std::endl;
+	loadLevel(levelName);
+	std::cout << "loading player inventory" << std::endl;
+	levelManager.loadPlayerInventory(player);
+	std::cout << "done" << std::endl;
+}
+
 
 void Model::update(float deltaTime) {
 	//std::cout << player->getPosition().x << "," << player->getPosition().y << std::endl;
 
 	if (gameMode == 0) {
+		renderDone = false;
+
 		updateModel(deltaTime);
 		collisionDetection();
+
+		bool levelComplete = true;
+		for (std::vector<Objective*>::iterator o = levelObjectives.begin(); o != levelObjectives.end(); o++) {
+			if (!(*o)->isComplete())
+				levelComplete = false;
+			(*o)->reset();
+		}
+		if (levelObjectives.size() == 0)
+			levelComplete = false;
+
 		if (player->craftingMenu)
 			gameMode = 1;
 		else if (player->inventoryMenu)
 			gameMode = 2;
-		else if (player->changeLevel) {
-			levelManager.loadLevelFile("VerticalSlice");
-			levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, player, itemManager);
-			loadingLevel = true;
+		else if (levelComplete) {
+			gameMode = 3;
 		}
 	}
 	else if (gameMode == 1) {
@@ -99,7 +166,23 @@ void Model::update(float deltaTime) {
 
 		}
 	}
-	
+	else if (gameMode == 3) {
+		if (player->select)
+			gameMode = 4;
+	}
+	else if (gameMode == 4) {
+		if (renderDone)
+			gameMode = 5;
+	}
+	else if (gameMode == 5) {
+		renderDone = false;
+		changeLevel("VerticalSlice");
+		gameMode = 6;
+	}
+	else if (gameMode == 6) {
+		if (renderDone)
+			gameMode = 0;
+	}
 }
 
 
@@ -120,40 +203,24 @@ void Model::updateModel(float deltaTime) {
 	}
 
 	//updating enemies
-	for (std::vector<Enemy*>::iterator e = enemies.begin(); e != enemies.end(); ) {
-		(*e)->update(deltaTime);
+	for (std::vector<Enemy*>::iterator e = enemies.begin(); e != enemies.end(); e++) {
+		if (!(*e)->isRemoved()) {
+			(*e)->update(deltaTime);
 
-		//adding any new attacks non-melee attacks to the attack vector --CHECK--
-    //Melee attacks require their source actor's position for updating, keeping them tied to the source actor ensures that they will be deleted when the enemy is deleted.
-		if (!(*e)->newAttacks.empty()) {
-			for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end();) {
-				if (!(*i)->melee) {
+			if (!(*e)->newAttacks.empty()) {
+				for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end(); i++) {
 					attacks.push_back(*i);
-					i = (*e)->newAttacks.erase(i);
 				}
-				else {
-					(*i)->update(deltaTime);
-					if ((*i)->isRemoved()) {
-						Attack* removedAttack = *i;
-						i = (*e)->newAttacks.erase(i);
-						delete removedAttack;
-					}
-					else
-						i++;
-				}
+				(*e)->newAttacks.clear();
 			}
-				
-		}
 
-		if ((*e)->isRemoved()) {
-			Enemy* removedEnemy = *e;
-			e = enemies.erase(e);
-			Loot* dropped = removedEnemy->lootDrop();
-			if (dropped != NULL)
-				droppedLoot.push_back(dropped);
-			delete removedEnemy;
+			if ((*e)->isRemoved()) {
+				Loot* dropped = (*e)->lootDrop();
+				//std::cout << dropped << std::endl;
+				if (dropped != NULL)
+					droppedLoot.push_back(dropped);
+			}
 		}
-		else e++;
 	}
 
 	//updating all attacks

@@ -26,6 +26,9 @@ public:
 	std::vector<Attack*> newAttacks;
 	void gotAttacks();
 
+	int getMaxHealth();
+	int getHealth();
+
 	void dealDamage(float);
 
 	bool isFacingRight();
@@ -35,8 +38,6 @@ public:
 protected:
 	std::vector<Sound> newSounds;
 	float stepSoundTimer = 0;
-
-	bool isPlayer = false;
 	
 	std::vector<Attack*>& getAttacks();
 	float attackTimer = 0;

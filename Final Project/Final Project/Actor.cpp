@@ -43,3 +43,6 @@ void Actor::hitWall(sf::Vector2f newPosition, int dir) {
 	else if (dir == 1 || dir == 3)
 		velocity.x = 0;
 }
+
+int Actor::getMaxHealth() { return maxHealth; }
+int Actor::getHealth() { return curHealth; }

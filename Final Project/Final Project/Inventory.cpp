@@ -73,6 +73,7 @@ bool Inventory::addToInventory(Item* newItem, int x, int y) {
 	if (x == -1) {
 		if (armour[y] == NULL && newItem->armourType - 1 == y){
 			armour[y] = newItem;
+			totalInv++;
 			return true;
 		}
 	}
@@ -85,8 +86,15 @@ bool Inventory::addToInventory(Item* newItem, int x, int y) {
 }
 
 Item* Inventory::dropItem(int x, int y) {
-	Item* droppedItem = items[y][x];
-	items[y][x] = NULL;
+	Item* droppedItem = NULL;
+	if (x == -1) {
+		droppedItem = armour[y];
+		armour[y] = NULL;
+	}
+	else {
+		droppedItem = items[y][x];
+		items[y][x] = NULL;
+	}
 
 	if (droppedItem != NULL)
 		totalInv--;
@@ -95,12 +103,14 @@ Item* Inventory::dropItem(int x, int y) {
 }
 
 Item* Inventory::dropRandom() {
-	Item* droppedItem;
-
+	//Item* droppedItem;
+	if (totalInv > 0)
+	//std::cout << totalInv << std::endl;
 	if (totalInv == 0)
 		return NULL;
 
 	int selectedItem = rand() % totalInv, counter = 0;
+	//std::cout << selectedItem << std::endl;
 
 	for (int y = 0; y < invHeight; y++) {
 		for (int x = 0; x < invWidth; x++) {
@@ -108,6 +118,7 @@ Item* Inventory::dropRandom() {
 				if (counter == selectedItem) {
 					Item* droppedItem = items[y][x];
 					items[y][x] = NULL;
+					totalInv--;
 					return droppedItem;
 				}
 				counter++;
@@ -115,6 +126,18 @@ Item* Inventory::dropRandom() {
 		}
 	}
 
+	for (int y = 0; y < armourSlots; y++) {
+		if (armour[y] != NULL) {
+			if (counter == selectedItem) {
+				Item* droppedItem = armour[y];
+				armour[y] = NULL;
+				totalInv--;
+				return droppedItem;
+			}
+			counter++;
+		}
+	}
+	//std::cout << "Not found" << std::endl;
 	return NULL;
 }
 

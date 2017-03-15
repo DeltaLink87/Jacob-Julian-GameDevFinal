@@ -28,6 +28,7 @@ Render::Render(Model* newModel){
 	modelTexture.create(windowWidth, windowHeight);
 	invMenuTexture.create(windowWidth, windowHeight);
 	craftMenuTexture.create(windowWidth, windowHeight);
+	UITexture.create(windowWidth, windowHeight);
 
 	/*for (std::map<std::string, Item*>::iterator i = model->itemManager->getAllItems().begin(); i != model->itemManager->getAllItems().end(); i++) {
 		i->second->smallIconTexture = manager.loadTexture("Items/" + i->first + "Icon");
@@ -77,6 +78,16 @@ void Render::render() {
 	modelSprite.setTexture(modelTexture.getTexture());
 	window.draw(modelSprite);
 
+	renderUI();
+
+	if (model->gameMode == 3 || model->gameMode == 4) {
+		renderWin();
+	}
+
+	sf::Sprite UISprite;
+	UISprite.setTexture(UITexture.getTexture());
+	window.draw(UISprite);
+
 	if (model->gameMode == 1) {
 		renderCraftMenu();
 		sf::Sprite craftMenuSprite;
@@ -91,6 +102,32 @@ void Render::render() {
 	}
 
 	//window.draw(model->itemManager->getAllItems().at("Dagger")->menuIcon);
+
+	if (model->gameMode == 4) {
+		sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(windowWidth, windowHeight));
+		rect.setFillColor(sf::Color(0, 0, 0, 255 * screenAlpha));
+		screenAlpha += 0.1;
+		if (screenAlpha >= 1) {
+			screenAlpha = 1;
+			model->renderDone = true;
+		}
+		window.draw(rect);
+	}
+	else if (model->gameMode == 5) {
+		sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(windowWidth, windowHeight));
+		rect.setFillColor(sf::Color::Black);
+		window.draw(rect);
+	}
+	else if (model->gameMode == 6) {
+		sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(windowWidth, windowHeight));
+		rect.setFillColor(sf::Color(0, 0, 0, 255 * screenAlpha));
+		screenAlpha -= 0.1;
+		if (screenAlpha <= 0) {
+			screenAlpha = 0;
+			model->renderDone = true;
+		}
+		window.draw(rect);
+	}
 
 	window.display();
 }
@@ -109,7 +146,8 @@ void Render::renderModel() {
 		camPosition.y = model->mapHeight * model->tileSize - windowHeight / 2;
 	camera.setCenter(camPosition);
 
-	modelTexture.clear();
+	modelTexture.clear(sf::Color::Transparent);
+	UITexture.clear(sf::Color::Transparent);
 	//updating the camera position
 	modelTexture.setView(camera);
 
@@ -127,10 +165,23 @@ void Render::renderModel() {
 		initializeRenderable(model->player);
 	drawRenderable(modelTexture, model->player);
 
+	// --CHECK-- github's online text editor might crash soon, just quickly getting the enemy bound melee attacks to be rendered
+	for (std::vector<Enemy*>::iterator e = model->enemies.begin(); e != model->enemies.end(); e++) {
+		if (!(*e)->newAttacks.empty()) {
+			for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end(); i++) {
+				if (!(*i)->spriteInitialized)
+					initializeRenderable(*i);
+				drawRenderable(modelTexture, *i);
+			}
+		}
+	}
+
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
-		if (!(*i)->spriteInitialized)
-			initializeRenderable(*i);
-		drawRenderable(modelTexture, *i);
+		if (!(*i)->isRemoved()) {
+			if (!(*i)->spriteInitialized)
+				initializeRenderable(*i);
+			drawRenderable(modelTexture, *i);
+		}
 	}
 
 	//rendering attacks
@@ -143,7 +194,7 @@ void Render::renderModel() {
 
 	//rendering the area of affect for sounds
 	for (std::vector<Sound>::iterator i = model->sounds.begin(); i != model->sounds.end(); i++) {
-		sf::CircleShape soundSphere = sf::CircleShape(i->getLoudness());
+		sf::CircleShape soundSphere = sf::CircleShape(i->getLoudness() * i->getPercentTimeLeft());
 		soundSphere.setPosition(i->getPosition() - sf::Vector2f(soundSphere.getRadius(), soundSphere.getRadius()));
 		soundSphere.setFillColor(sf::Color(0, 0, 255, 100));
 		modelTexture.draw(soundSphere);
@@ -156,7 +207,63 @@ void Render::renderModel() {
 		drawRenderable(modelTexture, *i);
 	}
 
+	for (std::vector<Objective*>::iterator i = model->levelObjectives.begin(); i != model->levelObjectives.end(); i++) {
+		if (!(*i)->isComplete()) {
+			if (!(*i)->initialized) {
+				(*i)->objFlagSprite.setTexture(manager.loadTexture((*i)->flagTextureName));
+				(*i)->objFlagSprite.setScale(sf::Vector2f((float)(*i)->flagWidth / (float)(*i)->objFlagSprite.getTextureRect().width, (float)(*i)->flagHeight / (float)(*i)->objFlagSprite.getTextureRect().height));
+				(*i)->initialized = true;
+			}
+			(*i)->objFlagSprite.setPosition((*i)->getPosition() + (*i)->flagPosDif);
+			modelTexture.draw((*i)->objFlagSprite);
+		}
+	}
+
 	modelTexture.display();
+	UITexture.display();
+}
+
+void Render::renderUI() {
+	sf::Sprite quickBar;
+	quickBar.setTexture(manager.loadTexture("UI/QuickBar"));
+	quickBar.setScale(160.0 / (float)quickBar.getTextureRect().width, 32.0 / (float)quickBar.getTextureRect().height);
+	UITexture.draw(quickBar);
+
+	sf::Sprite healthBox;
+	healthBox.setTexture(manager.loadTexture("UI/HealthBox"));
+	healthBox.setScale(64.0 / (float)healthBox.getTextureRect().width, 32.0 / (float)healthBox.getTextureRect().height);
+	healthBox.setPosition(windowWidth - 64, 0);
+	UITexture.draw(healthBox);
+
+	for (int i = 0; i < model->player->getInventory()->getHeight(); i++) {
+		Item* item = model->player->getInventory()->getCurSeletected(i);
+		if (item != NULL) {
+			sf::Sprite sprite;
+			sprite.setTexture(item->smallIconTexture);
+			sprite.setScale(32.0 / (float)sprite.getTextureRect().width, 32.0 / (float)sprite.getTextureRect().height);
+			sprite.setPosition(i * 32, 0);
+			UITexture.draw(sprite);
+
+			std::stringstream ss;
+			ss << item->quantity;
+			textBrush.setString(ss.str());
+			textBrush.setPosition(i * 32 + 20, 9);
+			UITexture.draw(textBrush);
+		}
+	}
+
+	sf::RectangleShape select = sf::RectangleShape(sf::Vector2f(32, 32));
+	select.setPosition(model->player->getCurSelected() * 32, 0);
+	select.setFillColor(sf::Color::Transparent);
+	select.setOutlineColor(sf::Color::White);
+	select.setOutlineThickness(3);
+	UITexture.draw(select);
+
+	std::stringstream ss;
+	ss << model->player->getHealth() << "/" << model->player->getMaxHealth();
+	textBrush.setString(ss.str());
+	textBrush.setPosition(windowWidth - 60, 2);
+	UITexture.draw(textBrush);
 }
 
 void Render::renderCraftMenu() {
@@ -184,8 +291,8 @@ void Render::renderCraftMenu() {
 	int counter = 0;
 	for (std::map<std::string, Item*>::iterator i = model->craftMenu->itemList.begin(); i != model->craftMenu->itemList.end(); i++) {
 		//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
-		(*i).second->menuIcon.setPosition(sf::Vector2f(200, 175 + 75 * counter));
-		craftMenuTexture.draw((*i).second->menuIcon);
+		i->second->menuIcon.setPosition(sf::Vector2f(200, 175 + 75 * counter));
+		craftMenuTexture.draw(i->second->menuIcon);
 
 		if (!model->craftMenu->canMake[counter]) {
 			sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(130, 70));
@@ -208,7 +315,7 @@ void Render::renderCraftMenu() {
 		model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
 		window.draw(model->invMenu->selectedBox);
 
-
+		counter++;
 	}
 
 	model->craftMenu->selectedBox.setPosition(200, 175 + 75 * model->craftMenu->curSelected);
@@ -267,4 +374,16 @@ void Render::renderInvMenu() {
 	invMenuTexture.draw(model->invMenu->selectedBox);
 
 	invMenuTexture.display();
+}
+
+void Render::renderWin() {
+	sf::Sprite sprite;
+	sprite.setTexture(manager.loadTexture("UI/HealthBox"));
+	sprite.setScale(200.0 / (float)sprite.getTextureRect().width, 50.0 / (float)sprite.getTextureRect().height);
+	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
+	UITexture.draw(sprite);
+
+	textBrush.setString("Level Complete\nPressSpace to Continue");
+	textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
+	UITexture.draw(textBrush);
 }

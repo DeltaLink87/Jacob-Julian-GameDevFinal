@@ -21,8 +21,10 @@ public:
 	void render();
 
 	void renderModel();
+	void renderUI();
 	void renderInvMenu();
 	void renderCraftMenu();
+	void renderWin();
 
 	AssetManager manager;
 
@@ -32,7 +34,8 @@ public:
 	sf::RenderTexture modelTexture;
 	sf::RenderTexture invMenuTexture;
 	sf::RenderTexture craftMenuTexture;
-	
+	sf::RenderTexture UITexture;
+
 	sf::Text textBrush;
 	sf::Font font;
 
@@ -42,6 +45,7 @@ public:
 
 	bool menuOpen = false;
 
+	float screenAlpha = 0;
 private:
 	Model* model;
 

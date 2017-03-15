@@ -2,9 +2,6 @@
 
 #include "Player.h"
 #include "Tile.h"
-#include "LadderTile.h"
-#include "SolidTile.h"
-#include "TopTile.h"
 #include "Attack.h"
 #include "Sound.h"
 #include "Enemy.h"
@@ -12,11 +9,16 @@
 #include "CraftingMenu.h"
 #include "InventoryMenu.h"
 #include "LevelManager.h"
+#include "Objective.h"
 
 class Model {
 public:
 	Model();
 	~Model();
+
+	void loadLevel(std::string);
+	void deallocteLevel();
+	void changeLevel(std::string);
 
 	void update(float);
 	void updateModel(float);
@@ -27,6 +29,7 @@ public:
 	std::vector<Attack*> attacks;
 	std::vector<Sound> sounds;
 	std::vector<Enemy*> enemies;
+	std::vector<Objective*> levelObjectives;
 
 	LevelManager levelManager;
 	bool loadingLevel = false;
@@ -39,6 +42,8 @@ public:
 	CraftingMenu* craftMenu;
 	InventoryMenu* invMenu;
 	int gameMode = 0;
+
+	bool renderDone = false;
 };
 
 /*

@@ -26,9 +26,7 @@ void LevelManager::loadLevelFile(std::string fileName) {
 	}
 }
 
-void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, int& tileSize, std::vector<Enemy*>& enemies, Player*& player, ItemManager*& itemManager) {
-	enemies.clear();
-
+void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, int& tileSize, std::vector<Enemy*>& enemies, std::vector<Objective*>& objectives, Player*& player, ItemManager*& itemManager) {
 	mapWidth = tileMapWidth;
 	mapHeight = tileMapHeight;
 
@@ -42,6 +40,11 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				tileMap[y][x] = new LadderTile(x * tileSize, y * tileSize, tileSize, tileSize);
 			else if (tiles[y][x] == 6)
 				tileMap[y][x] = new TopTile(x * tileSize, y * tileSize, tileSize, tileSize);
+			else if (tiles[y][x] == 8) {
+				ObjectiveTile* objective = new ObjectiveTile(x * tileSize, y * tileSize, tileSize, tileSize);
+				tileMap[y][x] = objective;
+				objectives.push_back(objective);
+			}
 			else
 				tileMap[y][x] = new Tile(x * tileSize, y * tileSize, tileSize, tileSize);
 
@@ -49,6 +52,11 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				player = new Player(x * tileSize, y * tileSize);
 			else if (tiles[y][x] == 3)
 				enemies.push_back(new Enemy(sf::Vector2f(x*tileSize, y*tileSize), itemManager));
+			else if (tiles[y][x] == 7) {
+				ObjectiveEnemy* objective = new ObjectiveEnemy(sf::Vector2f(x * tileSize, y * tileSize), itemManager);
+				enemies.push_back(objective);
+				objectives.push_back(objective);
+			}
 		}
 	}
 }
@@ -62,6 +70,8 @@ void LevelManager::loadState(Tile***& tileMap, int& mapWidth, int& mapHeight, st
 }*/
 
 void LevelManager::savePlayerInventory(Player*& player) {
+	if (savedInventory != NULL)
+		delete savedInventory;
 	savedInventory = new Inventory();
 	
 	for (int y = 0; y < player->getInventory()->getHeight(); y++) {
@@ -85,12 +95,14 @@ void LevelManager::loadPlayerInventory(Player*& player) {
 	for (int y = 0; y < savedInventory->getHeight(); y++) {
 		for (int x = 0; x < savedInventory->getWidth(); x++) {
 			Item* item = savedInventory->getCurSeletected(x, y);
-			playerInventory->addToInventory(new Item(*item), x, y);
+			if (item != NULL)
+				playerInventory->addToInventory(new Item(*item), x, y);
 		}
 	}
 
 	for (int y = 0; y < savedInventory->getArmourSlots(); y++) {
 		Item* item = savedInventory->getCurSeletected(-1, y);
-		playerInventory->addToInventory(new Item(*item), -1, y);
+		if (item != NULL)
+			playerInventory->addToInventory(new Item(*item), -1, y);
 	}
 }

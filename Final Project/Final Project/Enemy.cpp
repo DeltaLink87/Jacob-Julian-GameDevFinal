@@ -6,8 +6,7 @@ Enemy::Enemy() : Actor(400, 300, 20, 20) {
 
 }
 
-Enemy::Enemy(sf::Vector2f startingPosition, ItemManager* itemManager) : Actor(400, 300, 20, 20) {
-	position = startingPosition;
+Enemy::Enemy(sf::Vector2f startingPosition, ItemManager* itemManager) : Actor(startingPosition.x, startingPosition.y, 20, 20) {
 	homePosition = startingPosition;
 	velocity.x = 70;
 	moving = true;
@@ -181,6 +180,12 @@ void Enemy::overEdge() {
 	velocity.x = -velocity.x;
 }
 
-Loot* Enemy::lootDrop() { return new Loot(position.x, position.y, 10, 10, inventory.dropRandom()); }
+Loot* Enemy::lootDrop() { 
+	Item* droppedItem = inventory.dropRandom();
+	//std::cout << droppedItem << std::endl;
+	if (droppedItem == NULL)
+		return NULL;
+	return new Loot(position.x, position.y, 10, 10, droppedItem);
+}
 
 //items = { new Item("name", HashMap<Integer, Integer>{2:1, 3:2}),

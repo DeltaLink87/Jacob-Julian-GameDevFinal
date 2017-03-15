@@ -9,11 +9,12 @@ public:
 	void update(float);
 	sf::Vector2f& getPosition();
 	float getLoudness();
+	float getPercentTimeLeft();
 	bool isNatural();
 	bool done();
 
 private:
 	float loudness;
-	float duration;
+	float duration, totalDuration;
 	bool natural;
 };

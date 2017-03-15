@@ -56,7 +56,7 @@ void CraftingMenu::update(float deltaTime) {
 		this->curSelected = (this->curSelected + totalItems) % totalItems;
 
 		if (select && canMake[this->curSelected]) {
-			craftingPlayer->craftItem(itemList.at(itemNameList.at(this->curSelected)));
+			craftingPlayer->craftItem(new Item(*itemList.at(itemNameList.at(this->curSelected))));
 		}
 
 		if (up || down || select)

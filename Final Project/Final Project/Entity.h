@@ -25,9 +25,10 @@ public:
 	bool nextToClimbable = false; 
 	bool droppedDown = false;
 	
+	bool isPlayer = false;
 	//std::map<std::string, int> stats;
 
-	void remove();
+	virtual void remove();
 	bool isRemoved();
 protected:
 	sf::RectangleShape hitBox;

@@ -138,6 +138,7 @@ void Player::update(float deltaTime) {
 void Player::isAttacking(bool value) { attack = value; }
 
 Inventory*  Player::getInventory() { return &inventory; }
+int Player::getCurSelected() { return curItemSelected; }
 
 bool Player::craftItem(Item* item) {
 	return inventory.craft(item);
