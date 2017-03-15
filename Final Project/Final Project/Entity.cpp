@@ -21,7 +21,10 @@ Entity::Entity(int x, int y, int width, int height){
 
 }
 
-Entity::~Entity(){ }
+Entity::~Entity(){ 
+
+	
+}
 
 bool Entity::intersects(sf::RectangleShape otherHitBox) {
 	if (hitBox.getPosition().x < otherHitBox.getPosition().x + otherHitBox.getSize().x &&

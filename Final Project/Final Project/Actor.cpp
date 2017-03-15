@@ -4,7 +4,10 @@
 
 Actor::Actor(int x, int y, int width, int height) : Entity(x, y, width, height) { }
 
-Actor::~Actor() { }
+Actor::~Actor() { 
+
+
+}
 
 std::vector<Attack*>& Actor::getAttacks() { return newAttacks; }
 void Actor::gotAttacks() { newAttacks.clear(); }
@@ -19,6 +22,11 @@ void Actor::dealDamage(float damage) {
 void Actor::addInventory(Item* newItem) {
 	std::cout << newItem->name << std::endl;
 	inventory.addToInventory(newItem);
+}
+
+
+bool Actor::isFacingRight() {
+	return facingRight;
 }
 
 void Actor::hitWall(sf::Vector2f newPosition, int dir) {

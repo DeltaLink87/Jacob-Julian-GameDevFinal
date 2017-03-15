@@ -22,7 +22,11 @@ Enemy::Enemy(sf::Vector2f startingPosition, ItemManager* itemManager) : Actor(40
 }
 
 
-Enemy::~Enemy() { }
+Enemy::~Enemy() {
+
+
+
+}
 
 
 
@@ -70,6 +74,10 @@ void Enemy::update(float deltaTime) {
 			//making either a melee attack or projectile attack
 			if (attackTimer <= 0) {
 				attackTimer = 0.5;
+				if (targetLocation.x > this->position.x)
+					facingRight = true;
+				else
+					facingRight = false;
 				newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
 				//newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
 			}

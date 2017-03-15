@@ -21,6 +21,10 @@ public:
 
 
 
+	
+
+
+
 private:
 	std::map<std::string, Item*> items;
 	//std::map<std::string, Equipment*> equipment;
