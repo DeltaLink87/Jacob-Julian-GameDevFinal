@@ -8,7 +8,7 @@ Model::Model(){
 	std::ifstream fileHndl;
 
 	//loading the tileamp file
-	fileHndl.open("Assets/VerticalSlice.txt");
+	fileHndl.open("Assets/tilemap2.txt");
 
 	//getting the size of the map
 	fileHndl >> mapWidth;
@@ -42,6 +42,8 @@ Model::Model(){
 
 	craftMenu = new CraftingMenu(itemManager, &player);
 	invMenu = new InventoryMenu(itemManager, &player);
+
+	this->player.addInventory(itemManager->getItem("Dagger"));
 }
 
 Model::~Model(){ 
@@ -104,9 +106,23 @@ void Model::updateModel(float deltaTime) {
 
 		//adding any new attacks to the attack vector
 		if (!(*e)->newAttacks.empty()) {
-			for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end(); i++)
-				attacks.push_back(*i);
-			(*e)->newAttacks.clear();
+			for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end();) {
+				if (!(*i)->melee) {
+					attacks.push_back(*i);
+					i = (*e)->newAttacks.erase(i);
+				}
+				else {
+					(*i)->update(deltaTime);
+					if ((*i)->isRemoved()) {
+						Attack* removedAttack = *i;
+						i = (*e)->newAttacks.erase(i);
+						delete removedAttack;
+					}
+					else
+						i++;
+				}
+			}
+				
 		}
 
 		if ((*e)->isRemoved()) {
@@ -122,7 +138,8 @@ void Model::updateModel(float deltaTime) {
 
 	//updating all attacks
 	for (std::vector<Attack*>::iterator i = attacks.begin(); i != attacks.end(); ) {
-		(*i)->update(deltaTime);
+		if (!(*i)->isRemoved())
+			(*i)->update(deltaTime);
 
 		if ((*i)->isRemoved()) {
 			Attack* removedAttack = *i;

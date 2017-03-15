@@ -15,7 +15,9 @@ public:
 
 	Equipment* eWeapon;
 
-	
+
+	bool mouse2;
+
 	int maxInventorySize = 5;
 
 	bool craftItem(Item*);

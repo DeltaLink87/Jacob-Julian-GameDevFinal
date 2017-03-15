@@ -7,9 +7,13 @@ Equipment::Equipment(std::string n, int index) : Item(n, 2) {
 		name = n;
 		agility = 1;
 		strength = 4;
+
 		recipe.insert(std::pair<std::string, int>("Blade", 1));
 		recipe.insert(std::pair<std::string, int>("Wood", 1));
 		isWeapon = true;
+
+
+
 	}
 
 }

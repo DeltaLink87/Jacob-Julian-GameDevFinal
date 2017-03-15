@@ -55,8 +55,14 @@ void Player::update(float deltaTime) {
 			dirLooking += 2 * acos(0);
 		//making either a melee attack or projectile attack
 		//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
-		if (inventory.count("Dagger") != 0)
-			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+		if (inventory.count("Dagger") != 0) {
+			if (this->looking.x > this->position.x)
+				facingRight = true;
+			else
+				facingRight = false;
+			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, 2));
+			
+		}
 		else newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
 	}
 

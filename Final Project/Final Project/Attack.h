@@ -12,6 +12,16 @@ public:
 	void hitTile(Tile*);
 	void hitActor(Actor*);
 
+
+
+	int type;
+	bool collidedWithTile = false;
+	bool piercing;
+	bool melee;
+	std::vector<Actor*> attacked;
+
+	void rotation(float);
+	
 	Actor* source;
 
 	float damage = 1;

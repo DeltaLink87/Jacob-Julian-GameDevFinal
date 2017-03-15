@@ -97,6 +97,17 @@ void Controller::inputs() {
 	}
 	else inputTo->pressAttack = false;
 
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+		if (inputTo->mouse2) {
+			inputTo->mouse2 = false;
+			std::cout << "False" << std::endl;
+		}
+		else {
+			inputTo->mouse2 = true;
+			std::cout << "True" << std::endl;
+		}
+	}
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
 		if (!prevCMenuPressed) {
 			inputTo->craftingMenu = true;

@@ -58,15 +58,27 @@ void Render::render() {
 	model->player.sprite.setPosition(model->player.getPosition());
 	window.draw(model->player.sprite);
 
-	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
-		(*i)->sprite.setPosition((*i)->getPosition());
-		window.draw((*i)->sprite);
+	for (std::vector<Enemy*>::iterator e = model->enemies.begin(); e != model->enemies.end(); e++) {
+
+
+
+		(*e)->sprite.setPosition((*e)->getPosition());
+		window.draw((*e)->sprite);
+		if (!(*e)->newAttacks.empty()) {
+			for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end(); i++) {
+				if((*i)->type == 1 || (*i)->type == 2)
+					window.draw((*i)->visualRepresentation);
+			}
+		}
 	}
 
 	//rendering attacks
 	for (std::vector<Attack*>::iterator i = model->attacks.begin(); i != model->attacks.end(); i++) {
 		(*i)->sprite.setPosition((*i)->getPosition());
-		window.draw((*i)->sprite);
+			window.draw((*i)->sprite);
+		if ((*i)->type == 1 || (*i)->type == 2) {
+			window.draw((*i)->visualRepresentation);
+		}
 	}
 
 	//rendering the area of affect for sounds

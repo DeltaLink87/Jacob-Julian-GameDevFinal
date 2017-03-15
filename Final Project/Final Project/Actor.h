@@ -26,6 +26,10 @@ public:
 
 	void dealDamage(float);
 
+	bool isFacingRight();
+
+
+
 protected:
 	std::vector<Sound> newSounds;
 	float stepSoundTimer = 0;
@@ -37,6 +41,7 @@ protected:
 	std::map<std::string, Item*> inventory;
 
 	bool climbing = false;
+	bool facingRight;
 
 	float dirLooking = 0;
 
