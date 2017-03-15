@@ -6,7 +6,7 @@ public:
 
 	enum {	DAGGER = 1, SWORD = 2 };
 
-	MeleeAttack(int, int, int, int, float, Actor*);
+	MeleeAttack(int, int, int, int, float, Actor*, Item*);
 	MeleeAttack(int, int, int, int, float, Actor*, int);
 	~MeleeAttack();
 

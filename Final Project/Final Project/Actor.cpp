@@ -25,6 +25,18 @@ void Actor::addInventory(Item* newItem) {
 }
 
 
+/*void Actor::createAttack(Item* weapon) {
+	if (weapon == NULL)
+		//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+		newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, weapon));
+	else if (weapon->attackType == 0)
+		//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+		newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, weapon));
+	else
+		//newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
+		newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this, weapon));
+}*/
+
 bool Actor::isFacingRight() {
 	return facingRight;
 }

@@ -2,7 +2,7 @@
 
 
 
-Projectile::Projectile(int x, int y, int width, int height, sf::Vector2f newVel, Actor* newSource) : Attack(x, y, width, height, newSource){
+Projectile::Projectile(int x, int y, int width, int height, sf::Vector2f newVel, Actor* newSource, Item* item) : Attack(x, y, width, height, newSource){
 	velocity = newVel;
 
 	this->type = 0;

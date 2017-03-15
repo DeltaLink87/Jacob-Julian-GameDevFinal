@@ -2,7 +2,7 @@
 
 
 //Will create a pre-Constructor for melee attack that takes an int to set type then calls the default meleeattack constructor
-MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* newSource) : Attack(x, y, width, height, newSource) {
+MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* newSource, Item* item) : Attack(x, y, width, height, newSource) {
 	
 	this->type = 2;
 	this->melee = true;

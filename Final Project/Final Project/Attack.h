@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Entity.h"
-#include "Actor.h"
 #include "Tile.h"
+#include "Item.h"
+#include "Actor.h"
 
 class Attack : public Entity {
 public:

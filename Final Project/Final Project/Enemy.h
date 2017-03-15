@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "Sound.h"
 #include "MeleeAttack.h"
+#include "Projectile.h"
 #include "ItemManager.h"
 
 class Enemy : public Actor {
