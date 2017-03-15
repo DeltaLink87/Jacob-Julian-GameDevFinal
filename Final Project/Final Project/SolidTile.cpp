@@ -4,7 +4,8 @@
 #include <math.h>
 
 SolidTile::SolidTile(int x, int y, int width, int height) : Tile(x, y, width, height) {
-	sprite.setFillColor(sf::Color::Red);
+	//sprite.setFillColor(sf::Color::Red);
+	textureName = "Tiles/SolidTile";
 	solid = true;
 }
 

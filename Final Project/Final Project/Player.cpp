@@ -5,8 +5,10 @@
 #include <iostream>
 
 
-Player::Player() : Actor(400, 300, 20, 20) {
+Player::Player(int x, int y) : Actor(x, y, 20, 20) {
 	maxHealth = curHealth = 50;
+	isPlayer = true;
+	textureName = "Actors/Player";
 }
 
 
@@ -25,9 +27,10 @@ void Player::update(float deltaTime) {
 	else velocity.x = 0;
 
 	//making the player jump if nessecary
-	if (jump) {
+	if (jump && onGround) {
 		velocity.y = -150;
 		climbing = false;
+		onGround = false;
 	}
 
 	//checks if player is next to something climbable and begins climbing if up is pressed
@@ -45,6 +48,15 @@ void Player::update(float deltaTime) {
 		else velocity.y = 0;
 	}
 
+	if (!climbing) {
+		//adding gravity to player if not climbing
+		velocity.y += 200 * deltaTime;
+		if (velocity.y > 200)
+			velocity.y = 200;
+	}
+
+	curItemSelected = (curItemSelected - scroll + inventory.getHeight()) % inventory.getHeight();
+
 	//creating a new attack from the player if instructed to 
 	attack = pressAttack;
 	attackTimer -= deltaTime;
@@ -55,19 +67,29 @@ void Player::update(float deltaTime) {
 			dirLooking += 2 * acos(0);
 		//making either a melee attack or projectile attack
 		//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
-		if (inventory.count("Dagger") != 0) {
-			if (this->looking.x > this->position.x)
-				facingRight = true;
-			else
-				facingRight = false;
-			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, 2));
-			
-		}
+    
+    /*
+    
+    Possible conflict with how attacks are created and the changes to the changes to melee attack's constructors
+    
+    */
+    
+		if (this->looking.x > this->position.x)
+			facingRight = true;
+		else
+			facingRight = false;
+    
+		Item* weapon = inventory.getCurSeletected(curItemSelected);
+		if (weapon == NULL)
+			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+		else if (weapon->attackType == 0)
+			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+    
 		else newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
 	}
 
 	//changing the sound timer and horizontal movement based on running or sneaking
-	if (velocity.x != 0) {
+	if (velocity.x != 0 && onGround) {
 		if (moveFast) {
 			stepSoundTimer -= deltaTime * 2;
 			velocity.x *= 2;
@@ -85,46 +107,28 @@ void Player::update(float deltaTime) {
 		//std::cout << "sound" << std::endl;
 		stepSoundTimer = 0.5;
 		//adjusting loudness of sound based on how fast moving
-		float loudness = 200;
+		float loudness = 100;
 		if (moveFast)
 			loudness *= 2;
 		else if (moveSlow)
 			loudness /= 2;
 		//creating new sound
-		newSounds.push_back(Sound(position.x, position.y, loudness / 3, 0.5, false));
+		newSounds.push_back(Sound(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y, loudness, 0.5, false));
 	}
 
 	//updating player location
 	position += velocity * deltaTime;
 
-	if (!climbing) {
-		//adding gravity to player if not climbing
-		velocity.y += 200 * deltaTime;
-		if (velocity.y > 200)
-			velocity.y = 200;
-	}
-
 	//updating player ditbox
 	hitBox.setPosition(position);
 	nextToClimbable = false;
+	onGround = false;
 }
 
 void Player::isAttacking(bool value) { attack = value; }
 
-std::map<std::string, Item*>*  Player::getInventory() { return &inventory; }
+Inventory*  Player::getInventory() { return &inventory; }
 
 bool Player::craftItem(Item* item) {
-	for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
-		if (inventory.count((*i).first) == 0)
-			return false;
-	}
-
-	for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
-		//Item* removedItem = (inventory.find((*i).first))->second;
-		inventory.erase(inventory.find((*i).first));
-		//delete removedItem;
-	}
-	addInventory(item);
-
-	return true;
+	return inventory.craft(item);
 }

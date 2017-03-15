@@ -5,20 +5,14 @@
 
 class Player : public Actor,  public Inputable{
 public:
-	Player();
+	Player(int, int);
 	~Player();
 
 	void update(float);
 	void isAttacking(bool);
 
-	std::map<std::string, Item*>* getInventory();
 
-	Equipment* eWeapon;
-
-
-	bool mouse2;
-
-	int maxInventorySize = 5;
+	Inventory* getInventory();
 
 	bool craftItem(Item*);
 

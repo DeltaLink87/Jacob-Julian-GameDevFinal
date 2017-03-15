@@ -4,6 +4,7 @@
 #include "ItemManager.h"
 #include "Inputable.h"
 #include "Player.h"
+#include "Inventory.h"
 
 class CraftingMenu : public Inputable{
 public:

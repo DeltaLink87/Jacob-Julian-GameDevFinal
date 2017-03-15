@@ -10,9 +10,9 @@ CraftingMenu::CraftingMenu(ItemManager* newItemManager, Player* newPlayer) {
 	std::vector<std::string>* tempList = itemManager->getItemList();
 	//std::cout << tempList->size() << std::endl;
 	for (std::vector<std::string>::iterator i = tempList->begin(); i != tempList->end(); i++) {
-		if (itemManager->getItem(*i)->id != 1) {
+		if (itemManager->getItem(*i, 1)->id != 1) {
 			itemNameList.push_back(*i);
-			itemList.insert(std::pair<std::string, Item*>(*i, itemManager->getItem(*i)));
+			itemList.insert(std::pair<std::string, Item*>(*i, itemManager->getItem(*i, 1)));
 		}
 	}
 	totalItems = itemList.size();
@@ -32,12 +32,12 @@ CraftingMenu::~CraftingMenu() {
 
 void CraftingMenu::update(float deltaTime) {
 	//checking if the player has the inventory to craft a given item
-	std::map<std::string, Item*>* playerInventory = craftingPlayer->getInventory();
+	Inventory* playerInventory = craftingPlayer->getInventory();
 	int counter = 0;
 	for (std::map<std::string, Item*>::iterator i = itemList.begin(); i != itemList.end(); i++) {
 		bool hasRequirements = true;
 		for (std::map<std::string, int>::iterator r = (*i).second->recipe.begin(); r != (*i).second->recipe.end() && hasRequirements; r++) {
-			if (playerInventory->count((*r).first) == 0)
+			if (!playerInventory->contains(r->first, r->second))
 				hasRequirements = false;
 			//std::cout << (playerInventory->count((*r).first) == 0) << std::endl;
 		}

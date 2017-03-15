@@ -14,6 +14,27 @@ Item::Item(int identifier) {
 
 }
 
+/*tem::Item(Item& oldItem) {
+	name = oldItem.name;
+	id = oldItem.id;
+	recipe = oldItem.recipe;
+	quantity = oldItem.quantity;
+
+	attack = oldItem.attack;
+	attackType = oldItem.attackType;
+	defence = oldItem.defence;
+	armourType = oldItem.armourType;
+
+	smallIconTexture = oldItem.smallIconTexture;
+	smallIcon.setTexture(smallIconTexture);
+
+	menuIconTexture = oldItem.menuIconTexture;
+	menuIcon.setTexture(menuIconTexture);
+
+	menuDescriptionTexture = oldItem.menuDescriptionTexture;
+	menuDescription.setTexture(menuDescriptionTexture);
+}*/
+
 
 void Item::setTextureWithMask(sf::Texture* texture, std::string file) {
 	this->image.loadFromFile(file);

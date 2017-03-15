@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model.h"
+#include "AssetManager.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -13,18 +14,27 @@ public:
 	Render(Model*);
 	~Render();
 
+	void initializeRenderable(Renderable*);
+
+	void drawRenderable(sf::RenderTarget&, Renderable*);
+
 	void render();
 
-	void renderMenu();
+	void renderModel();
+	void renderInvMenu();
+	void renderCraftMenu();
+
+	AssetManager manager;
 
 	sf::View camera;
 	sf::Vector2f camPosition;
 
-	sf::View menuCamera;
+	sf::RenderTexture modelTexture;
+	sf::RenderTexture invMenuTexture;
+	sf::RenderTexture craftMenuTexture;
 	
 	sf::Text textBrush;
 	sf::Font font;
-
 
 	sf::RectangleShape border;
 	sf::RectangleShape center;

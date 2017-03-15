@@ -10,4 +10,5 @@ public:
 	bool hasWeaponEquipped = false;
 	bool mouse2 = false;
 	sf::Vector2f looking;
+	int scroll = 0;
 };

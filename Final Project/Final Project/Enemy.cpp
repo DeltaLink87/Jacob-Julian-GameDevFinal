@@ -14,8 +14,10 @@ Enemy::Enemy(sf::Vector2f startingPosition, ItemManager* itemManager) : Actor(40
 	behaviorState = 1;
 	maxHealth = curHealth = 10;
 
-	addInventory(itemManager->getItem("Wood"));
-	addInventory(itemManager->getItem("Blade"));
+	textureName = "Actors/Enemy";
+
+	addInventory(itemManager->getItem("Wood", 1));
+	addInventory(itemManager->getItem("Blade", 1));
 	//addInventory(itemManager->getItem("Herb"));
 }
 
@@ -179,19 +181,6 @@ void Enemy::overEdge() {
 	velocity.x = -velocity.x;
 }
 
-Loot* Enemy::lootDrop() {
-
-	if (inventory.size() == 0)
-		return NULL;
-
-	int lootToDropNum = std::rand() % inventory.size();
-	int counter = 0;
-	for (std::map<std::string, Item*>::iterator i = inventory.begin(); counter <= lootToDropNum; i++) {
-		if (counter == lootToDropNum)
-			return new Loot(position.x, position.y, 10, 10, (*i).second);
-		counter++;
-	}
-	return new Loot(position.x, position.y, 10, 10, (*(inventory.begin())).second);
-}
+Loot* Enemy::lootDrop() { return new Loot(position.x, position.y, 10, 10, inventory.dropRandom()); }
 
 //items = { new Item("name", HashMap<Integer, Integer>{2:1, 3:2}),

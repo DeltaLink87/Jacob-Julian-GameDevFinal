@@ -6,6 +6,7 @@
 #include "Equipment.h"
 #include "Item.h"
 #include "Loot.h"
+#include "Inventory.h"
 
 //#include "Attack.h"
 class Attack;
@@ -15,6 +16,7 @@ public:
 	Actor(int, int, int, int);
 	~Actor();
 
+	void hitWall(sf::Vector2f, int);
 
 	void addInventory(Item*);
 
@@ -33,15 +35,19 @@ public:
 protected:
 	std::vector<Sound> newSounds;
 	float stepSoundTimer = 0;
+
+	bool isPlayer = false;
 	
 	std::vector<Attack*>& getAttacks();
 	float attackTimer = 0;
 	bool attack = false;
   
-	std::map<std::string, Item*> inventory;
+	Inventory inventory;
+	int curItemSelected = 0;
 
 	bool climbing = false;
 	bool facingRight;
+	bool onGround = true;
 
 	float dirLooking = 0;
 

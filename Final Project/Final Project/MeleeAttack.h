@@ -11,6 +11,7 @@ public:
 	~MeleeAttack();
 
 	void update(float);
+	void hitTile(Tile*);
 
 	float duration = 1.0;
 	float direction;

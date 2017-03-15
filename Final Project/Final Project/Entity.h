@@ -12,7 +12,6 @@ public:
 	bool intersects(sf::RectangleShape);
 
 	void setPostion(sf::Vector2f);	
-	sf::Vector2f& getPosition();
 	sf::RectangleShape& getHitBox();
 	/*
 	Sets position of the player and stops velocity in the direction of the wall hit
@@ -20,8 +19,8 @@ public:
 	0:Up	1:Left	2:Down	3:Right
 	*/
 	virtual void hitWall(sf::Vector2f, int);
-	
-	
+
+	sf::Vector2f getVelocity();
 
 	bool nextToClimbable = false;
 	
@@ -32,7 +31,6 @@ public:
 protected:
 	sf::RectangleShape hitBox;
 	sf::Vector2f velocity;
-
 	
 private:
 	bool removed = false;

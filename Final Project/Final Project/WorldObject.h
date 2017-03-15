@@ -8,6 +8,9 @@
 #include <map>
 
 class WorldObject{
+public:
+	sf::Vector2f getPosition() { return position; }
+
 protected:
 	sf::Vector2f position;
 };
