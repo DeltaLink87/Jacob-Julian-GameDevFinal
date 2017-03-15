@@ -30,7 +30,7 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
     
     
     //this->getHitBox().setSize(sf::Vector2f(this->sprite.getLocalBounds().width * this->sprite.getScale().x, this->sprite.getLocalBounds().height * this->sprite.getScale().y));
-    this->getHitbox().setSize(sf::Vector2f(30,10));
+    this->getHitBox().setSize(sf::Vector2f(30,10));
     
 		direction = dir;
 		type = 1;
@@ -120,7 +120,7 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
     
     
     //this->getHitBox().setSize(sf::Vector2f(this->sprite.getLocalBounds().width * this->sprite.getScale().x, this->sprite.getLocalBounds().height * this->sprite.getScale().y));
-    this->getHitbox().setSize(sf::Vector2f(30,10));
+    this->getHitBox().setSize(sf::Vector2f(30,10));
     
 		direction = dir;
 		type = 1;
@@ -252,3 +252,5 @@ void MeleeAttack::update(float deltaTime) {
 	}
 }
 
+
+void MeleeAttack::hitTile(Tile* tile){}

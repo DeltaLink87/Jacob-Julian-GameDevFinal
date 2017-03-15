@@ -4,6 +4,7 @@ Attack::Attack(int x, int y, int width, int height, Actor* newSource) : Entity(x
 	source = newSource;
 	//sprite.setFillColor(sf::Color::Blue);
 	textureName = "Attacks/Attack";
+	hitBox.setFillColor(sf::Color::Blue);
 }
 
 Attack::~Attack() { }

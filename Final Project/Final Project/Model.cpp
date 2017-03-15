@@ -48,11 +48,11 @@ Model::Model(){
 	levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, player, itemManager);
 	loadingLevel = true;
 
-	craftMenu = new CraftingMenu(itemManager, &player);
-	invMenu = new InventoryMenu(itemManager, &player);
+	craftMenu = new CraftingMenu(itemManager, player);
+	invMenu = new InventoryMenu(itemManager, player);
 
   //Kept to test weapons at the start.
-	this->player.addInventory(itemManager->getItem("Dagger"));
+	player->addInventory(itemManager->getItem("Dagger", 1));
   
 	craftMenu = new CraftingMenu(itemManager, player);
 	invMenu = new InventoryMenu(itemManager, player);
