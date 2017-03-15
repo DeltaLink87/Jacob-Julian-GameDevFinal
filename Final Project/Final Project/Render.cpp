@@ -127,11 +127,15 @@ void Render::renderModel() {
 		initializeRenderable(model->player);
 	drawRenderable(modelTexture, model->player);
 
+	//rendering enemy
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
 		if (!(*i)->spriteInitialized)
 			initializeRenderable(*i);
 		drawRenderable(modelTexture, *i);
 	}
+
+
+
 
 	//rendering attacks
 	for (std::vector<Attack*>::iterator i = model->attacks.begin(); i != model->attacks.end(); i++) {
