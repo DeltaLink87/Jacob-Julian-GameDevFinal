@@ -13,6 +13,21 @@ InventoryMenu::InventoryMenu(ItemManager* newItemManager, Player* newPlayer) {
 	iMenuTexture.loadFromFile("Assets/Textures/InventoryScreen.png");
 	iMenuSprite.setTexture(iMenuTexture);
 
+  
+  //Couldn't quickly dismiss this code without looking at other files, will probably be deleted once I understand all the inventory/item changes.
+  /*
+	std::vector<std::string>* tempList = itemManager->getItemList();
+	//std::cout << tempList->size() << std::endl;
+	for (std::vector<std::string>::iterator i = tempList->begin(); i != tempList->end(); i++) {
+		if (itemManager->getItem(*i)->id != 1) {
+			itemNameList.push_back(*i);
+			itemList.insert(std::pair<std::string, Item*>(*i, itemManager->getItem(*i)));
+		}
+	}
+	totalItems = itemList.size();
+	//std::cout << totalItems << std::endl;
+*/
+  
 	selectedBox = sf::RectangleShape(sf::Vector2f(iSlotDim.x, iSlotDim.y - 1));
 	selectedBox.setFillColor(sf::Color::Transparent);
 	selectedBox.setOutlineColor(sf::Color::Green);
@@ -26,6 +41,7 @@ void InventoryMenu::update(float deltaTime) {
 	//checking if the player has the inventory to craft a given item
 	//std::map<std::string, Item*>* playerInventory = menuPlayer->getInventory();
 	
+
 	totalItems = menuPlayer->getInventory()->getInventorySize();
 
 	inputTimer -= deltaTime;

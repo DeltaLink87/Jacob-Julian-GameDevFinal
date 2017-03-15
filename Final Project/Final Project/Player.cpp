@@ -77,11 +77,24 @@ void Player::update(float deltaTime) {
 			dirLooking += 2 * acos(0);
 		//making either a melee attack or projectile attack
 		//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+    
+    /*
+    
+    Possible conflict with how attacks are created and the changes to the changes to melee attack's constructors
+    
+    */
+    
+		if (this->looking.x > this->position.x)
+			facingRight = true;
+		else
+			facingRight = false;
+    
 		Item* weapon = inventory.getCurSeletected(curItemSelected);
 		if (weapon == NULL)
 			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
 		else if (weapon->attackType == 0)
 			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+    
 		else newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
 	}
 

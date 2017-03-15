@@ -67,9 +67,6 @@
     <ClCompile Include="InventoryMenu.cpp">
       <Filter>Source Files\Engine\Menus</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="TopTile.cpp">
       <Filter>Source Files\Objects\Tiles</Filter>
     </ClCompile>

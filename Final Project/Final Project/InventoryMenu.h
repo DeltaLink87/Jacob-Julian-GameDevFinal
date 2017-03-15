@@ -23,6 +23,11 @@ public:
 	sf::Sprite iMenuSprite;
 	sf::Texture iMenuTexture;
 
+ /*
+ // --TEMP-- Old code, keeping it as commented for safety's sake, will probably be deleted.
+	std::vector<std::string> itemNameList;
+	std::map<std::string, Item*> itemList;
+*/
 	//Index of the top left pixel of the first inventory slot
 	sf::Vector2f iSlotStart = sf::Vector2f(235.0, 6.0);
 	//Dimension of individual inventory slots (right side of menu)

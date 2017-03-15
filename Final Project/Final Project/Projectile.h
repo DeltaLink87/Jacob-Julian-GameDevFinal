@@ -7,5 +7,6 @@ public:
 	~Projectile();
 
 	void update(float);
+
 };
 

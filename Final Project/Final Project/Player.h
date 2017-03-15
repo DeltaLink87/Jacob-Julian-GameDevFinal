@@ -11,6 +11,7 @@ public:
 	void update(float);
 	void isAttacking(bool);
 
+
 	Inventory* getInventory();
 
 	bool craftItem(Item*);

@@ -48,6 +48,12 @@ Model::Model(){
 	levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, player, itemManager);
 	loadingLevel = true;
 
+	craftMenu = new CraftingMenu(itemManager, &player);
+	invMenu = new InventoryMenu(itemManager, &player);
+
+  //Kept to test weapons at the start.
+	this->player.addInventory(itemManager->getItem("Dagger"));
+  
 	craftMenu = new CraftingMenu(itemManager, player);
 	invMenu = new InventoryMenu(itemManager, player);
 }
@@ -117,11 +123,26 @@ void Model::updateModel(float deltaTime) {
 	for (std::vector<Enemy*>::iterator e = enemies.begin(); e != enemies.end(); ) {
 		(*e)->update(deltaTime);
 
-		//adding any new attacks to the attack vector
+		//adding any new attacks non-melee attacks to the attack vector --CHECK--
+    //Melee attacks require their source actor's position for updating, keeping them tied to the source actor ensures that they will be deleted when the enemy is deleted.
 		if (!(*e)->newAttacks.empty()) {
-			for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end(); i++)
-				attacks.push_back(*i);
-			(*e)->newAttacks.clear();
+			for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end();) {
+				if (!(*i)->melee) {
+					attacks.push_back(*i);
+					i = (*e)->newAttacks.erase(i);
+				}
+				else {
+					(*i)->update(deltaTime);
+					if ((*i)->isRemoved()) {
+						Attack* removedAttack = *i;
+						i = (*e)->newAttacks.erase(i);
+						delete removedAttack;
+					}
+					else
+						i++;
+				}
+			}
+				
 		}
 
 		if ((*e)->isRemoved()) {
@@ -137,7 +158,8 @@ void Model::updateModel(float deltaTime) {
 
 	//updating all attacks
 	for (std::vector<Attack*>::iterator i = attacks.begin(); i != attacks.end(); ) {
-		(*i)->update(deltaTime);
+		if (!(*i)->isRemoved())
+			(*i)->update(deltaTime);
 
 		if ((*i)->isRemoved()) {
 			Attack* removedAttack = *i;

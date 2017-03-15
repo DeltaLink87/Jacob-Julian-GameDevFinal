@@ -28,6 +28,10 @@ public:
 
 	void dealDamage(float);
 
+	bool isFacingRight();
+
+
+
 protected:
 	std::vector<Sound> newSounds;
 	float stepSoundTimer = 0;
@@ -42,6 +46,7 @@ protected:
 	int curItemSelected = 0;
 
 	bool climbing = false;
+	bool facingRight;
 	bool onGround = true;
 
 	float dirLooking = 0;
