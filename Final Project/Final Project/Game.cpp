@@ -26,13 +26,18 @@ void Game::loop() {
 	while (view->window.isOpen()) {
 		float deltaTime = (float)gameTime.restart().asMilliseconds() / 1000;
 
+		if (model->loadingLevel) {
+			deltaTime = 0;
+			model->loadingLevel = false;
+		}
+
 		if (start) {
 			controller->inputs();
 			//std::cout << "start" << std::endl;
 			model->update(deltaTime);
 			//std::cout << gameTime.getElapsedTime().asMilliseconds() << std::endl;
 		}
-		if (gameTime.getElapsedTime().asMilliseconds() < timeForLoop || framesSkipped > 2) {
+		if (gameTime.getElapsedTime().asMilliseconds() < timeForLoop || framesSkipped > 2 || model->loadingLevel) {
 			view->render();
 			framesSkipped = 0;
 		}

@@ -11,6 +11,7 @@
 #include "Loot.h"
 #include "CraftingMenu.h"
 #include "InventoryMenu.h"
+#include "LevelManager.h"
 
 class Model {
 public:
@@ -26,6 +27,9 @@ public:
 	std::vector<Attack*> attacks;
 	std::vector<Sound> sounds;
 	std::vector<Enemy*> enemies;
+
+	LevelManager levelManager;
+	bool loadingLevel = false;
 
 	int mapWidth, mapHeight, tileSize;
 	Tile*** tileMap;

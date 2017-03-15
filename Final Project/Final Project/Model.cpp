@@ -5,7 +5,7 @@
 #include <algorithm>
 
 Model::Model(){
-	std::ifstream fileHndl;
+	/*std::ifstream fileHndl;
 
 	//loading the tileamp file
 	//fileHndl.open("Assets/VerticalSlice.txt");
@@ -41,7 +41,12 @@ Model::Model(){
 			else if (tileType == 3)
 				enemies.push_back(new Enemy(sf::Vector2f(x*tileSize, y*tileSize), itemManager));
 		}
-	}
+	}*/
+
+	tileSize = 32;
+	levelManager.loadLevelFile("tileMap2"); 
+	levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, player, itemManager);
+	loadingLevel = true;
 
 	craftMenu = new CraftingMenu(itemManager, player);
 	invMenu = new InventoryMenu(itemManager, player);
@@ -52,6 +57,8 @@ Model::~Model(){
 }
 
 void Model::update(float deltaTime) {
+	//std::cout << player->getPosition().x << "," << player->getPosition().y << std::endl;
+
 	if (gameMode == 0) {
 		updateModel(deltaTime);
 		collisionDetection();
@@ -59,6 +66,11 @@ void Model::update(float deltaTime) {
 			gameMode = 1;
 		else if (player->inventoryMenu)
 			gameMode = 2;
+		else if (player->changeLevel) {
+			levelManager.loadLevelFile("VerticalSlice");
+			levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, player, itemManager);
+			loadingLevel = true;
+		}
 	}
 	else if (gameMode == 1) {
 		craftMenu->update(deltaTime);

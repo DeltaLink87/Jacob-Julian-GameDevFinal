@@ -21,5 +21,6 @@ private:
 	bool prevSpacePressed = false;
 	bool prevCMenuPressed = false;
 	bool prevIMenuPressed = false;
+	bool prevchangeLevelPressed = false;
 };
 

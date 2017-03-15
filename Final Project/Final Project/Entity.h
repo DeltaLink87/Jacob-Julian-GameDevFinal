@@ -22,7 +22,8 @@ public:
 
 	sf::Vector2f getVelocity();
 
-	bool nextToClimbable = false;
+	bool nextToClimbable = false; 
+	bool droppedDown = false;
 	
 	//std::map<std::string, int> stats;
 

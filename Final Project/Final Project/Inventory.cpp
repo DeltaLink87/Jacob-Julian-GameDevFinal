@@ -69,6 +69,21 @@ bool Inventory::addToInventory(Item* newItem) {
 	return false;
 }
 
+bool Inventory::addToInventory(Item* newItem, int x, int y) {
+	if (x == -1) {
+		if (armour[y] == NULL && newItem->armourType - 1 == y){
+			armour[y] = newItem;
+			return true;
+		}
+	}
+	else if (items[y][x] == NULL) {
+		items[y][x] = newItem;
+		totalInv++;
+		return true;
+	}
+	return addToInventory(newItem);
+}
+
 Item* Inventory::dropItem(int x, int y) {
 	Item* droppedItem = items[y][x];
 	items[y][x] = NULL;
@@ -185,7 +200,7 @@ Item* Inventory::getCurSeletected(int i) { return items[i][0]; }
 Item* Inventory::getCurSeletected(int x, int y) {
 	if (x == -1)
 		return armour[y];
-	return items[y][x]; 
+	else return items[y][x]; 
 }
 int Inventory::getInventorySize() { return totalInv; }
 int Inventory::getWidth() { return invWidth; }

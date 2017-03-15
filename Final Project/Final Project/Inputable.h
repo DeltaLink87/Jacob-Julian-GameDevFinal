@@ -10,4 +10,6 @@ public:
 	bool hasWeaponEquipped = false;
 	sf::Vector2f looking;
 	int scroll = 0;
+
+	bool changeLevel = false;
 };

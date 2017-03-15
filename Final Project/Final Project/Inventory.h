@@ -7,6 +7,7 @@ public:
 	~Inventory();
 
 	bool addToInventory(Item*);
+	bool addToInventory(Item*, int, int);
 
 	//gets an item from inventory and removes it from inventory (int x, int y)
 	Item* dropItem(int, int);

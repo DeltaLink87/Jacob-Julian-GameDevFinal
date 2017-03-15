@@ -42,7 +42,7 @@ Render::Render(Model* newModel){
 		i->second->menuDescription.setTexture(i->second->menuDescriptionTexture);
 	}*/
 
-	initializeRenderable(model->player);
+	/*initializeRenderable(model->player);
 	for (std::vector<Enemy*>::iterator e = model->enemies.begin(); e != model->enemies.end(); e++) {
 		initializeRenderable(*e);
 	}
@@ -50,7 +50,7 @@ Render::Render(Model* newModel){
 		for (int x = 0; x < model->mapWidth; x++) {
 			initializeRenderable(model->tileMap[y][x]);
 		}
-	}
+	}*/
 }
 
 Render::~Render(){ }
@@ -116,14 +116,20 @@ void Render::renderModel() {
 	//rendering tilemap
 	for (int y = 0; y < model->mapHeight; y++) {
 		for (int x = 0; x < model->mapWidth; x++) {
+			if (!model->tileMap[y][x]->spriteInitialized)
+				initializeRenderable(model->tileMap[y][x]);
 			drawRenderable(modelTexture, model->tileMap[y][x]);
 		}
 	}
 
 	//rendering player
+	if (!model->player->spriteInitialized)
+		initializeRenderable(model->player);
 	drawRenderable(modelTexture, model->player);
 
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
+		if (!(*i)->spriteInitialized)
+			initializeRenderable(*i);
 		drawRenderable(modelTexture, *i);
 	}
 

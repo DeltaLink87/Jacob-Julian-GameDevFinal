@@ -27,7 +27,7 @@ void Player::update(float deltaTime) {
 	else velocity.x = 0;
 
 	//making the player jump if nessecary
-	if (jump && onGround) {
+	if (jump && (onGround || climbing)) {
 		velocity.y = -150;
 		climbing = false;
 		onGround = false;
@@ -36,8 +36,18 @@ void Player::update(float deltaTime) {
 	//checks if player is next to something climbable and begins climbing if up is pressed
 	if (up && nextToClimbable)
 		climbing = true;
-	else if (!nextToClimbable)
+	else if (!nextToClimbable) {
+		if (climbing)
+			velocity.y = 0;
 		climbing = false;
+	}
+
+	if (down) {
+		droppedDown = true;
+		if (nextToClimbable)
+			climbing = true;
+	}
+	else droppedDown = false;
 
 	//if climbing, changing y velocity based on input
 	if (climbing) {

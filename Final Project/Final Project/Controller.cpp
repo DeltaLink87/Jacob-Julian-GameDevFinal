@@ -127,6 +127,18 @@ void Controller::inputs() {
 		prevIMenuPressed = false;
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+		if (!prevchangeLevelPressed) {
+			inputTo->changeLevel = true;
+			prevchangeLevelPressed = true;
+		}
+		else inputTo->changeLevel = false;
+	}
+	else {
+		inputTo->changeLevel = false;
+		prevchangeLevelPressed = false;
+	}
+
 	inputTo->looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
 	//std::cout << model->player.looking.x << "," << model->player.looking.y << std::endl;
 }
