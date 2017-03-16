@@ -32,7 +32,7 @@ public:
 private:
 	Item*** items;
 	Item** armour;
-	int invWidth, invHeight, armourSlots;
+	int invWidth = 3, invHeight = 5, armourSlots;
 	int curX, curY, quickSelect;
 	int totalInv = 0;
 };

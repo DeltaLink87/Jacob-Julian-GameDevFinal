@@ -2,11 +2,13 @@
 
 #include "Entity.h"
 #include "Sound.h"
-#include "UseableItem.h"
-#include "Equipment.h"
-#include "Item.h"
-#include "Loot.h"
+//#include "UseableItem.h"
+//#include "Equipment.h"
+//#include "Loot.h"
 #include "Inventory.h"
+
+//#include "Item.h"
+//class Item;
 
 //#include "Attack.h"
 class Attack;
@@ -19,7 +21,7 @@ public:
 	void hitWall(sf::Vector2f, int);
 
 	void addInventory(Item*);
-
+	Inventory* getInventory();
 
 	std::vector<Sound>& getSounds();
 	void gotSounds();
@@ -30,6 +32,7 @@ public:
 	int getHealth();
 
 	void dealDamage(float);
+	void HealHealth(float);
 
 	bool isFacingRight();
 

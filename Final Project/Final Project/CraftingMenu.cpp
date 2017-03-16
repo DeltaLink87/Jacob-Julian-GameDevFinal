@@ -63,3 +63,5 @@ void CraftingMenu::update(float deltaTime) {
 			inputTimer = 0.25;
 	}
 }
+
+void CraftingMenu::setPlayer(Player* newPlayer) { craftingPlayer = newPlayer; }

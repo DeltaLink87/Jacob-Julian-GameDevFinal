@@ -12,21 +12,6 @@ InventoryMenu::InventoryMenu(ItemManager* newItemManager, Player* newPlayer) {
 
 	iMenuTexture.loadFromFile("Assets/Textures/InventoryScreen.png");
 	iMenuSprite.setTexture(iMenuTexture);
-
-  
-  //Couldn't quickly dismiss this code without looking at other files, will probably be deleted once I understand all the inventory/item changes.
-  /*
-	std::vector<std::string>* tempList = itemManager->getItemList();
-	//std::cout << tempList->size() << std::endl;
-	for (std::vector<std::string>::iterator i = tempList->begin(); i != tempList->end(); i++) {
-		if (itemManager->getItem(*i)->id != 1) {
-			itemNameList.push_back(*i);
-			itemList.insert(std::pair<std::string, Item*>(*i, itemManager->getItem(*i)));
-		}
-	}
-	totalItems = itemList.size();
-	//std::cout << totalItems << std::endl;
-*/
   
 	selectedBox = sf::RectangleShape(sf::Vector2f(iSlotDim.x, iSlotDim.y - 1));
 	selectedBox.setFillColor(sf::Color::Transparent);
@@ -48,35 +33,37 @@ void InventoryMenu::update(float deltaTime) {
 	if (inputTimer <= 0) {
 		if (up) {
 			this->curY--;
-			if (curY < 0) {
-				if (curX == -1)
-					curY = menuPlayer->getInventory()->getArmourSlots() - 1;
-				else curY = menuPlayer->getInventory()->getHeight() - 1;
-			}
 		}
 		else if (down) {
 			this->curY++;
-			if (curX == -1 && curY >= menuPlayer->getInventory()->getArmourSlots())
-				curY = 0;
-			else if (curY >= menuPlayer->getInventory()->getHeight())
-				curY = 0;
 		}
 
 		if (left) {
 			this->curX--;
-			if (curY >= menuPlayer->getInventory()->getArmourSlots() && curX < 0)
-				curX = menuPlayer->getInventory()->getWidth() - 1;
-			else if (curY < menuPlayer->getInventory()->getArmourSlots() && curX < -1)
-				curX = menuPlayer->getInventory()->getWidth() - 1;
 		}
 		else if (right) {
 			this->curX++;
-			if (curX >= menuPlayer->getInventory()->getWidth()) {
-				if (curY >= menuPlayer->getInventory()->getArmourSlots())
-					curX = 0;
-				else if (curY < menuPlayer->getInventory()->getArmourSlots())
-					curX = -1;
-			}
+		}
+
+		if (curY < 0) {
+			if (curX == -1)
+				curY = menuPlayer->getInventory()->getArmourSlots() - 1;
+			else curY = menuPlayer->getInventory()->getHeight() - 1;
+		}
+		else if (curX <= -1 && curY >= menuPlayer->getInventory()->getArmourSlots())
+			curY = 0;
+		else if (curY >= menuPlayer->getInventory()->getHeight())
+			curY = 0;
+
+		if (curY >= menuPlayer->getInventory()->getArmourSlots() && curX < 0)
+			curX = menuPlayer->getInventory()->getWidth() - 1;
+		else if (curY < menuPlayer->getInventory()->getArmourSlots() && curX < -1)
+			curX = menuPlayer->getInventory()->getWidth() - 1;
+		else if (curX >= menuPlayer->getInventory()->getWidth()) {
+			if (curY >= menuPlayer->getInventory()->getArmourSlots())
+				curX = 0;
+			else if (curY < menuPlayer->getInventory()->getArmourSlots())
+				curX = -1;
 		}
 
 		if (select) {
@@ -94,8 +81,11 @@ void InventoryMenu::update(float deltaTime) {
 			}
 		}
 
-
 		if (up || down || left || right || select)
 			inputTimer = 0.25;
 	}
 }
+
+int InventoryMenu::getCurX() { return curX; }
+int InventoryMenu::getCurY() {return curY; }
+void InventoryMenu::setPlayer(Player* newPlayer) { menuPlayer = newPlayer; }

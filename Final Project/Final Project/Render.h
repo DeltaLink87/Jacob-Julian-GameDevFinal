@@ -24,6 +24,7 @@ public:
 	void renderUI();
 	void renderInvMenu();
 	void renderCraftMenu();
+	void renderMainMenu();
 	void renderWin();
 
 	AssetManager manager;
@@ -35,6 +36,7 @@ public:
 	sf::RenderTexture invMenuTexture;
 	sf::RenderTexture craftMenuTexture;
 	sf::RenderTexture UITexture;
+	sf::RenderTexture mainMenuTexture;
 
 	sf::Text textBrush;
 	sf::Font font;

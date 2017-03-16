@@ -8,6 +8,7 @@
 #include "Loot.h"
 #include "CraftingMenu.h"
 #include "InventoryMenu.h"
+#include "MainMenu.h"
 #include "LevelManager.h"
 #include "Objective.h"
 
@@ -36,11 +37,15 @@ public:
 
 	int mapWidth, mapHeight, tileSize;
 	Tile*** tileMap;
+	std::string curLevelName;
+	std::vector<std::string> levelNames;
+	int curLevelNum;
 
 	std::vector<Loot*> droppedLoot;
 	ItemManager* itemManager = new ItemManager();
 	CraftingMenu* craftMenu;
 	InventoryMenu* invMenu;
+	MainMenu mainMenu;
 	int gameMode = 0;
 
 	bool renderDone = false;

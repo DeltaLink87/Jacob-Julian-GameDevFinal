@@ -88,6 +88,12 @@
     <ClCompile Include="ObjectiveEnemy.cpp">
       <Filter>Source Files\Objects\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source Files\Engine\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="HealingItem.cpp">
+      <Filter>Source Files\Objects\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderable.h">
@@ -191,6 +197,12 @@
     </ClInclude>
     <ClInclude Include="ObjectiveEnemy.h">
       <Filter>Header Files\Objects\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Header Files\Engine\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="HealingItem.h">
+      <Filter>Header Files\Objects\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,9 @@ public:
 
 	sf::Vector2f getVelocity();
 
+	virtual void dealDamage(float) {};
+	virtual void HealHealth(float) {};
+
 	bool nextToClimbable = false; 
 	bool droppedDown = false;
 	

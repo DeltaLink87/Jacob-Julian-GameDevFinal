@@ -5,67 +5,40 @@
 #include <algorithm>
 
 Model::Model(){
-	/*std::ifstream fileHndl;
+	curLevelNum = 0;
+	levelNames.push_back("Basic");
+	levelNames.push_back("First Enemy");
+	levelNames.push_back("tileMap2");
+	levelNames.push_back("VerticalSlice");
 
-	//loading the tileamp file
-	//fileHndl.open("Assets/VerticalSlice.txt");
-	fileHndl.open("Assets/tilemap2.txt");
-
-	//getting the size of the map
-	fileHndl >> mapWidth;
-	fileHndl >> mapHeight;
-	tileSize = 32;
-
-	//setting the player location
-	//playerX = mapCols / 2;
-	//playerY = mapRows / 2;
-
-	//loading the type of tile in the map
-	tileMap = new Tile **[mapHeight];
-	for (int y = 0; y < mapHeight; y++) {
-		tileMap[y] = new Tile*[mapWidth];
-		for (int x = 0; x < mapWidth; x++) {
-			int tileType;
-			fileHndl >> tileType;
-			if (tileType == 1)
-				tileMap[y][x] = new SolidTile(x * tileSize, y * tileSize, tileSize, tileSize);
-			else if (tileType == 4)
-				tileMap[y][x] = new LadderTile(x * tileSize, y * tileSize, tileSize, tileSize);
-			else if (tileType == 6)
-				tileMap[y][x] = new TopTile(x * tileSize, y * tileSize, tileSize, tileSize);
-			else 
-				tileMap[y][x] = new Tile(x * tileSize, y * tileSize, tileSize, tileSize);
-
-			if (tileType == 2)
-				player = new Player(x * tileSize, y * tileSize);
-			else if (tileType == 3)
-				enemies.push_back(new Enemy(sf::Vector2f(x*tileSize, y*tileSize), itemManager));
-		}
-	}*/
+	gameMode = 7;
 
 	tileSize = 32;
+
+	craftMenu = new CraftingMenu(itemManager, player);
+	invMenu = new InventoryMenu(itemManager, player);
+
 	loadLevel("tileMap2");
 
-	craftMenu = new CraftingMenu(itemManager, player);
-	invMenu = new InventoryMenu(itemManager, player);
-
-  //Kept to test weapons at the start.
+	//Kept to test weapons at the start.
 	player->addInventory(itemManager->getItem("Dagger", 1));
-  
-	craftMenu = new CraftingMenu(itemManager, player);
-	invMenu = new InventoryMenu(itemManager, player);
+	player->addInventory(itemManager->getItem("Health_Potion", 1));
 }
 
 Model::~Model(){ 
 	deallocteLevel();
 
-	delete(itemManager);
+	delete itemManager;
+	delete craftMenu;
+	delete invMenu;
 }
 
 
 void Model::loadLevel(std::string levelName) {
-	levelManager.loadLevelFile(levelName);
+	levelManager.loadLevelFile(levelName, itemManager);
 	levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, levelObjectives, player, itemManager);
+	craftMenu->setPlayer(player);
+	invMenu->setPlayer(player);
 	loadingLevel = true;
 }
 
@@ -143,6 +116,7 @@ void Model::update(float deltaTime) {
 			gameMode = 2;
 		else if (levelComplete) {
 			gameMode = 3;
+			curLevelNum++;
 		}
 	}
 	else if (gameMode == 1) {
@@ -176,12 +150,22 @@ void Model::update(float deltaTime) {
 	}
 	else if (gameMode == 5) {
 		renderDone = false;
-		changeLevel("VerticalSlice");
+		changeLevel(levelNames.at(curLevelNum % levelNames.size()));
+		//curLevelName = "VerticalSlice";
 		gameMode = 6;
 	}
 	else if (gameMode == 6) {
 		if (renderDone)
 			gameMode = 0;
+	}
+	else if (gameMode == 7) {
+		mainMenu.update(deltaTime);
+		if (mainMenu.select) {
+			if (mainMenu.getCurSelect() == 0) {
+				gameMode = 4;
+				//curLevelName = "tileMap2";
+			}
+		}
 	}
 }
 

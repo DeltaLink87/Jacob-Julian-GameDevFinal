@@ -12,7 +12,7 @@ public:
 	void isAttacking(bool);
 
 	int getCurSelected();
-	Inventory* getInventory();
+	
 
 	bool craftItem(Item*);
 

@@ -13,6 +13,8 @@ public:
 
 	Item* getEquipment(std::string);
 
+	Item* getCopy();
+
 
 	bool isWeapon = false;
 	bool isEquipped = false;

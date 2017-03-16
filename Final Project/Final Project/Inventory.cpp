@@ -104,7 +104,7 @@ Item* Inventory::dropItem(int x, int y) {
 
 Item* Inventory::dropRandom() {
 	//Item* droppedItem;
-	if (totalInv > 0)
+	//if (totalInv > 0)
 	//std::cout << totalInv << std::endl;
 	if (totalInv == 0)
 		return NULL;

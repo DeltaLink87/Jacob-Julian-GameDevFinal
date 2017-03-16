@@ -17,10 +17,10 @@ public:
 	LevelManager();
 	~LevelManager();
 
-	void loadLevelFile(std::string);
+	void loadLevelFile(std::string, ItemManager*);
 	/*create a new level from whatever the last level loaded was
 	Tile***& tilemap, int& mapWidth, int& mapHeight, int& mapWidth, int& tileSize, std::vector<Enemy*>& enemies, Player*& player, ItemManager* itemManager&*/
-	void createLevel(Tile***&, int&, int&, int&, std::vector<Enemy*>&, std::vector<Objective*>&, Player*&, ItemManager*&);
+	void createLevel(Tile***&, int&, int&, int&, std::vector<Enemy*>&, std::vector<Objective*>&, Player*&, ItemManager*);
 	//void saveState(Tile***&, int&, int&, std::vector<Enemy*>&, Player*&);
 	//void loadState(Tile***&, int&, int&, std::vector<Enemy*>&, Player*&);
 	void savePlayerInventory(Player*&);
@@ -29,6 +29,9 @@ public:
 private:
 	int** tiles;
 	int tileMapWidth, tileMapHeight;
+
+	std::map<std::string, Inventory*> inventories;
+	void loadEnemyInventory(Enemy*, Inventory&);
 
 	Inventory* savedInventory = NULL;
 };

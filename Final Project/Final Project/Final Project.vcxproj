@@ -27,6 +27,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HealingItem.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryMenu.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -35,6 +36,7 @@
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Loot.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ObjectiveEnemy.cpp" />
@@ -59,6 +61,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HealingItem.h" />
     <ClInclude Include="Inputable.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryMenu.h" />
@@ -67,6 +70,7 @@
     <ClInclude Include="LadderTile.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Loot.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Objective.h" />

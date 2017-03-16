@@ -20,6 +20,8 @@ void Controller::inputs() {
 		inputTo = model->craftMenu;
 	else if (model->gameMode == 2)
 		inputTo = model->invMenu;
+	else if (model->gameMode == 7)
+		inputTo = &(model->mainMenu);
 
 	sf::Event event;
 
@@ -102,15 +104,9 @@ void Controller::inputs() {
 	else inputTo->pressAttack = false;
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-		if (inputTo->mouse2) {
-			inputTo->mouse2 = false;
-			std::cout << "False" << std::endl;
-		}
-		else {
-			inputTo->mouse2 = true;
-			std::cout << "True" << std::endl;
-		}
+		inputTo->mouse2 = true;
 	}
+	else inputTo->mouse2 = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
 		if (!prevCMenuPressed) {

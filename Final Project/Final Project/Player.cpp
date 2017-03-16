@@ -67,6 +67,18 @@ void Player::update(float deltaTime) {
 
 	curItemSelected = (curItemSelected - scroll + inventory.getHeight()) % inventory.getHeight();
 
+	if (mouse2) {
+		std::cout << "Use Item : " << curItemSelected << std::endl;
+		Item* curItem = inventory.getCurSeletected(curItemSelected);
+		std::cout << curItem << std::endl;
+		if (curItem != NULL) {
+			bool removeAfterUse = curItem->useItem(this);
+			std::cout << removeAfterUse << std::endl;
+			if (removeAfterUse)
+				delete inventory.dropItem(0, curItemSelected);
+		}
+	}
+
 	//creating a new attack from the player if instructed to 
 	attack = pressAttack;
 	attackTimer -= deltaTime;
@@ -132,7 +144,6 @@ void Player::update(float deltaTime) {
 
 void Player::isAttacking(bool value) { attack = value; }
 
-Inventory*  Player::getInventory() { return &inventory; }
 int Player::getCurSelected() { return curItemSelected; }
 
 bool Player::craftItem(Item* item) {

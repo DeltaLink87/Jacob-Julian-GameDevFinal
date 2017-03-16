@@ -15,21 +15,16 @@ public:
 	sf::RectangleShape selectedBox;
 
 	//private:
-	int curX = 0, curY = 0;
-	int selectedX = -2, selectedY = -2;
-	int totalItems;
-	float inputTimer = 0;
+	int getCurX();
+	int getCurY();
+
+	void setPlayer(Player*);
 
 	sf::Sprite iMenuSprite;
 	sf::Texture iMenuTexture;
 
- /*
- // --TEMP-- Old code, keeping it as commented for safety's sake, will probably be deleted.
-	std::vector<std::string> itemNameList;
-	std::map<std::string, Item*> itemList;
-*/
 	//Index of the top left pixel of the first inventory slot
-	sf::Vector2f iSlotStart = sf::Vector2f(235.0, 6.0);
+	sf::Vector2f iSlotStart = sf::Vector2f(289.0, 56.0);
 	//Dimension of individual inventory slots (right side of menu)
 	sf::Vector2f iSlotDim = sf::Vector2f(51.0, 55.0);
 	//Size of the gaps between slots
@@ -40,7 +35,11 @@ public:
 	//Dimension of the weapon slot
 	sf::Vector2f wSlotDim = sf::Vector2f(43.0, 33.0);
 
-
+private:
+	int curX = 0, curY = 0;
+	int selectedX = -2, selectedY = -2;
+	int totalItems;
+	float inputTimer = 0;
 
 	ItemManager* itemManager;
 	Player* menuPlayer;

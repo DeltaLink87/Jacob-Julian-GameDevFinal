@@ -73,6 +73,17 @@ Item::~Item() {
 
 }
 
+Item* Item::getCopy() {
+	return new Item(*this);
+}
+
+bool Item::useItem(Entity* usedBy) { 
+	//usedBy->HealHealth(amountToHeal);
+	//durability -= durLossPerUse;
+	//return (durability <= 0);
+	return false;
+}
+
 /*
 Will make:
 4x material icons

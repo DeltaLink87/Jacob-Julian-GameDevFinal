@@ -12,6 +12,7 @@ public:
 	~CraftingMenu();
 
 	void update(float);
+	void setPlayer(Player*);
 
 	sf::RectangleShape selectedBox;
 

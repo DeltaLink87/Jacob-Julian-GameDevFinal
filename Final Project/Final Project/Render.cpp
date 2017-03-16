@@ -29,6 +29,7 @@ Render::Render(Model* newModel){
 	invMenuTexture.create(windowWidth, windowHeight);
 	craftMenuTexture.create(windowWidth, windowHeight);
 	UITexture.create(windowWidth, windowHeight);
+	mainMenuTexture.create(windowWidth, windowHeight);
 
 	/*for (std::map<std::string, Item*>::iterator i = model->itemManager->getAllItems().begin(); i != model->itemManager->getAllItems().end(); i++) {
 		i->second->smallIconTexture = manager.loadTexture("Items/" + i->first + "Icon");
@@ -52,6 +53,11 @@ Render::Render(Model* newModel){
 			initializeRenderable(model->tileMap[y][x]);
 		}
 	}*/
+
+	model->mainMenu.titleCardSprite.setTexture(manager.loadTexture("MainMenu/TitleCard"));
+	model->mainMenu.titleCardSprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 200);
+	model->mainMenu.optionSprite[0].setTexture(manager.loadTexture("MainMenu/StartButton"));
+	model->mainMenu.optionSprite[0].setPosition(windowWidth / 2 - 100, windowHeight / 2);
 }
 
 Render::~Render(){ }
@@ -60,7 +66,7 @@ void Render::initializeRenderable(Renderable* renderable) {
 	//std::cout << renderable->textureName << std::endl;
 	renderable->sprite.setTexture(manager.loadTexture(renderable->textureName));
 	renderable->sprite.setScale(sf::Vector2f((float)renderable->spriteWidth / (float)renderable->sprite.getTextureRect().width, (float)renderable->spriteHeight / (float)renderable->sprite.getTextureRect().height));
-	renderable->sprite.setPosition(renderable->getPosition());
+	renderable->sprite.setPosition(renderable->getPosition() + renderable->spritePositionDifference);
 	renderable->sprite.setRotation(renderable->rotation);
 	renderable->spriteInitialized = true;
 }
@@ -80,7 +86,7 @@ void Render::render() {
 
 	renderUI();
 
-	if (model->gameMode == 3 || model->gameMode == 4) {
+	if (model->gameMode == 3) {
 		renderWin();
 	}
 
@@ -129,25 +135,35 @@ void Render::render() {
 		window.draw(rect);
 	}
 
+	if (model->gameMode == 7) {
+		renderMainMenu();
+		sf::Sprite mainMenuSprite;
+		mainMenuSprite.setTexture(mainMenuTexture.getTexture());
+		window.draw(mainMenuSprite);
+	}
+
 	window.display();
 }
 
 void Render::renderModel() {
 	//finding camera position
 	camPosition = model->player->getPosition();
-	if (camPosition.x < windowWidth / 2)
+	if (model->mapWidth * model->tileSize <= windowWidth)
+		camPosition.x = model->mapWidth * model->tileSize / 2;
+	else if (camPosition.x < windowWidth / 2)
 		camPosition.x = windowWidth / 2;
 	else if (camPosition.x > model->mapWidth * model->tileSize - windowWidth / 2)
 		camPosition.x = model->mapWidth * model->tileSize - windowWidth / 2;
 
-	if (camPosition.y < windowHeight / 2)
+	if (model->mapHeight * model->tileSize <= windowHeight)
+		camPosition.y = model->mapHeight * model->tileSize / 2;
+	else if (camPosition.y < windowHeight / 2)
 		camPosition.y = windowHeight / 2;
 	else if (camPosition.y > model->mapHeight * model->tileSize - windowHeight / 2)
 		camPosition.y = model->mapHeight * model->tileSize - windowHeight / 2;
 	camera.setCenter(camPosition);
 
 	modelTexture.clear(sf::Color::Transparent);
-	UITexture.clear(sf::Color::Transparent);
 	//updating the camera position
 	modelTexture.setView(camera);
 
@@ -196,7 +212,9 @@ void Render::renderModel() {
 	for (std::vector<Sound>::iterator i = model->sounds.begin(); i != model->sounds.end(); i++) {
 		sf::CircleShape soundSphere = sf::CircleShape(i->getLoudness() * i->getPercentTimeLeft());
 		soundSphere.setPosition(i->getPosition() - sf::Vector2f(soundSphere.getRadius(), soundSphere.getRadius()));
-		soundSphere.setFillColor(sf::Color(0, 0, 255, 100));
+		soundSphere.setFillColor(sf::Color::Transparent);
+		soundSphere.setOutlineThickness(2);
+		soundSphere.setOutlineColor(sf::Color(255, 255, 255, 255 * (1 - i->getPercentTimeLeft())));
 		modelTexture.draw(soundSphere);
 	}
 	
@@ -224,6 +242,8 @@ void Render::renderModel() {
 }
 
 void Render::renderUI() {
+	UITexture.clear(sf::Color::Transparent);
+
 	sf::Sprite quickBar;
 	quickBar.setTexture(manager.loadTexture("UI/QuickBar"));
 	quickBar.setScale(160.0 / (float)quickBar.getTextureRect().width, 32.0 / (float)quickBar.getTextureRect().height);
@@ -288,32 +308,32 @@ void Render::renderCraftMenu() {
 	textBrush.setPosition(sf::Vector2f(205, 150));
 	craftMenuTexture.draw(textBrush);
 
-	int counter = 0;
+	int counter = 0, firstRender, lastRender;
+	if (model->craftMenu->curSelected < 2) {
+		firstRender = 0;
+		lastRender = 3;
+	}
+	else if (model->craftMenu->curSelected >= model->craftMenu->totalItems - 2) {
+		firstRender = model->craftMenu->totalItems - 4;
+		lastRender = model->craftMenu->totalItems - 1;
+	}
+	else {
+		firstRender = model->craftMenu->curSelected - 2;
+		lastRender = model->craftMenu->curSelected + 1;
+	}
 	for (std::map<std::string, Item*>::iterator i = model->craftMenu->itemList.begin(); i != model->craftMenu->itemList.end(); i++) {
-		//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
-		i->second->menuIcon.setPosition(sf::Vector2f(200, 175 + 75 * counter));
-		craftMenuTexture.draw(i->second->menuIcon);
+		if (counter >= firstRender && counter <= lastRender) {
+			//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
+			i->second->menuIcon.setPosition(sf::Vector2f(200, 175 + 75 * (counter - firstRender)));
+			craftMenuTexture.draw(i->second->menuIcon);
 
-		if (!model->craftMenu->canMake[counter]) {
-			sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(130, 70));
-			rect.setPosition(sf::Vector2f(200, 175 + 75 * counter));
-			rect.setFillColor(sf::Color(0, 0, 0, 100));
-			craftMenuTexture.draw(rect);
+			if (!model->craftMenu->canMake[counter]) {
+				sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(130, 70));
+				rect.setPosition(sf::Vector2f(200, 175 + 75 * (counter - firstRender)));
+				rect.setFillColor(sf::Color(0, 0, 0, 100));
+				craftMenuTexture.draw(rect);
+			}
 		}
-
-
-		/*if (model->player->hasWeaponEquipped) {
-			model->player->eWeapon->smallIcon.setPosition(this->center.getPosition() + model->invMenu->wSlotStart);
-			model->player->eWeapon->smallIcon.setScale(1.0 / (model->player->eWeapon->smallIcon.getLocalBounds().width / model->invMenu->wSlotDim.x),
-				1.0 / (model->player->eWeapon->smallIcon.getLocalBounds().height / model->invMenu->wSlotDim.y));
-			window.draw(model->player->eWeapon->smallIcon);
-		}		*/
-		
-		model->invMenu->selectedBox.setPosition(
-			-1400 + 1 + model->invMenu->iSlotStart.x,
-		        5 + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->craftMenu->curSelected + 1)));
-		model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
-		window.draw(model->invMenu->selectedBox);
 
 		counter++;
 	}
@@ -330,7 +350,10 @@ void Render::renderCraftMenu() {
 void Render::renderInvMenu() {
 	invMenuTexture.clear(sf::Color::Transparent);
 
-	border = sf::RectangleShape(sf::Vector2f(410, 310));
+	int top = 125;
+	int left = 173;
+
+	/*border = sf::RectangleShape(sf::Vector2f(410, 310));
 	border.setPosition(sf::Vector2f(195, 145));
 	border.setFillColor(sf::Color::Black);
 	invMenuTexture.draw(border);
@@ -338,42 +361,67 @@ void Render::renderInvMenu() {
 	center = sf::RectangleShape(sf::Vector2f(400, 300));
 	center.setPosition(sf::Vector2f(200, 150));
 	center.setFillColor(sf::Color::White);
-	invMenuTexture.draw(center);
+	invMenuTexture.draw(center);*/
 
-	model->invMenu->iMenuSprite.setPosition(200, 150);
+	model->invMenu->iMenuSprite.setPosition(left, top);
 	invMenuTexture.draw(model->invMenu->iMenuSprite);
 
 	int counter = 0;
 	Inventory* inv = model->player->getInventory();
-	for (int y = 0; y < inv->getHeight(); y++)
+	for (int y = 0; y < inv->getHeight(); y++) {
 		for (int x = 0; x < inv->getWidth(); x++) {
 			Item* curItem = inv->getCurSeletected(x, y);
 			if (curItem != NULL) {
 				curItem->smallIcon.setPosition(
-					200 + model->invMenu->iSlotStart.x + x * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
-					150 + model->invMenu->iSlotStart.y + y * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y));
+					left + model->invMenu->iSlotStart.x + x * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
+					top + model->invMenu->iSlotStart.y + y * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y));
 				curItem->smallIcon.setScale(1.0 / (curItem->smallIcon.getLocalBounds().width / model->invMenu->iSlotDim.x),
 					1.0 / (curItem->smallIcon.getLocalBounds().height / model->invMenu->iSlotDim.y));
 				invMenuTexture.draw(curItem->smallIcon);
-				
+
 
 				std::stringstream ss;
 				ss << curItem->quantity;
 				textBrush.setString(ss.str());
 				textBrush.setPosition(sf::Vector2f(
-					200 + model->invMenu->iSlotStart.x + (x + 0.6) * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
-					150 + model->invMenu->iSlotStart.y + (y + 0.5) * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y)));
+					left + model->invMenu->iSlotStart.x + (x + 0.6) * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
+					top + model->invMenu->iSlotStart.y + (y + 0.5) * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y)));
 				invMenuTexture.draw(textBrush);
 			}
 		}
+	}
+
+	//std::cout << model->invMenu->getCurX() << "," << model->invMenu->getCurY() << "," << inv->getWidth() << "," << inv->getHeight() << std::endl;
+	Item* item = inv->getCurSeletected(model->invMenu->getCurX(), model->invMenu->getCurY());
+	if (item != NULL) {
+		item->menuDescription.setPosition(left + 5, top + 5);
+		item->menuDescription.setScale(226.0 / (float)item->menuDescription.getTextureRect().width, 237.0 / (float)item->menuDescription.getTextureRect().height);
+		invMenuTexture.draw(item->menuDescription);
+	}
 
 	model->invMenu->selectedBox.setPosition(
-		200 + model->invMenu->iSlotStart.x + ((model->invMenu->iSlotDim.x + model->invMenu->iSlotOff.x) * model->invMenu->curX),
-		150 + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->curY)));
+		left + model->invMenu->iSlotStart.x + ((model->invMenu->iSlotDim.x + model->invMenu->iSlotOff.x) * model->invMenu->getCurX()),
+		top + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->getCurY())));
 	model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
 	invMenuTexture.draw(model->invMenu->selectedBox);
 
 	invMenuTexture.display();
+}
+
+void Render::renderMainMenu() {
+	mainMenuTexture.clear(sf::Color::Transparent);
+
+	mainMenuTexture.draw(model->mainMenu.titleCardSprite);
+	mainMenuTexture.draw(model->mainMenu.optionSprite[0]);
+
+	sf::RectangleShape select = sf::RectangleShape(sf::Vector2f(200, 100));
+	select.setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100 * model->mainMenu.getCurSelect());
+	select.setFillColor(sf::Color::Transparent);
+	select.setOutlineThickness(5);
+	select.setOutlineColor(sf::Color::Black);
+	mainMenuTexture.draw(select);
+
+	mainMenuTexture.display();
 }
 
 void Render::renderWin() {

@@ -15,8 +15,8 @@ Enemy::Enemy(sf::Vector2f startingPosition, ItemManager* itemManager) : Actor(st
 
 	textureName = "Actors/Enemy";
 
-	addInventory(itemManager->getItem("Wood", 1));
-	addInventory(itemManager->getItem("Blade", 1));
+	//addInventory(itemManager->getItem("Wood", 1));
+	//addInventory(itemManager->getItem("Blade", 1));
 	//addInventory(itemManager->getItem("Herb"));
 }
 

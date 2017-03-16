@@ -5,6 +5,8 @@
 #include <SFML\Graphics.hpp>
 #include <iostream>
 
+#include "Entity.h"
+
 class Item
 {
 public:
@@ -17,6 +19,10 @@ public:
 	void setTextures(std::string);
 
 	void setTextureWithMask(sf::Texture*, std::string);
+
+	virtual bool useItem(Entity*);// { return false; }
+
+	virtual Item* getCopy();
 
 	/*
 	key = string(name)
@@ -47,6 +53,9 @@ public:
 	int armourType = 0;
 	//amount of damage this item will block if used as armour
 	int defence = 0;
+
+	int amountToHeal = 0;
+	int durability = 1, durLossPerUse = 0;
 
 	int quantity = 1;
 

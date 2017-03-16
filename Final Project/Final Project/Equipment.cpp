@@ -15,9 +15,6 @@ Equipment::Equipment(std::string n, int index) : Item(n, 2) {
 
 }
 
-
-Equipment::Equipment(Item* copy) : Item(2) {
-
-
-
+Item* Equipment::getCopy() {
+	return new Equipment(*this);
 }

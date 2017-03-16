@@ -23,7 +23,7 @@ ItemManager::ItemManager() {
 	*/
 
 	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Dagger",1)));
-	items.insert(std::pair<std::string, UseableItem*>("Health_Potion", new UseableItem("Health_Potion",2)));
+	items.insert(std::pair<std::string, HealingItem*>("Health_Potion", new HealingItem("Health_Potion",2)));
 	items.insert(std::pair<std::string, Item*>("Herb", new Item("Herb", 1)));
 	items.insert(std::pair<std::string, Item*>("Bottle", new Item("Bottle", 1)));
 	items.insert(std::pair<std::string, Item*>("Blade", new Item("Blade", 1)));
@@ -37,7 +37,7 @@ ItemManager::~ItemManager() {
 }
 
 Item* ItemManager::getItem(std::string name, int quantity) {
-	Item* newItem = new Item(*(items.at(name)));
+	Item* newItem = items.at(name)->getCopy();
 	newItem->quantity = quantity;
 	return newItem;
 }

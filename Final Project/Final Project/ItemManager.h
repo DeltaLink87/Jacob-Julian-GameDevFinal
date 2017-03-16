@@ -1,6 +1,7 @@
 #pragma once
 #include "Item.h"
 #include "UseableItem.h"
+#include "HealingItem.h"
 #include "Equipment.h"
 #include "fstream"
 

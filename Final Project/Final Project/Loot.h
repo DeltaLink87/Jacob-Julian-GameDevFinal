@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Item.h"
+//class Item;
 
 class Loot : public Entity
 {

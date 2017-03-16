@@ -18,6 +18,12 @@ void Actor::gotSounds() { newSounds.clear(); }
 void Actor::dealDamage(float damage) {
 	curHealth -= std::max((int)damage - inventory.getTotalArmourDefence(), 0);
 }
+void Actor::HealHealth(float heal) {
+	std::cout << "being Healed" << std::endl;
+	curHealth += heal;
+	if (curHealth > maxHealth)
+		curHealth = maxHealth;
+}
 
 void Actor::addInventory(Item* newItem) {
 	std::cout << newItem->name << std::endl;
@@ -56,5 +62,6 @@ void Actor::hitWall(sf::Vector2f newPosition, int dir) {
 		velocity.x = 0;
 }
 
+Inventory*  Actor::getInventory() { return &inventory; }
 int Actor::getMaxHealth() { return maxHealth; }
 int Actor::getHealth() { return curHealth; }

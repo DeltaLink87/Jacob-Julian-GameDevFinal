@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include "Sound.h"
+#include "Loot.h"
 #include "MeleeAttack.h"
 #include "Projectile.h"
 #include "ItemManager.h"
