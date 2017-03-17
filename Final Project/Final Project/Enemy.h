@@ -32,7 +32,7 @@ public:
 
 protected:
 	
-
+	bool containsPoint(sf::Vector2f);
 	bool canSeePoint(sf::Vector2f);
 
 	std::vector<sf::Vector2f> patrolPath;

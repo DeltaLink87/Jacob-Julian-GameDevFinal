@@ -19,6 +19,7 @@ public:
 	~Actor();
 
 	void hitWall(sf::Vector2f, int);
+	void hitActor(Actor*);
 
 	void addInventory(Item*);
 	Inventory* getInventory();

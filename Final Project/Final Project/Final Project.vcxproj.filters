@@ -97,10 +97,12 @@
     <ClCompile Include="MovementMap.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="TopLadderTile.cpp">
+      <Filter>Source Files\Objects\Tiles</Filter>
+    </ClCompile>
     <ClCompile Include="ChestTile.cpp">
       <Filter>Source Files\Objects\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="TopLadderTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderable.h">
@@ -214,7 +216,9 @@
     <ClInclude Include="MovementMap.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="TopLadderTile.h" />
+    <ClInclude Include="TopLadderTile.h">
+      <Filter>Header Files\Objects\Tiles</Filter>
+    </ClInclude>
     <ClInclude Include="ChestTile.h">
       <Filter>Header Files\Objects\Tiles</Filter>
     </ClInclude>

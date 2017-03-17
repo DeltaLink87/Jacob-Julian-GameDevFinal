@@ -62,6 +62,41 @@ void Actor::hitWall(sf::Vector2f newPosition, int dir) {
 		velocity.x = 0;
 }
 
+void Actor::hitActor(Actor* otherActor) {
+	sf::Vector2f middle = (position + otherActor->getPosition() + hitBox.getSize() * 0.5f + otherActor->getHitBox().getSize() * 0.5f) * 0.5f;
+
+	float difX = (hitBox.getPosition().x + hitBox.getSize().x / 2) - (otherActor->getHitBox().getPosition().x + otherActor->getHitBox().getSize().x / 2);
+	float difY = (hitBox.getPosition().y + hitBox.getSize().y / 2) - (otherActor->getHitBox().getPosition().y + otherActor->getHitBox().getSize().y / 2);
+
+	if (abs(difX) < abs(difY) && abs(abs(difX) - abs(difY)) > 2) {
+		if (difY > 0) {
+
+			otherActor->hitWall(sf::Vector2f(otherActor->getPosition().x, middle.y - otherActor->getHitBox().getSize().y), 0);
+			hitWall(sf::Vector2f(position.x, middle.y), 2);
+			//std::cout << "bottom" << std::endl;
+		}
+		else {
+			otherActor->hitWall(sf::Vector2f(otherActor->getPosition().x, middle.y), 2);
+			hitWall(sf::Vector2f(position.x, middle.y - hitBox.getSize().y), 0);
+			//std::cout << "top" << std::endl;
+		}
+	}
+
+	else if (abs(abs(difX) - abs(difY)) > 2) {
+		//std::cout << abs(difX) << "  " << abs(difY) << std::endl;
+		if (difX > 0) {
+			otherActor->hitWall(sf::Vector2f(middle.x - otherActor->getHitBox().getSize().x, otherActor->getHitBox().getPosition().y), 1);
+			hitWall(sf::Vector2f(middle.x, position.y), 3);
+			//std::cout << "right" << std::endl;
+		}
+		else {
+			otherActor->hitWall(sf::Vector2f(middle.x, otherActor->getHitBox().getPosition().y), 3);
+			hitWall(sf::Vector2f(middle.x - hitBox.getSize().x, position.y), 1);
+			//std::cout << "left" << std::endl;
+		}
+	}
+}
+
 Inventory*  Actor::getInventory() { return &inventory; }
 int Actor::getMaxHealth() { return maxHealth; }
 int Actor::getHealth() { return curHealth; }

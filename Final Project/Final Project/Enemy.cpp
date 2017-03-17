@@ -47,7 +47,7 @@ void Enemy::update(float deltaTime) {
 
 	if (behaviorState == 1) {
 		if (patrolPath.size() > 0) {
-			if (pow(patrolPath.at(curPoint).x - (position.x + 10), 2) + pow(patrolPath.at(curPoint).y - (position.y + 10), 2) < pow(16, 2)) {
+			if (containsPoint(patrolPath.at(curPoint))) {
 				curPoint++;
 				curPoint = (curPoint + patrolPath.size()) % patrolPath.size();
 			}
@@ -111,14 +111,14 @@ void Enemy::update(float deltaTime) {
 
 
 
-	if (path.size() > 0 && pow(path.back().x - (position.y + 10), 2) + pow(path.back().y - (position.y + 10), 2) < pow(16, 2))
+	if (path.size() > 0 && containsPoint(path.back()))
 		path.pop_back();
 
 	if (path.size() == 0 || prevTargetLocation.x != targetLocation.x || targetLocation.y != prevTargetLocation.y) //{
 	//	path.clear();
 	//	path.push_back(targetLocation);
 	//}
-		path = *(pathFinder->getPath(position + sf::Vector2f(10, 10), targetLocation));
+		path = *(pathFinder->getPath(position + sf::Vector2f(hitBox.getSize().x / 2, hitBox.getSize().y / 2), targetLocation));
 	prevTargetLocation = targetLocation;
 
 	timer -= deltaTime;
@@ -133,9 +133,9 @@ void Enemy::update(float deltaTime) {
 	//std::cout << behaviorState << std::endl;
 
 	if (path.size() > 0) {
-		if (path.back().x < position.x)
+		if (path.back().x < position.x + hitBox.getSize().x / 2)
 			velocity.x = -70;
-		else if (path.back().x > position.x + hitBox.getSize().x)
+		else if (path.back().x > position.x + hitBox.getSize().x / 2)
 			velocity.x = 70;
 		else velocity.x = 0;
 
@@ -260,6 +260,13 @@ void Enemy::hitWall(sf::Vector2f newPosition, int dir) {
 	if (dir == 2) {
 		onGround = true;
 	}
+}
+
+bool Enemy::containsPoint(sf::Vector2f point) {
+	if (position.x < point.x && position.x + hitBox.getSize().x > point.x &&
+		position.y < point.y && position.y + hitBox.getSize().y > point.y)
+		return true;
+	return false;
 }
 
 void Enemy::overEdge() {
