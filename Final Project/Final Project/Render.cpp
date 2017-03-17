@@ -68,8 +68,8 @@ void Render::initializeRenderable(Renderable* renderable) {
 	//std::cout << renderable->textureName << std::endl;
 	renderable->sprite.setTexture(manager.loadTexture(renderable->textureName));
 	renderable->sprite.setScale(sf::Vector2f((float)renderable->spriteWidth / (float)renderable->sprite.getTextureRect().width, (float)renderable->spriteHeight / (float)renderable->sprite.getTextureRect().height));
-	renderable->sprite.setPosition(renderable->getPosition() + renderable->spritePositionDifference);
-	renderable->sprite.setRotation(renderable->rotation);
+	renderable->sprite.setPosition(renderable->getPosition());
+	renderable->sprite.setRotation(renderable->spriteRotation);
 	renderable->spriteInitialized = true;
 }
 
@@ -186,17 +186,6 @@ void Render::renderModel() {
 		initializeRenderable(model->player);
 	drawRenderable(modelTexture, model->player);
 
-	// --CHECK-- github's online text editor might crash soon, just quickly getting the enemy bound melee attacks to be rendered
-	for (std::vector<Enemy*>::iterator e = model->enemies.begin(); e != model->enemies.end(); e++) {
-		if (!(*e)->newAttacks.empty()) {
-			for (std::vector<Attack*>::iterator i = (*e)->newAttacks.begin(); i != (*e)->newAttacks.end(); i++) {
-				if (!(*i)->spriteInitialized)
-					initializeRenderable(*i);
-				drawRenderable(modelTexture, *i);
-			}
-		}
-	}
-
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
 		if (!(*i)->isRemoved()) {
 			if (!(*i)->spriteInitialized)
@@ -209,8 +198,9 @@ void Render::renderModel() {
 	for (std::vector<Attack*>::iterator i = model->attacks.begin(); i != model->attacks.end(); i++) {
 		if (!(*i)->spriteInitialized)
 			initializeRenderable(*i);
-		drawRenderable(modelTexture, *i);
 		modelTexture.draw((*i)->getHitBox());
+		drawRenderable(modelTexture, *i);
+		
 	}
 
 	//rendering the area of affect for sounds

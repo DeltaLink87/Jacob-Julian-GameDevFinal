@@ -18,5 +18,5 @@ public:
 	bool spriteInitialized = false;
 	int spriteWidth, spriteHeight;
 	sf::Vector2f spritePositionDifference;
-	float rotation = 0;
+	float spriteRotation = 0;
 };
