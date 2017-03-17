@@ -74,7 +74,8 @@ void Render::initializeRenderable(Renderable* renderable) {
 }
 
 void Render::drawRenderable(sf::RenderTarget& target, Renderable* renderable) {
-	renderable->sprite.setPosition(renderable->getPosition());
+	if (!renderable->spritePositionSet)
+		renderable->sprite.setPosition(renderable->getPosition());
 	target.draw(renderable->sprite);
 }
 

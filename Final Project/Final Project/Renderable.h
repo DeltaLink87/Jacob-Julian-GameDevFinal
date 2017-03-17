@@ -13,6 +13,8 @@ public:
   
   */
 
+	bool spritePositionSet = false;
+
 	sf::Sprite sprite;
 	std::string textureName = "MissingTexture";
 	bool spriteInitialized = false;

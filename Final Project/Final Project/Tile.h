@@ -12,8 +12,10 @@ public:
 	virtual void hit(Entity*);
 
 	bool isSolid();
+	bool isChest();
 
 protected:
 	bool solid = false;
+	bool chest = false;
 };
 

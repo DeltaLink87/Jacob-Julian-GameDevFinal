@@ -97,6 +97,9 @@
     <ClCompile Include="MovementMap.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="ChestTile.cpp">
+      <Filter>Source Files\Objects\Tiles</Filter>
+    </ClCompile>
     <ClCompile Include="TopLadderTile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +215,9 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="TopLadderTile.h" />
+    <ClInclude Include="ChestTile.h">
+      <Filter>Header Files\Objects\Tiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
