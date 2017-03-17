@@ -123,6 +123,9 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				if (inventories.count(ss.str()) > 0)
 					loadEnemyInventory(objective, *inventories.at(ss.str()));
 
+				if (patrolPaths.count(ss.str()) > 0)
+					setEnemyPatrolPath(objective, patrolPaths.at(ss.str()));
+
 				enemies.push_back(objective);
 				objectives.push_back(objective);
 			}
