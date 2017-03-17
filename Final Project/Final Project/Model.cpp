@@ -8,6 +8,7 @@ Model::Model(){
 	curLevelNum = 0;
 	levelNames.push_back("Basic");
 	levelNames.push_back("PathFindngTest");
+	levelNames.push_back("DropPathTest");
 	levelNames.push_back("First Enemy");
 	levelNames.push_back("tileMap2");
 	levelNames.push_back("VerticalSlice");

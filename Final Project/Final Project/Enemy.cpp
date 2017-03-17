@@ -127,7 +127,7 @@ void Enemy::update(float deltaTime) {
 		std::cout << "Path: "<< path.back().x << "," << path.back().y << "," << path.size() << std::endl;
 		std::cout << "Pos: " << position.x << "," << position.y << std::endl;
 		std::cout << "target: " << targetLocation.x << "," << targetLocation.y << std::endl;
-		std::cout << "behaviour: " << behaviorState << std::endl;
+		std::cout << "behaviour: " << behaviorState << "," << patrolPath.size() << std::endl;
 		std::cout << "Looking: " << dirLooking << std::endl;
 	}
 	//std::cout << behaviorState << std::endl;
