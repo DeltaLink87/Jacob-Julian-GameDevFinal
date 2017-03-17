@@ -191,6 +191,13 @@ void Render::renderModel() {
 			if (!(*i)->spriteInitialized)
 				initializeRenderable(*i);
 			drawRenderable(modelTexture, *i);
+
+			sf::Vertex* path = new sf::Vertex[(*i)->path.size()];
+			for (int l = 0; l < (*i)->path.size(); l++) {
+				path[l].position = (*i)->path.at(l);
+				path[l].color = sf::Color::Red;
+			}
+			modelTexture.draw(path, (*i)->path.size(), sf::LineStrip);
 		}
 	}
 

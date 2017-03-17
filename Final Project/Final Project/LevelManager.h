@@ -6,6 +6,7 @@
 #include "LadderTile.h"
 #include "SolidTile.h"
 #include "TopTile.h"
+#include "TopLadderTile.h"
 #include "Enemy.h"
 #include "Objective.h"
 #include "ObjectiveEnemy.h"

@@ -28,6 +28,7 @@ public:
 	Loot* lootDrop();
 
 	void setPatrolPath(std::vector<sf::Vector2f>*);
+	std::vector<sf::Vector2f> path;
 
 protected:
 	
@@ -43,7 +44,7 @@ protected:
 	//tracks where the last target the enemy saw or heard is
 	sf::Vector2f targetLocation, prevTargetLocation;
 	MovementMap* pathFinder;
-	std::vector<sf::Vector2f> path;
+	//std::vector<sf::Vector2f> path;
 
 	bool moving;
 

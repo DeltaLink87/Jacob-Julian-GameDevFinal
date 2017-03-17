@@ -13,7 +13,7 @@ MovementMap::MovementMap(int** tiles, int mapWidth, int mapHeight){
 		for (int x = 0; x < mapWidth; x++) {
 			if (tiles[y][x] == 1)
 				canMove[y][x] = false;
-			else if (y < mapHeight - 1 && (tiles[y + 1][x] == 1 || tiles[y + 1][x] == 4 || tiles[y + 1][x] == 6)) {
+			else if (y < mapHeight - 1 && (tiles[y + 1][x] == 1 || tiles[y + 1][x] == 4 || tiles[y + 1][x] == 6 || tiles[y + 1][x] == 9)) {
 				canMove[y][x] = true;
 				//std::cout << "solid/ladder below" << std::endl;
 			}
@@ -54,6 +54,8 @@ MovementMap::MovementMap(int** tiles, int mapWidth, int mapHeight){
 				else if (x > 0 && tiles[y][x - 1] == 1 && canMove[y - 1][x - 1])
 					map[y][x]->up = true;
 				else if (x < mapWidth - 1 && tiles[y][x + 1] == 1 && canMove[y - 1][x + 1])
+					map[y][x]->up = true;
+				else if (tiles[y][x] == 9)
 					map[y][x]->up = true;
 			}
 			if (y < mapHeight - 1 && canMove[y + 1][x])

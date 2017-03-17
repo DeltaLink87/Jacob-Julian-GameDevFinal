@@ -47,7 +47,7 @@ void Enemy::update(float deltaTime) {
 
 	if (behaviorState == 1) {
 		if (patrolPath.size() > 0) {
-			if (pow(patrolPath.at(curPoint).x - position.x + 10, 2) + pow(patrolPath.at(curPoint).y - position.y + 10, 2) < pow(32, 2)) {
+			if (pow(patrolPath.at(curPoint).x - (position.x + 10), 2) + pow(patrolPath.at(curPoint).y - (position.y + 10), 2) < pow(16, 2)) {
 				curPoint++;
 				curPoint = (curPoint + patrolPath.size()) % patrolPath.size();
 			}
@@ -111,7 +111,7 @@ void Enemy::update(float deltaTime) {
 
 
 
-	if (path.size() > 0 && pow(path.back().x - position.x + 10, 2) + pow(path.back().y - position.y + 10, 2) < pow(32, 2))
+	if (path.size() > 0 && pow(path.back().x - (position.y + 10), 2) + pow(path.back().y - (position.y + 10), 2) < pow(16, 2))
 		path.pop_back();
 
 	if (path.size() == 0 || prevTargetLocation.x != targetLocation.x || targetLocation.y != prevTargetLocation.y) //{
@@ -137,6 +137,7 @@ void Enemy::update(float deltaTime) {
 			velocity.x = -70;
 		else if (path.back().x > position.x + hitBox.getSize().x)
 			velocity.x = 70;
+		else velocity.x = 0;
 
 		climbing = false;
 		droppedDown = false;
