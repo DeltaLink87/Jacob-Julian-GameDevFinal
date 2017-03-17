@@ -6,6 +6,8 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 	
 	this->type = 2;
 	this->melee = true;
+	this->spritePositionSet = true;
+
 	if (this->type == DAGGER) {
 		/*
 		 --TEMP--

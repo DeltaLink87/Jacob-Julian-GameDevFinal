@@ -45,6 +45,7 @@ public:
 	sf::RectangleShape center;
 	sf::RectangleShape divide;
 
+
 	bool menuOpen = false;
 
 	float screenAlpha = 0;

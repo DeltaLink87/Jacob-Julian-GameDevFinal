@@ -48,6 +48,7 @@
     <ClCompile Include="SolidTile.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="ChestTile.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TopTile.cpp" />
     <ClCompile Include="UseableItem.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="ChestTile.h" />
     <ClInclude Include="HealingItem.h" />
     <ClInclude Include="Inputable.h" />
     <ClInclude Include="Inventory.h" />

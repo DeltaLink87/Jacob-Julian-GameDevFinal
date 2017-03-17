@@ -97,6 +97,9 @@
     <ClCompile Include="MovementMap.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="ChestTile.cpp">
+      <Filter>Source Files\Objects\Tiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderable.h">
@@ -209,6 +212,9 @@
     </ClInclude>
     <ClInclude Include="MovementMap.h">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="ChestTile.h">
+      <Filter>Header Files\Objects\Tiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -257,8 +257,22 @@ void Model::collisionDetection() {
 	//player collision against the map
 	for (int y = std::max(0, (int)(player->getPosition().y / tileSize)); y < std::min(mapHeight, (int)((player->getPosition().y + player->getHitBox().getSize().y) / tileSize + 1)); y++)
 		for (int x = std::max(0, (int)(player->getPosition().x / tileSize)); x < std::min(mapWidth, (int)((player->getPosition().x + player->getHitBox().getSize().x) / tileSize + 1)); x++)
-			if (player->intersects(tileMap[y][x]->getHitBox()))
-				tileMap[y][x]->hit(player);
+			if (player->intersects(tileMap[y][x]->getHitBox())) {
+				if (tileMap[y][x]->isChest()) {
+					if (dynamic_cast<ChestTile*>(tileMap[y][x])->hitPlayer(player)) {
+						droppedLoot.push_back(new Loot(
+							dynamic_cast<ChestTile*>(tileMap[y][x])->getPosition().x,
+							dynamic_cast<ChestTile*>(tileMap[y][x])->getPosition().y,
+							10,
+							10,
+							dynamic_cast<ChestTile*>(tileMap[y][x])->getTreasure()));
+
+					}
+
+				}
+				else
+					tileMap[y][x]->hit(player);
+			}
 
 	//player collision against other attacks
 	for (std::vector<Attack*>::iterator a = attacks.begin(); a != attacks.end(); a++) 

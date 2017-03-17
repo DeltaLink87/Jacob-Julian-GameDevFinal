@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "Tile.h"
+#include "ChestTile.h"
 #include "Attack.h"
 #include "Sound.h"
 #include "Enemy.h"
