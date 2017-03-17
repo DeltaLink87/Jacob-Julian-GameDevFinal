@@ -4,7 +4,7 @@
 
 class ObjectiveEnemy : public Enemy, public Objective {
 public:
-	ObjectiveEnemy(sf::Vector2f, ItemManager*);
+	ObjectiveEnemy(sf::Vector2f, ItemManager*, MovementMap*);
 	~ObjectiveEnemy();
 
 	void remove();

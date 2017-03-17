@@ -2,7 +2,7 @@
 
 
 
-ObjectiveEnemy::ObjectiveEnemy(sf::Vector2f startingPosition, ItemManager* itemManager) : Enemy(startingPosition, itemManager) {
+ObjectiveEnemy::ObjectiveEnemy(sf::Vector2f startingPosition, ItemManager* itemManager, MovementMap* map) : Enemy(startingPosition, itemManager, map) {
 	flagPosDif = sf::Vector2f(0, -20);
 }
 

@@ -39,6 +39,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MeleeAttack.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MovementMap.cpp" />
     <ClCompile Include="ObjectiveEnemy.cpp" />
     <ClCompile Include="ObjectiveTile.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MeleeAttack.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MovementMap.h" />
     <ClInclude Include="Objective.h" />
     <ClInclude Include="ObjectiveEnemy.h" />
     <ClInclude Include="ObjectiveTile.h" />

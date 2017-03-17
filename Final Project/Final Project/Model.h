@@ -11,6 +11,7 @@
 #include "MainMenu.h"
 #include "LevelManager.h"
 #include "Objective.h"
+#include "MovementMap.h"
 
 class Model {
 public:
@@ -35,11 +36,13 @@ public:
 	LevelManager levelManager;
 	bool loadingLevel = false;
 
+
 	int mapWidth, mapHeight, tileSize;
 	Tile*** tileMap;
 	std::string curLevelName;
 	std::vector<std::string> levelNames;
 	int curLevelNum;
+	MovementMap* map;
 
 	std::vector<Loot*> droppedLoot;
 	ItemManager* itemManager = new ItemManager();

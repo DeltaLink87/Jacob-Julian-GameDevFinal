@@ -58,6 +58,8 @@ Render::Render(Model* newModel){
 	model->mainMenu.titleCardSprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 200);
 	model->mainMenu.optionSprite[0].setTexture(manager.loadTexture("MainMenu/StartButton"));
 	model->mainMenu.optionSprite[0].setPosition(windowWidth / 2 - 100, windowHeight / 2);
+	model->mainMenu.optionSprite[1].setTexture(manager.loadTexture("MainMenu/StageButton"));
+	model->mainMenu.optionSprite[1].setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100);
 }
 
 Render::~Render(){ }
@@ -84,15 +86,18 @@ void Render::render() {
 	modelSprite.setTexture(modelTexture.getTexture());
 	window.draw(modelSprite);
 
-	renderUI();
+	if (model->gameMode != 7)
+		renderUI();
 
 	if (model->gameMode == 3) {
 		renderWin();
 	}
 
-	sf::Sprite UISprite;
-	UISprite.setTexture(UITexture.getTexture());
-	window.draw(UISprite);
+	if (model->gameMode != 7) {
+		sf::Sprite UISprite;
+		UISprite.setTexture(UITexture.getTexture());
+		window.draw(UISprite);
+	}
 
 	if (model->gameMode == 1) {
 		renderCraftMenu();
@@ -412,14 +417,53 @@ void Render::renderMainMenu() {
 	mainMenuTexture.clear(sf::Color::Transparent);
 
 	mainMenuTexture.draw(model->mainMenu.titleCardSprite);
-	mainMenuTexture.draw(model->mainMenu.optionSprite[0]);
+	if (!model->mainMenu.stageSelect) {
+		mainMenuTexture.draw(model->mainMenu.optionSprite[0]);
+		mainMenuTexture.draw(model->mainMenu.optionSprite[1]);
 
-	sf::RectangleShape select = sf::RectangleShape(sf::Vector2f(200, 100));
-	select.setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100 * model->mainMenu.getCurSelect());
-	select.setFillColor(sf::Color::Transparent);
-	select.setOutlineThickness(5);
-	select.setOutlineColor(sf::Color::Black);
-	mainMenuTexture.draw(select);
+		sf::RectangleShape select = sf::RectangleShape(sf::Vector2f(200, 100));
+		select.setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100 * model->mainMenu.getCurSelect());
+		select.setFillColor(sf::Color::Transparent);
+		select.setOutlineThickness(5);
+		select.setOutlineColor(sf::Color::Black);
+		mainMenuTexture.draw(select);
+	}
+	else {
+		int first, last;
+		if (model->mainMenu.totalStages < 3) {
+			first = 0;
+			last = model->mainMenu.totalStages;
+		}
+		else if (model->mainMenu.getCurSelect() > model->mainMenu.totalStages - 2) {
+			first = model->mainMenu.totalStages - 3;
+			last = model->mainMenu.totalStages;
+		}
+		else if (model->mainMenu.getCurSelect() < 2) {
+			first = 0;
+			last = 3;
+		}
+		else {
+			first = model->mainMenu.getCurSelect() - 1;
+			last = model->mainMenu.getCurSelect() + 2;
+		}
+
+		for (int i = first; i < last; i++) {
+			sf::RectangleShape button = sf::RectangleShape(sf::Vector2f(200, 100));
+			button.setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100 * (i - first));
+			mainMenuTexture.draw(button);
+
+			textBrush.setString(model->levelNames.at(i));
+			textBrush.setPosition(windowWidth / 2 - 75, windowHeight / 2 + 100 * (i - first) + 25);
+			mainMenuTexture.draw(textBrush);
+		}
+
+		sf::RectangleShape select = sf::RectangleShape(sf::Vector2f(200, 100));
+		select.setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100 * (model->mainMenu.getCurSelect() - first));
+		select.setFillColor(sf::Color::Transparent);
+		select.setOutlineThickness(5);
+		select.setOutlineColor(sf::Color::Black);
+		mainMenuTexture.draw(select);
+	}
 
 	mainMenuTexture.display();
 }

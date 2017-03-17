@@ -94,6 +94,9 @@
     <ClCompile Include="HealingItem.cpp">
       <Filter>Source Files\Objects\Items</Filter>
     </ClCompile>
+    <ClCompile Include="MovementMap.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderable.h">
@@ -203,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="HealingItem.h">
       <Filter>Header Files\Objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementMap.h">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

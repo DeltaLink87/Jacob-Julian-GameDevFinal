@@ -53,11 +53,32 @@ void LevelManager::loadLevelFile(std::string fileName, ItemManager* itemManager)
 		}
 		fileHndl >> targetLocation;
 	}
+
+	patrolPaths.clear();
+
+	fileHndl >> targetLocation;
+	int newX = 0, newY = 0;
+	while (targetLocation.compare("") != 0 && targetLocation.compare("-") != 0) {
+		patrolPaths.insert(std::pair<std::string, std::vector<sf::Vector2f>>(targetLocation, std::vector<sf::Vector2f>()));
+
+		fileHndl >> newX;
+		fileHndl >> newY;
+		while (newX != -1 && newY != -1) {
+			std::cout << targetLocation << " : " << newX << " , " << newY << std::endl;
+			patrolPaths.at(targetLocation).push_back(sf::Vector2f(newX * 32 + 16, newY * 32 + 16));
+
+			fileHndl >> newX;
+			fileHndl >> newY;
+		}
+		fileHndl >> targetLocation;
+	}
 }
 
-void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, int& tileSize, std::vector<Enemy*>& enemies, std::vector<Objective*>& objectives, Player*& player, ItemManager* itemManager) {
+void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, int& tileSize, std::vector<Enemy*>& enemies, std::vector<Objective*>& objectives, Player*& player, ItemManager* itemManager, MovementMap*& map) {
 	mapWidth = tileMapWidth;
 	mapHeight = tileMapHeight;
+
+	map = new MovementMap(tiles, tileMapWidth, tileMapHeight);
 
 	tileMap = new Tile **[mapHeight];
 	for (int y = 0; y < mapHeight; y++) {
@@ -80,7 +101,7 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 			if (tiles[y][x] == 2) 
 				player = new Player(x * tileSize, y * tileSize);
 			else if (tiles[y][x] == 3) {
-				Enemy* newEnemy = new Enemy(sf::Vector2f(x*tileSize, y*tileSize), itemManager);
+				Enemy* newEnemy = new Enemy(sf::Vector2f(x*tileSize, y*tileSize), itemManager, map);
 				
 				std::stringstream ss;
 				ss << x << "," << y;
@@ -88,10 +109,13 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				if (inventories.count(ss.str()) > 0)
 					loadEnemyInventory(newEnemy, *inventories.at(ss.str()));
 
+				if (patrolPaths.count(ss.str()) > 0)
+					setEnemyPatrolPath(newEnemy, patrolPaths.at(ss.str()));
+
 				enemies.push_back(newEnemy);
 			}
 			else if (tiles[y][x] == 7) {
-				ObjectiveEnemy* objective = new ObjectiveEnemy(sf::Vector2f(x * tileSize, y * tileSize), itemManager);
+				ObjectiveEnemy* objective = new ObjectiveEnemy(sf::Vector2f(x * tileSize, y * tileSize), itemManager, map);
 
 				std::stringstream ss;
 				ss << x << "," << y;
@@ -168,4 +192,12 @@ void LevelManager::loadEnemyInventory(Enemy* enemy, Inventory& inventory) {
 		if (item != NULL)
 			enemyInventory->addToInventory(item->getCopy(), -1, y);
 	}
+}
+
+void LevelManager::setEnemyPatrolPath(Enemy* enemy, std::vector<sf::Vector2f> path) {
+	std::vector<sf::Vector2f>* patrolPath = new std::vector<sf::Vector2f>();
+	for (std::vector<sf::Vector2f>::iterator i = path.begin(); i != path.end(); i++) 
+		patrolPath->push_back((*i));
+	
+	enemy->setPatrolPath(patrolPath);
 }

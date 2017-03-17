@@ -7,6 +7,7 @@
 Model::Model(){
 	curLevelNum = 0;
 	levelNames.push_back("Basic");
+	levelNames.push_back("PathFindngTest");
 	levelNames.push_back("First Enemy");
 	levelNames.push_back("tileMap2");
 	levelNames.push_back("VerticalSlice");
@@ -19,6 +20,8 @@ Model::Model(){
 	invMenu = new InventoryMenu(itemManager, player);
 
 	loadLevel("tileMap2");
+
+	mainMenu.totalStages = levelNames.size();
 
 	//Kept to test weapons at the start.
 	player->addInventory(itemManager->getItem("Dagger", 1));
@@ -36,7 +39,9 @@ Model::~Model(){
 
 void Model::loadLevel(std::string levelName) {
 	levelManager.loadLevelFile(levelName, itemManager);
-	levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, levelObjectives, player, itemManager);
+	levelManager.createLevel(tileMap, mapWidth, mapHeight, tileSize, enemies, levelObjectives, player, itemManager, map);
+	//for (std::vector<Enemy*>::iterator i = enemies.begin(); i != enemies.end(); i++)
+	//	std::cout << (*i)->patrolPath.at(0).x << "," << (*i)->patrolPath.at(0).y << std::endl;
 	craftMenu->setPlayer(player);
 	invMenu->setPlayer(player);
 	loadingLevel = true;
@@ -75,6 +80,8 @@ void Model::deallocteLevel() {
 	}
 	droppedLoot.clear();
 
+	delete map;
+
 	sounds.clear();
 	levelObjectives.clear();
 }
@@ -88,6 +95,8 @@ void Model::changeLevel(std::string levelName) {
 	loadLevel(levelName);
 	std::cout << "loading player inventory" << std::endl;
 	levelManager.loadPlayerInventory(player);
+	//for (std::vector<Enemy*>::iterator i = enemies.begin(); i != enemies.end(); i++)
+	//	std::cout << (*i)->patrolPath.at(0).x << "," << (*i)->patrolPath.at(0).y << std::endl;
 	std::cout << "done" << std::endl;
 }
 
@@ -97,9 +106,15 @@ void Model::update(float deltaTime) {
 
 	if (gameMode == 0) {
 		renderDone = false;
-
+		//for (std::vector<Enemy*>::iterator i = enemies.begin(); i != enemies.end(); i++)
+		//	std::cout << (*i)->patrolPath.at(0).x << "," << (*i)->patrolPath.at(0).y << std::endl;
 		updateModel(deltaTime);
 		collisionDetection();
+		//for (std::vector<Enemy*>::iterator i = enemies.begin(); i != enemies.end(); i++)
+		//	std::cout << (*i)->patrolPath.at(0).x << "," << (*i)->patrolPath.at(0).y << std::endl;
+
+		int stop;
+		//std::cin >> stop;
 
 		bool levelComplete = true;
 		for (std::vector<Objective*>::iterator o = levelObjectives.begin(); o != levelObjectives.end(); o++) {
@@ -160,10 +175,15 @@ void Model::update(float deltaTime) {
 	}
 	else if (gameMode == 7) {
 		mainMenu.update(deltaTime);
-		if (mainMenu.select) {
-			if (mainMenu.getCurSelect() == 0) {
+		if (mainMenu.start) {
+			if (!mainMenu.stageSelect) {
 				gameMode = 4;
-				//curLevelName = "tileMap2";
+				curLevelNum = 0;
+			}
+			else {
+				gameMode = 4;
+				curLevelNum = mainMenu.getCurSelect();
+				mainMenu.stageSelect = false;
 			}
 		}
 	}
@@ -263,12 +283,6 @@ void Model::collisionDetection() {
 			for (int x = std::max(0, (int)((*e)->getPosition().x / tileSize)); x < std::min(mapWidth, (int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x) / tileSize + 1)); x++)
 				if ((*e)->intersects(tileMap[y][x]->getHitBox()))
 					tileMap[y][x]->hit(*e);
-
-		//checking if enemy moved over an edge
-		if ((int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize) < mapHeight && (int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize) >= 0 &&
-			(int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x / 2) / tileSize) < mapWidth && (int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x / 2) / tileSize) >= 0)
-			if (!tileMap[(int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize)][(int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x / 2) / tileSize)]->isSolid())
-				(*e)->overEdge();
 
 		(*e)->doesSee(player);	//checking if the enemy can see the player
 

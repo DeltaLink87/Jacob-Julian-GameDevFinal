@@ -5,11 +5,12 @@
 #include "MeleeAttack.h"
 #include "Projectile.h"
 #include "ItemManager.h"
+#include "MovementMap.h"
 
 class Enemy : public Actor {
 public:
 	Enemy();
-	Enemy(sf::Vector2f, ItemManager*);
+	Enemy(sf::Vector2f, ItemManager*, MovementMap*);
 
 
 	~Enemy();
@@ -26,12 +27,23 @@ public:
 
 	Loot* lootDrop();
 
+	void setPatrolPath(std::vector<sf::Vector2f>*);
+
 protected:
-	int timer = 0;
+	
+
+	bool canSeePoint(sf::Vector2f);
+
+	std::vector<sf::Vector2f> patrolPath;
+	int curPoint = 0;
+
+	float timer = 0;
 	//Keeps track of where the enemy was originally spawned
 	sf::Vector2f homePosition;
 	//tracks where the last target the enemy saw or heard is
-	sf::Vector2f targetLocation;
+	sf::Vector2f targetLocation, prevTargetLocation;
+	MovementMap* pathFinder;
+	std::vector<sf::Vector2f> path;
 
 	bool moving;
 
