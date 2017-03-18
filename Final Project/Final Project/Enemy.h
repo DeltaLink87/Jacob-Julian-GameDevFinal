@@ -25,6 +25,8 @@ public:
 	void hitWall(sf::Vector2f, int);
 	void overEdge();
 
+	void dealDamage(float, bool);
+
 	Loot* lootDrop();
 
 	void setPatrolPath(std::vector<sf::Vector2f>*);

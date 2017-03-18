@@ -22,7 +22,7 @@ public:
 
 	sf::Vector2f getVelocity();
 
-	virtual void dealDamage(float) {};
+	virtual void dealDamage(float, bool) {};
 	virtual void HealHealth(float) {};
 
 
