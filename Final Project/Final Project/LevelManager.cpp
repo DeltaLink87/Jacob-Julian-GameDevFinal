@@ -67,7 +67,7 @@ void LevelManager::loadLevelFile(std::string fileName, ItemManager* itemManager)
 		fileHndl >> newX;
 		fileHndl >> newY;
 		while (newX != -1 && newY != -1) {
-			std::cout << targetLocation << " : " << newX << " , " << newY << std::endl;
+			std::cout << targetLocation << " :!! " << newX << " , " << newY << std::endl;
 			patrolPaths.at(targetLocation).push_back(sf::Vector2f(newX * 32 + 16, newY * 32 + 16));
 
 			fileHndl >> newX;

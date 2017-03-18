@@ -290,7 +290,7 @@ void Model::collisionDetection() {
 		for (int x = std::max(0, (int)(player->getPosition().x / tileSize)); x < std::min(mapWidth, (int)((player->getPosition().x + player->getHitBox().getSize().x) / tileSize + 1)); x++)
 			if (player->intersects(tileMap[y][x]->getHitBox())) {
 				if (tileMap[y][x]->isChest()) {
-					if (dynamic_cast<ChestTile*>(tileMap[y][x])->hitPlayer(player)) {
+					if (dynamic_cast<ChestTile*>(tileMap[y][x])->hitPlayer(player) && dynamic_cast<ChestTile*>(tileMap[y][x])->getTreasure() != NULL) {
 						droppedLoot.push_back(new Loot(
 							dynamic_cast<ChestTile*>(tileMap[y][x])->getPosition().x,
 							dynamic_cast<ChestTile*>(tileMap[y][x])->getPosition().y,

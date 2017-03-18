@@ -46,6 +46,11 @@ ItemManager::ItemManager() {
 
 	items.insert(std::pair<std::string, HealingItem*>("Health_Potion", new HealingItem("Health_Potion",2)));
 	items.insert(std::pair<std::string, Item*>("Herb", new Item("Herb", 1)));
+	items.insert(std::pair<std::string, Item*>("Iron", new Item("Iron", 1)));
+	items.insert(std::pair<std::string, Item*>("String", new Item("String", 1)));
+	items.insert(std::pair<std::string, Item*>("Cloth", new Item("Cloth", 1)));
+	items.insert(std::pair<std::string, Item*>("Leather", new Item("Leather", 1)));
+	items.insert(std::pair<std::string, Item*>("Steel", new Item("Steel", 1)));
 	items.insert(std::pair<std::string, Item*>("Bottle", new Item("Bottle", 1)));
 	items.insert(std::pair<std::string, Item*>("Blade", new Item("Blade", 1)));
 	items.insert(std::pair<std::string, Item*>("Wood", new Item("Wood", 1)));
