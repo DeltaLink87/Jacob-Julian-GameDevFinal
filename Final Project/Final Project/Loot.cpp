@@ -12,7 +12,13 @@ Loot::Loot(int x, int y, int width, int height, Item* newLoot) : Entity(x, y, wi
 
 Loot::~Loot() { }
 
-void Loot::update(float deltaTime) { }
+void Loot::update(float deltaTime) {
+	velocity.y += 200 * deltaTime;
+	if (velocity.y > 200)
+		velocity.y = 200;
+	position += velocity;
+	hitBox.setPosition(position);
+}
 
 Item* Loot::getDrop() {
 	return itemDrop;

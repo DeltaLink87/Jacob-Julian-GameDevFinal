@@ -121,7 +121,7 @@ void Enemy::update(float deltaTime) {
 		path = *(pathFinder->getPath(position + sf::Vector2f(hitBox.getSize().x / 2, hitBox.getSize().y / 2), targetLocation));
 	prevTargetLocation = targetLocation;
 
-	timer -= deltaTime;
+	/*timer -= deltaTime;
 	if (timer <= 0) {
 		timer = 2;
 		std::cout << "Path: "<< path.back().x << "," << path.back().y << "," << path.size() << std::endl;
@@ -129,7 +129,7 @@ void Enemy::update(float deltaTime) {
 		std::cout << "target: " << targetLocation.x << "," << targetLocation.y << std::endl;
 		std::cout << "behaviour: " << behaviorState << "," << patrolPath.size() << std::endl;
 		std::cout << "Looking: " << dirLooking << std::endl;
-	}
+	}*/
 	//std::cout << behaviorState << std::endl;
 
 	if (path.size() > 0) {
@@ -278,7 +278,7 @@ Loot* Enemy::lootDrop() {
 	//std::cout << droppedItem << std::endl;
 	if (droppedItem == NULL)
 		return NULL;
-	return new Loot(position.x, position.y, 10, 10, droppedItem);
+	return new Loot(position.x, position.y, 20, 20, droppedItem);
 }
 
 void Enemy::setPatrolPath(std::vector<sf::Vector2f>* newPath) { patrolPath = *newPath; }

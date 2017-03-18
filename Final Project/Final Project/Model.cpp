@@ -7,12 +7,13 @@
 Model::Model(){
 	curLevelNum = 0;
 	levelNames.push_back("Basic");
+	levelNames.push_back("ChestTest");
 	levelNames.push_back("PathFindngTest");
 	levelNames.push_back("DropPathTest");
 	levelNames.push_back("TopTilePathTest");
 	levelNames.push_back("First Enemy");
 	levelNames.push_back("tileMap2");
-	levelNames.push_back("VerticalSlice"); 
+	levelNames.push_back("VerticalSlice");
 
 	gameMode = 7;
 
@@ -251,6 +252,10 @@ void Model::updateModel(float deltaTime) {
 		}
 		else i++;
 	}
+
+	for (std::vector<Loot*>::iterator i = droppedLoot.begin(); i != droppedLoot.end(); i++) {
+		(*i)->update(deltaTime);
+	}
 }
 
 
@@ -265,8 +270,8 @@ void Model::collisionDetection() {
 						droppedLoot.push_back(new Loot(
 							dynamic_cast<ChestTile*>(tileMap[y][x])->getPosition().x,
 							dynamic_cast<ChestTile*>(tileMap[y][x])->getPosition().y,
-							10,
-							10,
+							20,
+							20,
 							dynamic_cast<ChestTile*>(tileMap[y][x])->getTreasure()));
 
 					}
@@ -281,7 +286,13 @@ void Model::collisionDetection() {
 		if ((*a)->intersects(player->getHitBox()))
 			(*a)->hitActor(player);
 
+	//collision for loot
 	for (std::vector<Loot*>::iterator l = droppedLoot.begin(); l != droppedLoot.end(); ) {
+		for (int y = std::max(0, (int)((*l)->getPosition().y / tileSize)); y < std::min(mapHeight, (int)(((*l)->getPosition().y + (*l)->getHitBox().getSize().y) / tileSize + 1)); y++)
+			for (int x = std::max(0, (int)((*l)->getPosition().x / tileSize)); x < std::min(mapWidth, (int)(((*l)->getPosition().x + (*l)->getHitBox().getSize().x) / tileSize + 1)); x++)
+				if ((*l)->intersects(tileMap[y][x]->getHitBox()))
+					tileMap[y][x]->hit(*l);
+
 		if ((*l)->intersects(player->getHitBox())) {
 			Loot* removedLoot = *l;
 			l = droppedLoot.erase(l);

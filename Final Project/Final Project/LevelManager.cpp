@@ -88,6 +88,18 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				tileMap[y][x] = new SolidTile(x * tileSize, y * tileSize, tileSize, tileSize);
 			else if (tiles[y][x] == 4)
 				tileMap[y][x] = new LadderTile(x * tileSize, y * tileSize, tileSize, tileSize);
+			else if (tiles[y][x] == 5) {
+				ChestTile* chest = new ChestTile(x * tileSize, y * tileSize, tileSize, tileSize);
+				
+
+				std::stringstream ss;
+				ss << x << "," << y;
+				std::cout << ss.str() << std::endl;
+				if (inventories.count(ss.str()) > 0)
+					loadChestItem(chest, *inventories.at(ss.str()));
+
+				tileMap[y][x] = chest;
+			}
 			else if (tiles[y][x] == 6)
 				tileMap[y][x] = new TopLadderTile(x * tileSize, y * tileSize, tileSize, tileSize);
 			else if (tiles[y][x] == 8) {
@@ -205,4 +217,12 @@ void LevelManager::setEnemyPatrolPath(Enemy* enemy, std::vector<sf::Vector2f> pa
 		patrolPath->push_back((*i));
 	
 	enemy->setPatrolPath(patrolPath);
+}
+
+void LevelManager::loadChestItem(ChestTile* chest, Inventory& inventory) {
+	Item* item = inventory.dropRandom();
+	if (item != NULL) {
+		inventory.addToInventory(new Item(*item));
+		chest->treasure = item;
+	}
 }
