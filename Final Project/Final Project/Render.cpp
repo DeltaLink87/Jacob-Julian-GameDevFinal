@@ -100,7 +100,7 @@ Render::Render(Model* newModel){
 
 	}
 
-	/*
+	
 	this->enemySpriteArray = new sf::Sprite*[4];
 	this->enemySpriteArray[0] = new sf::Sprite[3];
 	for (int i = 0; i < 3; i++) {
@@ -133,44 +133,98 @@ Render::Render(Model* newModel){
 		enemySpriteArray[3][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 48), sf::Vector2i(16, 16)));
 
 	}
-	*/
+	
 }
 
 Render::~Render(){ }
 
-/*
+
 void Render::renderEnemySpriteArray(Enemy* enemy) {
 
-	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
-		if (!(*i)->isRemoved()) {
-			if (!(*i)->spriteInitialized)
-				initializeRenderable(*i);
-			drawRenderable(modelTexture, *i);
 
-			if ((*i)->noticeTimer > 0) {
-				sf::RectangleShape notice = sf::RectangleShape(sf::Vector2f(5, 10));
-				notice.setPosition((*i)->getPosition().x + 5, (*i)->getPosition().y - 15);
-				notice.setFillColor(sf::Color::Red);
-				modelTexture.draw(notice);
-			}
 
-			sf::Vertex* path = new sf::Vertex[(*i)->path.size()];
-			for (int l = 0; l < (*i)->path.size(); l++) {
-				path[l].position = (*i)->path.at(l);
-				path[l].color = sf::Color::Red;
-			}
-			modelTexture.draw(path, (*i)->path.size(), sf::LineStrip);
 
-			sf::Vertex looking[2];
-			looking[0].position = (*i)->getPosition() + (*i)->getHitBox().getSize() * 0.5f;
-			looking[1].position = sf::Vector2f(looking[0].position.x + 32 * cos((*i)->dirLooking), looking[0].position.y + 32 * sin((*i)->dirLooking));
-			modelTexture.draw(looking, 2, sf::Lines);
+
+	if (enemy->isJumping) {
+
+		enemySpriteArray[2][0].setPosition(enemy->getPosition());
+
+
+		if (!enemy->isFacingRight()) {
+
+			enemySpriteArray[2][0].move(sf::Vector2f(32, 0));
+
+			if (enemySpriteArray[2][0].getScale().x > 0)
+				enemySpriteArray[2][0].scale(-1.f, 1.f);
 		}
+		else if (enemySpriteArray[2][0].getScale().x < 0)
+			enemySpriteArray[2][0].scale(-1.f, 1.f);
+
+
+		enemySpriteArray[2][0].move(sf::Vector2f(-6, -12));
+		modelTexture.draw(enemySpriteArray[2][0]);
+
+	}
+	else if (enemy->isClimbing) {
+		enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2].setPosition(enemy->getPosition());
+
+		if (!enemy->isFacingRight()) {
+
+			enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2].move(sf::Vector2f(32, 0));
+
+			if (enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2].getScale().x > 0)
+				enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2].scale(-1.f, 1.f);
+		}
+		else if (enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2].getScale().x < 0)
+			enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2].scale(-1.f, 1.f);
+
+		enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2].move(sf::Vector2f(-6, -12));
+		modelTexture.draw(enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2]);
+
+	}
+	else if (enemy->isRunning) {
+
+		enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6].setPosition(enemy->getPosition());
+
+		if (!enemy->isFacingRight()) {
+
+			enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6].move(sf::Vector2f(32, 0));
+
+			if (enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6].getScale().x > 0)
+				enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6].scale(-1.f, 1.f);
+		}
+		else if (enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6].getScale().x < 0)
+			enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6].scale(-1.f, 1.f);
+
+
+		enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6].move(sf::Vector2f(-6, -12));
+		modelTexture.draw(enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6]);
+
+	}
+	else {
+
+
+		enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3].setPosition(enemy->getPosition());
+
+		if (!enemy->isFacingRight()) {
+
+			enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3].move(sf::Vector2f(32, 0));
+
+			if (enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3].getScale().x > 0)
+				enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3].scale(-1.f, 1.f);
+		}
+		else if (enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3].getScale().x < 0)
+			enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3].scale(-1.f, 1.f);
+
+
+		enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3].move(sf::Vector2f(-6, -12));
+		modelTexture.draw(enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3]);
+
 	}
 
 
 }
-*/
+
 
 //Polish notes: Maybe get the sprite at the start, assign it to a sprite pointer, then do common modifcations on it before then calling draw on the sprite pointer, would save lines of code.
 void Render::renderPlayerSpriteArray() {
@@ -378,16 +432,17 @@ void Render::renderModel() {
 	//rendering player
 	if (!model->player->spriteInitialized)
 		initializeRenderable(model->player);
-	drawRenderable(modelTexture, model->player);
+	//drawRenderable(modelTexture, model->player);
 
 	renderPlayerSpriteArray();
 
+	//rendering enemies
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
 		if (!(*i)->isRemoved()) {
 			if (!(*i)->spriteInitialized)
 				initializeRenderable(*i);
-			drawRenderable(modelTexture, *i);
-
+			//drawRenderable(modelTexture, *i);
+			renderEnemySpriteArray(*i);
 			if ((*i)->noticeTimer > 0) {
 				sf::RectangleShape notice = sf::RectangleShape(sf::Vector2f(5, 10));
 				notice.setPosition((*i)->getPosition().x + 5, (*i)->getPosition().y - 15);
@@ -413,7 +468,7 @@ void Render::renderModel() {
 	for (std::vector<Attack*>::iterator i = model->attacks.begin(); i != model->attacks.end(); i++) {
 		if (!(*i)->spriteInitialized)
 			initializeRenderable(*i);
-		modelTexture.draw((*i)->getHitBox());
+		//modelTexture.draw((*i)->getHitBox());
 		drawRenderable(modelTexture, *i);
 		
 	}

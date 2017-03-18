@@ -63,7 +63,10 @@ Item* ItemManager::getItem(std::string name, int quantity) {
 	return newItem;
 }
 
-int ItemManager::getTotalItems() { return items.size(); }
+int ItemManager::getTotalItems() { 
+	std::cout << items.size() << std::endl;
+	return items.size(); 
+}
 
 std::vector<std::string>* ItemManager::getItemList() {
 	std::vector<std::string>* list = new std::vector<std::string>;

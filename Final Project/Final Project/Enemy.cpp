@@ -77,12 +77,15 @@ void Enemy::update(float deltaTime) {
 					facingRight = true;
 				else
 					facingRight = false;
-
+				
 				Item* weapon = inventory.getCurSeletected(curItemSelected);
-				if (weapon == NULL)
+				if (weapon == NULL) {
 					//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+					inventory.addToInventory(new Equipment("LongSword", 6));
+					weapon = inventory.getCurSeletected(curItemSelected);
 					newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, weapon));
-				else if (weapon->attackType == 0 || weapon->attackType == 0)
+				}
+				else if (weapon->attackType == 0 || weapon->attackType == 1)
 					//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
 					newAttacks.push_back(new MeleeAttack(position.x + hitBox.getSize(). x / 2, position.y + hitBox.getSize().y / 2, 10, 10, dirLooking, this, weapon));
 				else
@@ -210,6 +213,10 @@ void Enemy::update(float deltaTime) {
 	}
 
 	if (!climbing) {
+		if (!isJumping && !onGround) {
+			//isJumping = true;
+			//animationTimer = 0;
+		}
 		velocity.y += 200 * deltaTime;
 		if (velocity.y > 200)
 			velocity.y = 200;
@@ -222,8 +229,22 @@ void Enemy::update(float deltaTime) {
 		std::cout << position.x << "," << position.y << "," << velocity.x << "," << velocity.y << std::endl;*/
 	hitBox.setPosition(position);
 
+	if (onGround) {
+		isJumping = false;
+	}
+
 	nextToClimbable = false;
 	onGround = false;
+	isClimbing = climbing;
+	isRunning = moving;
+	animationTimer += deltaTime * 10;
+	if (velocity.x > 0) {
+		facingRight = true;
+	}
+	else if (velocity.x < 0) {
+		facingRight = false;
+
+	}
 }
 
 void Enemy::doesHear(Sound* checkSound) {
