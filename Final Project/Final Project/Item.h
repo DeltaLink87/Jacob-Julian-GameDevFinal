@@ -74,6 +74,10 @@ public:
 	sf::Texture menuIconTexture;
 	sf::Texture menuDescriptionTexture;
 
+	std::string description = "NONE";
+	std::string type = "Material";
+
+
 	
 	bool dimPreset = false;
 	int presetItemDimX;

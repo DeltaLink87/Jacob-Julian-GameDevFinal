@@ -10,6 +10,7 @@ CraftingMenu::CraftingMenu(ItemManager* newItemManager, Player* newPlayer) {
 	std::vector<std::string>* tempList = itemManager->getItemList();
 	//std::cout << tempList->size() << std::endl;
 	for (std::vector<std::string>::iterator i = tempList->begin(); i != tempList->end(); i++) {
+		std::cout << *i << std::endl;
 		if (itemManager->getItem(*i, 1)->id != 1) {
 			itemNameList.push_back(*i);
 			itemList.insert(std::pair<std::string, Item*>(*i, itemManager->getItem(*i, 1)));

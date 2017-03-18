@@ -31,15 +31,15 @@ ItemManager::ItemManager() {
 		13: BreastPlate
 	*/
 	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Dagger",1)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Sword", 2)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Spear", 3)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Rondel", 4)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("SinnersScalpel", 5)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("LongSword", 6)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("BroadSword", 7)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("GreatSword", 8)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("MasterfulSword", 9)));
-	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Bow", 10)));
+	items.insert(std::pair<std::string, Equipment*>("Sword", new Equipment("Sword", 2)));
+	items.insert(std::pair<std::string, Equipment*>("Spear", new Equipment("Spear", 3)));
+	items.insert(std::pair<std::string, Equipment*>("Rondel", new Equipment("Rondel", 4)));
+	items.insert(std::pair<std::string, Equipment*>("SinnersScalpel", new Equipment("SinnersScalpel", 5)));
+	items.insert(std::pair<std::string, Equipment*>("LongSword", new Equipment("LongSword", 6)));
+	items.insert(std::pair<std::string, Equipment*>("BroadSword", new Equipment("BroadSword", 7)));
+	items.insert(std::pair<std::string, Equipment*>("GreatSword", new Equipment("GreatSword", 8)));
+	items.insert(std::pair<std::string, Equipment*>("MasterfulSword", new Equipment("MasterfulSword", 9)));
+	items.insert(std::pair<std::string, Equipment*>("Bow", new Equipment("Bow", 10)));
 
 	items.insert(std::pair<std::string, Equipment*>("Breast_Plate", new Equipment("Breast_Plate", 13)));
 
