@@ -357,6 +357,13 @@ void Render::renderModel() {
 				initializeRenderable(*i);
 			drawRenderable(modelTexture, *i);
 
+			if ((*i)->noticeTimer > 0) {
+				sf::RectangleShape notice = sf::RectangleShape(sf::Vector2f(5, 10));
+				notice.setPosition((*i)->getPosition().x + 5, (*i)->getPosition().y - 15);
+				notice.setFillColor(sf::Color::Red);
+				modelTexture.draw(notice);
+			}
+
 			sf::Vertex* path = new sf::Vertex[(*i)->path.size()];
 			for (int l = 0; l < (*i)->path.size(); l++) {
 				path[l].position = (*i)->path.at(l);

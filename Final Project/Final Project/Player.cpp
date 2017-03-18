@@ -122,12 +122,12 @@ void Player::update(float deltaTime) {
 		if (weapon == NULL)
 			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
 			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, weapon));
-		else if (weapon->attackType == 0)
+		else if (weapon->attackType == 0 || weapon->attackType == 1)
 			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
-			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, weapon));
+			newAttacks.push_back(new MeleeAttack(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, 10, 10, dirLooking, this, weapon));
 		else
 			//newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
-			newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this, weapon));
+			newAttacks.push_back(new Projectile(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this, weapon));
 	}
 
 	//changing the sound timer and horizontal movement based on running or sneaking
@@ -155,7 +155,7 @@ void Player::update(float deltaTime) {
 		if (moveFast)
 			loudness *= 2;
 		else if (moveSlow)
-			loudness /= 2;
+			loudness = hitBox.getSize().x / 4;
 		//creating new sound
 		newSounds.push_back(Sound(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, loudness, 0.5, false));
 	}

@@ -23,6 +23,7 @@ ItemManager::ItemManager() {
 	*/
 
 	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Dagger",1)));
+	items.insert(std::pair<std::string, Equipment*>("Breast_Plate", new Equipment("Breast_Plate", 2)));
 	items.insert(std::pair<std::string, HealingItem*>("Health_Potion", new HealingItem("Health_Potion",2)));
 	items.insert(std::pair<std::string, Item*>("Herb", new Item("Herb", 1)));
 	items.insert(std::pair<std::string, Item*>("Bottle", new Item("Bottle", 1)));

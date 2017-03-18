@@ -11,7 +11,7 @@
 1 1 1 1 1 1 1 1 1 1
 
 4,8 <- Chest/Enemy location
-Blade 1 <- inventory item name/quantity
+Blade 1 <- inventory item name/quantity (first item will be what they attack with, first item of a given armour type will be there defensive items)
 Herb 2
 Bottle 1
 - <- end of this enemy/chest's inventory

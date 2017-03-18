@@ -41,7 +41,8 @@ public:
 	//amount of damage this item will do
 	int attack = 1;
 	/*type of attack this items makes
-	1: melee attack
+	0: swing attack
+	1: stab attack
 	2: projectile attack*/
 	int attackType = 0;
 	bool canAssasinate = false;

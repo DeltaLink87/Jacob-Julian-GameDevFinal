@@ -47,7 +47,10 @@ void LevelManager::loadLevelFile(std::string fileName, ItemManager* itemManager)
 			fileHndl >> quantity;
 
 			std::cout << targetLocation << " : " << itemName << " : " << quantity << std::endl;
-			inventories.at(targetLocation)->addToInventory(itemManager->getItem(itemName, quantity));
+			Item* item = itemManager->getItem(itemName, quantity);
+			if (item->armourType > 0)
+				inventories.at(targetLocation)->addToInventory(item, -1, item->armourType - 1);
+			else inventories.at(targetLocation)->addToInventory(item);
 
 			fileHndl >> itemName;
 		}
@@ -113,9 +116,9 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				tileMap[y][x] = new Tile(x * tileSize, y * tileSize, tileSize, tileSize);
 
 			if (tiles[y][x] == 2) 
-				player = new Player(x * tileSize, y * tileSize);
+				player = new Player(x * tileSize + 12, y * tileSize + 12);
 			else if (tiles[y][x] == 3) {
-				Enemy* newEnemy = new Enemy(sf::Vector2f(x*tileSize, y*tileSize), itemManager, map);
+				Enemy* newEnemy = new Enemy(sf::Vector2f(x*tileSize + 12, y*tileSize + 12), itemManager, map);
 				
 				std::stringstream ss;
 				ss << x << "," << y;
@@ -129,7 +132,7 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				enemies.push_back(newEnemy);
 			}
 			else if (tiles[y][x] == 7) {
-				ObjectiveEnemy* objective = new ObjectiveEnemy(sf::Vector2f(x * tileSize, y * tileSize), itemManager, map);
+				ObjectiveEnemy* objective = new ObjectiveEnemy(sf::Vector2f(x * tileSize + 12, y * tileSize + 12), itemManager, map);
 
 				std::stringstream ss;
 				ss << x << "," << y;
