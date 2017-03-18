@@ -1,5 +1,8 @@
 #include "Render.h"
 #include <sstream>
+#include <algorithm>
+#include <string>
+#include <exception>
 
 
 Render::Render(Model* newModel){
@@ -519,18 +522,23 @@ void Render::renderCraftMenu() {
 	craftMenuTexture.draw(textBrush);
 
 	int counter = 0, firstRender, lastRender;
-	if (model->craftMenu->curSelected < 2) {
+	if (model->craftMenu->totalItems < 3) {
+		firstRender = 0;
+		lastRender = model->craftMenu->totalItems;
+	}
+	else if (model->craftMenu->curSelected > model->craftMenu->totalItems - 2) {
+		firstRender = model->craftMenu->totalItems - 3;
+		lastRender = model->craftMenu->totalItems;
+	}
+	else if (model->craftMenu->curSelected < 2) {
 		firstRender = 0;
 		lastRender = 3;
 	}
-	else if (model->craftMenu->curSelected >= model->craftMenu->totalItems - 2) {
-		firstRender = model->craftMenu->totalItems - 4;
-		lastRender = model->craftMenu->totalItems - 1;
-	}
 	else {
-		firstRender = model->craftMenu->curSelected - 2;
-		lastRender = model->craftMenu->curSelected + 1;
+		firstRender = model->craftMenu->curSelected - 1;
+		lastRender = model->craftMenu->curSelected + 2;
 	}
+
 	for (std::map<std::string, Item*>::iterator i = model->craftMenu->itemList.begin(); i != model->craftMenu->itemList.end(); i++) {
 		if (counter >= firstRender && counter <= lastRender) {
 			//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
@@ -548,11 +556,30 @@ void Render::renderCraftMenu() {
 		counter++;
 	}
 
-	model->craftMenu->selectedBox.setPosition(200, 175 + 75 * model->craftMenu->curSelected);
+	model->craftMenu->selectedBox.setPosition(200, 175 + 75 * (model->craftMenu->curSelected - firstRender));
 	craftMenuTexture.draw(model->craftMenu->selectedBox);
 
-	model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription.setPosition(sf::Vector2f(335, 150));
-	craftMenuTexture.draw(model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription);
+	Item* item = model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected));
+	makeStringTextrue(item->name, 446, 155, 154, 30, craftMenuTexture, 25);
+	makeStringTextrue(item->type, 446, 185, 154, 30, craftMenuTexture, 25);
+	makeStringTextrue(item->description, 340, 272, 265, 90, craftMenuTexture, 12);
+
+	std::string itemRecipe = "Required: NL ";
+	for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
+		std::stringstream ss;
+		ss << i->second;
+		itemRecipe += i->first + " X" + ss.str() + " NL ";
+	}
+	makeStringTextrue(itemRecipe, 340, 363, 265, 90, craftMenuTexture, 12);
+
+	sf::Sprite sprite;
+	sprite.setTexture(item->smallIconTexture);
+	sprite.setPosition(335, 150);
+	//sprite.setScale(112 / (float)item->smallIconTexture.getSize().x, 117 / (float)item->smallIconTexture.getSize().y);
+	craftMenuTexture.draw(sprite);
+
+	//model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription.setPosition(sf::Vector2f(335, 150));
+	//craftMenuTexture.draw(model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected))->menuDescription);
 
 	craftMenuTexture.display();
 }
@@ -604,9 +631,27 @@ void Render::renderInvMenu() {
 	//std::cout << model->invMenu->getCurX() << "," << model->invMenu->getCurY() << "," << inv->getWidth() << "," << inv->getHeight() << std::endl;
 	Item* item = inv->getCurSeletected(model->invMenu->getCurX(), model->invMenu->getCurY());
 	if (item != NULL) {
-		item->menuDescription.setPosition(left + 5, top + 5);
-		item->menuDescription.setScale(226.0 / (float)item->menuDescription.getTextureRect().width, 237.0 / (float)item->menuDescription.getTextureRect().height);
-		invMenuTexture.draw(item->menuDescription);
+		makeStringTextrue(item->name, left + 100, top + 5, 150, 30, invMenuTexture, 18);
+		makeStringTextrue(item->type, left + 100, top + 35, 150, 30, invMenuTexture, 18);
+		makeStringTextrue(item->description, left + 5, top + 100, 220, 90, invMenuTexture, 12);
+
+		std::string itemRecipe = "Required: NL ";
+		for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
+			std::stringstream ss;
+			ss << i->second;
+			itemRecipe += i->first + " X" + ss.str() + " NL ";
+		}
+		makeStringTextrue(itemRecipe, left + 5, top + 190, 220, 90, invMenuTexture, 12);
+
+		sf::Sprite sprite;
+		sprite.setTexture(item->smallIconTexture);
+		sprite.setPosition(left + 5, top + 5);
+		//sprite.setScale(112 / (float)item->smallIconTexture.getSize().x, 117 / (float)item->smallIconTexture.getSize().y);
+		invMenuTexture.draw(sprite);
+
+		//item->menuDescription.setPosition(left + 5, top + 5);
+		//item->menuDescription.setScale(226.0 / (float)item->menuDescription.getTextureRect().width, 237.0 / (float)item->menuDescription.getTextureRect().height);
+		//invMenuTexture.draw(item->menuDescription);
 	}
 
 	model->invMenu->selectedBox.setPosition(
@@ -680,8 +725,8 @@ void Render::renderWin() {
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
-	makeStringTextrue("Level Complete NL Press Space to Continue", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture, 14);
-	//makeStringTextrue("TEST test TEST test TEST test TEST test TEST test", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
+	makeStringTextrue("Level Complete NL Press Space to Continue", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
+	//makeStringTextrue("TEST test TEST test TEST test TEST test TEST test TEST test TEST test", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
 	//textBrush.setString("Game Over\nPress Space to Retry");
 	//textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
 	//UITexture.draw(textBrush);
@@ -694,7 +739,7 @@ void Render::renderLose() {
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
-	makeStringTextrue("Game Over NL Press Space to Retry", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture, 14);
+	makeStringTextrue("Game Over NL Press Space to Retry", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
 	//makeStringTextrue("TEST test TEST test TEST test TEST test TEST test TEST test TEST test", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
 	//textBrush.setString("Game Over\nPress Space to Retry");
 	//textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
@@ -731,10 +776,11 @@ void Render::makeStringTextrue(std::string msg, int x, int y, int width, int hei
 
 		int length = text.getLocalBounds().width;
 		float ratio = (float)width / (float)height;
-		float scaler = sqrt((float)length / ((float)width * ((float)height / (float)text.getCharacterSize())));
-		text.setCharacterSize((int)((1 / scaler) * ((float)height / (float)text.getCharacterSize())));
-		lineLength = width;
-		std::cout << length << "," << (int)((1 / scaler) * ((float)height / 12)) << "," << scaler << "," << ratio << std::endl;
+		float scaler = sqrt((float)(length * text.getCharacterSize()) / (width * height));
+		//text.setCharacterSize((1 / scaler) * text.getCharacterSize());
+		//lineLength = width * scaler;
+		lineLength = scaler * width;
+		//std::cout << length << "," << lineLength << "," << scaler << "," << ratio << std::endl;
 	}
 	else {
 		lineLength = width;
@@ -751,11 +797,17 @@ void Render::makeStringTextrue(std::string msg, int x, int y, int width, int hei
 		else totalString += *i + " ";
 	}
 	text.setString(totalString);
-	text.setPosition(0, 0);
-	//if (fontSize == -1)
-	//	text.setScale((float)width / (float)text.getLocalBounds().width, (float)height / (float)text.getLocalBounds().height);
+	if (fontSize == -1) {
+		float widthScale = (float)width / (float)(text.getLocalBounds().width + text.getCharacterSize() / 2);
+		float heightScale = (float)height / (float)(text.getLocalBounds().height + text.getCharacterSize() / 2);
+		//std::cout << widthScale << "," << heightScale << std::endl;
+		if (widthScale < heightScale)
+			text.setScale(widthScale, widthScale);
+		else text.setScale(heightScale, heightScale);
+	}
 	//std::string thing = text.getString();
 	//std::cout << text.getLocalBounds().width << "," << text.getLocalBounds().height << std::endl;
+	text.setPosition(0, 0);
 
 	sf::RenderTexture texture;
 	texture.create(width, height);
