@@ -652,7 +652,8 @@ void Render::renderWin() {
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
-	makeStringTextrue("Level Complete newLine Press Space to Continue", windowWidth / 2 - 75, windowHeight / 2 - 15, 200, 50, 15, UITexture);
+	makeStringTextrue("Level Complete NL Press Space to Continue", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture, 14);
+	//makeStringTextrue("TEST test TEST test TEST test TEST test TEST test", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
 	//textBrush.setString("Game Over\nPress Space to Retry");
 	//textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
 	//UITexture.draw(textBrush);
@@ -665,46 +666,66 @@ void Render::renderLose() {
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
-	makeStringTextrue("Game Over newLine Press Space to Retry", windowWidth / 2 - 75, windowHeight / 2 - 15, 200, 50, 15, UITexture);
+	makeStringTextrue("Game Over NL Press Space to Retry", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture, 14);
+	//makeStringTextrue("TEST test TEST test TEST test TEST test TEST test TEST test TEST test", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
 	//textBrush.setString("Game Over\nPress Space to Retry");
 	//textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
 	//UITexture.draw(textBrush);
 }
 
-void Render::makeStringTextrue(std::string msg, int x, int y, int width, int height, int fontSize, sf::RenderTarget& target) {
+void Render::makeStringTextrue(std::string msg, int x, int y, int width, int height, sf::RenderTarget& target, int fontSize) {
 	std::vector<std::string> words;
 	std::stringstream ss;
 	ss << msg;
+	msg = "";
 	std::string word, prevWord;
 	ss >> word;
+	int numOfNewLines = 0;
 	while (word.compare(prevWord) != 0) {
 		//std::cout << word << std::endl;
 		words.push_back(word);
+		if (word.compare("NL") == 0)
+			numOfNewLines++;
+		else msg += word + " ";
 		prevWord = word;
 		ss >> word;
 	}
-	
+
 	sf::Text text;
 	std::string totalString = "";
 	text.setFont(font);
-	text.setCharacterSize(fontSize);
-	//text.setString(msg);
+	text.setFillColor(sf::Color::Black);
 
-	//int length = text.getLocalBounds().width;
-	//float ratio = (float)width / ((float)height / (float)text.getCharacterSize());
-	//int rowLength = length / (ratio * (float)text.getCharacterSize());
+	int lineLength = 0;
+	if (fontSize == -1) {
+		text.setCharacterSize(12);
+		text.setString(msg);
+
+		int length = text.getLocalBounds().width;
+		float ratio = (float)width / (float)height;
+		float scaler = sqrt((float)length / ((float)width * ((float)height / (float)text.getCharacterSize())));
+		text.setCharacterSize((int)((1 / scaler) * ((float)height / (float)text.getCharacterSize())));
+		lineLength = width;
+		std::cout << length << "," << (int)((1 / scaler) * ((float)height / 12)) << "," << scaler << "," << ratio << std::endl;
+	}
+	else {
+		lineLength = width;
+		text.setCharacterSize(fontSize);
+	}
+
 
 	for (std::vector<std::string>::iterator i = words.begin(); i != words.end(); i++) {
-		text.setString(totalString + *i);
-		if (i->compare("newLine") == 0)
+		text.setString(totalString + *i + " ");
+		if (i->compare("NL") == 0)
 			totalString += "\n";
-		else if (text.getLocalBounds().width > width)
+		else if (text.getLocalBounds().width > lineLength)
 			totalString += "\n" + *i + " ";
 		else totalString += *i + " ";
 	}
 	text.setString(totalString);
 	text.setPosition(0, 0);
-	//text.setScale((float)width / (float)text.getLocalBounds().width, (float)height / (float)text.getLocalBounds().height);
+	//if (fontSize == -1)
+	//	text.setScale((float)width / (float)text.getLocalBounds().width, (float)height / (float)text.getLocalBounds().height);
 	//std::string thing = text.getString();
 	//std::cout << text.getLocalBounds().width << "," << text.getLocalBounds().height << std::endl;
 

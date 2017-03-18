@@ -53,8 +53,8 @@ public:
 	sf::Texture playerSpriteSheet;
 	sf::VertexArray playerSprites;
 
-	/*(std::string input, int x, int y, int textureWidth, int textureHeight, int fontSize, sf::RenderTarget wherToRenderTo*/
-	void makeStringTextrue(std::string, int, int, int, int, int, sf::RenderTarget&);
+	/*(std::string input, int x, int y, int textureWidth, int textureHeight, sf::RenderTarget wherToRenderTo, int fontSize*/
+	void makeStringTextrue(std::string, int, int, int, int, sf::RenderTarget&, int = -1);
 
 	/* Four arrays:
 	   [0]: Size 3, idle animation.
