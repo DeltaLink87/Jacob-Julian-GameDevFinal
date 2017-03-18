@@ -45,6 +45,8 @@ public:
 	sf::RectangleShape center;
 	sf::RectangleShape divide;
 
+	sf::Texture playerSpriteSheet;
+	sf::VertexArray playerSprites;
 
 	bool menuOpen = false;
 

@@ -60,6 +60,30 @@ Render::Render(Model* newModel){
 	model->mainMenu.optionSprite[0].setPosition(windowWidth / 2 - 100, windowHeight / 2);
 	model->mainMenu.optionSprite[1].setTexture(manager.loadTexture("MainMenu/StageButton"));
 	model->mainMenu.optionSprite[1].setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100);
+
+
+	/*
+	playerSpriteSheet.loadFromFile("Assets/Textures/Actors/playerSheet.png");
+
+	this->playerSprites.setPrimitiveType(sf::Quads);
+	this->playerSprites.resize(80);
+
+	for (int i = 0; i < 3; i++) {
+		
+		playerSprites[i * 4 + 0].texCoords = sf::Vector2f(i * 16, 0);
+
+		playerSprites[i * 4 + 1].texCoords = sf::Vector2f(i * 16  + 16, 0);
+
+		playerSprites[i * 4 + 2].texCoords = sf::Vector2f(i * 16, 16);
+
+		playerSprites[i * 4 + 3].texCoords = sf::Vector2f(i * 16, 16);
+
+		playerSprites[50]
+
+	}
+	*/
+
+
 }
 
 Render::~Render(){ }
