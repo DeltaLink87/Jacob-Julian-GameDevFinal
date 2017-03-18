@@ -255,6 +255,9 @@ void Render::render() {
 	if (model->gameMode == 3) {
 		renderWin();
 	}
+	if (model->gameMode == 8) {
+		renderLose();
+	}
 
 	if (model->gameMode != 7) {
 		sf::Sprite UISprite;
@@ -649,7 +652,19 @@ void Render::renderWin() {
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
-	textBrush.setString("Level Complete\nPressSpace to Continue");
+	textBrush.setString("Level Complete\nPress Space to Continue");
+	textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
+	UITexture.draw(textBrush);
+}
+
+void Render::renderLose() {
+	sf::Sprite sprite;
+	sprite.setTexture(manager.loadTexture("UI/HealthBox"));
+	sprite.setScale(200.0 / (float)sprite.getTextureRect().width, 50.0 / (float)sprite.getTextureRect().height);
+	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
+	UITexture.draw(sprite);
+
+	textBrush.setString("Game Over\nPress Space to Retry");
 	textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
 	UITexture.draw(textBrush);
 }

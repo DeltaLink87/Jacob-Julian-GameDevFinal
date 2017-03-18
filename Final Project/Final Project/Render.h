@@ -26,6 +26,7 @@ public:
 	void renderCraftMenu();
 	void renderMainMenu();
 	void renderWin();
+	void renderLose();
 
 	void renderPlayerVertexArray();
 	void renderPlayerSpriteArray();

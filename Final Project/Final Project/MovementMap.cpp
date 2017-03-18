@@ -95,7 +95,7 @@ std::vector<sf::Vector2f>* MovementMap::getPath(sf::Vector2f start, sf::Vector2f
 	std::queue<PathNode*> nodeToCheck;
 	PathNode* curNode = new PathNode();
 	PathNode* firstNode = curNode;
-	PathNode* closestNode = curNode;
+	PathNode* closestNode = NULL;
 
 	curNode->prevNode = NULL;
 	curNode->curNode = map[(int)(start.y / 32)][ (int)(start.x / 32)];
@@ -116,8 +116,12 @@ std::vector<sf::Vector2f>* MovementMap::getPath(sf::Vector2f start, sf::Vector2f
 		if (x == (int)(end.x / 32) && y == (int)(end.y / 32))
 			break;
 
-		//if (abs((int)(end.x / 32) - x) < abs((int)(end.x / 32) - closestNode->curNode->x))
-		//	closestNode = curNode;
+		if ((int)(end.x / 32) == x && y > (int)(end.y / 32)) {
+			if (closestNode != NULL) {
+				if (closestNode->curNode->y > y)
+					closestNode = curNode;
+			}
+		}
 
 		if (x > 0 && curNode->curNode->left && !visited[y][x - 1]) {
 			PathNode* nextNode = new PathNode();
@@ -162,6 +166,11 @@ std::vector<sf::Vector2f>* MovementMap::getPath(sf::Vector2f start, sf::Vector2f
 	//std::cout << nodeToCheck.size() << std::endl;
 
 	std::vector<sf::Vector2f>* path = new std::vector<sf::Vector2f>;
+	if (nodeToCheck.size() == 0) {
+		curNode = closestNode;
+		path->push_back(end);
+	}
+
 	while (curNode != NULL) {
 		path->push_back(sf::Vector2f(curNode->curNode->x * 32 + 16, curNode->curNode->y * 32 + 16));
 		//std::cout << curNode->curNode->x << "," << curNode->curNode->y << std::endl;

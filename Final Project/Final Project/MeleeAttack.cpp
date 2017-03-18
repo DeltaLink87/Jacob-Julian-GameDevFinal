@@ -24,8 +24,9 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 
 			this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
 		*/
-    
-		this->textureName = "Items/DaggerAttackImage";
+		if (item != NULL)
+			this->textureName = "Attacks/" + item->name + "AttackImage";
+		else this->textureName = "Attacks/DaggerAttackImage";
 
 		//if (newSource->isFacingRight())
 		//	this->sprite.setScale(sf::Vector2f(.15, .2));
@@ -48,7 +49,9 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 
 	else if (this->type == SWORD) {
         
-		this->textureName = "Items/DaggerAttackImage";
+		if (item != NULL)
+			this->textureName = "Attacks/" + item->name + "AttackImage";
+		else this->textureName = "Attacks/DaggerAttackImage";
     
 		if (newSource->isFacingRight()) {
 		  /* --TEMP--
