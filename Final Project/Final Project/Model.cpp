@@ -91,8 +91,11 @@ void Model::deallocteLevel() {
 }
 
 void Model::changeLevel(std::string levelName) {
-	std::cout << "saving player inventory" << std::endl;
-	levelManager.savePlayerInventory(player);
+	if (!lost) {
+		std::cout << "saving player inventory" << std::endl;
+		levelManager.savePlayerInventory(player);
+	}
+	lost = false;
 	std::cout << "deallocating level" << std::endl;
 	deallocteLevel();
 	std::cout << "loading level" << std::endl;
@@ -137,6 +140,15 @@ void Model::update(float deltaTime) {
 			gameMode = 3;
 			curLevelNum++;
 		}
+		else if (player->getHealth() <= 0) {
+			gameMode = 8;
+			lost = true;
+		}
+		else if (player->toMainMenu) {
+			gameMode = 4;
+			toMainMenu = true;
+			curLevelNum = rand() % levelNames.size();
+		}
 	}
 	else if (gameMode == 1) {
 		craftMenu->update(deltaTime);
@@ -164,8 +176,10 @@ void Model::update(float deltaTime) {
 			gameMode = 4;
 	}
 	else if (gameMode == 4) {
-		if (renderDone)
+		if (renderDone) {
 			gameMode = 5;
+			renderDone = false;
+		}
 	}
 	else if (gameMode == 5) {
 		renderDone = false;
@@ -174,10 +188,15 @@ void Model::update(float deltaTime) {
 		gameMode = 6;
 	}
 	else if (gameMode == 6) {
-		if (renderDone)
-			gameMode = 0;
+		if (renderDone) {
+			if (toMainMenu)
+				gameMode = 7;
+			else gameMode = 0;
+			renderDone = false;
+		}
 	}
 	else if (gameMode == 7) {
+		toMainMenu = false;
 		mainMenu.update(deltaTime);
 		if (mainMenu.start) {
 			if (!mainMenu.stageSelect) {
@@ -190,6 +209,10 @@ void Model::update(float deltaTime) {
 				mainMenu.stageSelect = false;
 			}
 		}
+	}
+	else if (gameMode == 8) {
+		if (player->select)
+			gameMode = 4;
 	}
 }
 

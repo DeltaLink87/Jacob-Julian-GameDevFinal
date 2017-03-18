@@ -45,6 +45,9 @@ public:
 	int curLevelNum;
 	MovementMap* map;
 
+	bool lost = false;
+	bool toMainMenu = false;
+
 	std::vector<Loot*> droppedLoot;
 	ItemManager* itemManager = new ItemManager();
 	CraftingMenu* craftMenu;

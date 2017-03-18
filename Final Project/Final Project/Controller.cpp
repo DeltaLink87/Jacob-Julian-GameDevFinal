@@ -136,13 +136,13 @@ void Controller::inputs() {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
 		if (!prevchangeLevelPressed) {
-			inputTo->changeLevel = true;
+			inputTo->toMainMenu = true;
 			prevchangeLevelPressed = true;
 		}
-		else inputTo->changeLevel = false;
+		else inputTo->toMainMenu = false;
 	}
 	else {
-		inputTo->changeLevel = false;
+		inputTo->toMainMenu = false;
 		prevchangeLevelPressed = false;
 	}
 
