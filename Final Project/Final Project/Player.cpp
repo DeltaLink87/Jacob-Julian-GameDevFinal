@@ -20,22 +20,47 @@ void Player::update(float deltaTime) {
 	//std::cout << curHealth << std::endl;
 
 	//moving the player horizontally
-	if (left)
+	if (left) {
 		velocity.x = -200;
-	else if (right)
-		velocity.x = 200;
-	else velocity.x = 0;
-
+		if (!isRunning) {
+			animationTimer = 0;
+			isRunning = true;
+		}
+		facingRight = false;
+	}
+	else if (right) {
+		velocity.x = 200;		
+		if (!isRunning) {
+			animationTimer = 0;
+			isRunning = true;
+		}
+		facingRight = true;
+	}
+	else {		
+		velocity.x = 0;
+		if (isRunning) {
+			animationTimer = 0;
+			isIdle = true;
+			isRunning = false;
+		}
+	}
 	//making the player jump if nessecary
 	if (jump && (onGround || climbing)) {
 		velocity.y = -150;
 		climbing = false;
 		onGround = false;
+		isJumping = true;
+		animationTimer = 0;
 	}
 
 	//checks if player is next to something climbable and begins climbing if up is pressed
-	if (up && nextToClimbable)
+	if (up && nextToClimbable) {
 		climbing = true;
+		isJumping = false;
+		isRunning = false;
+		if (!isClimbing)
+			animationTimer = 0;
+	}
 	else if (!nextToClimbable) {
 		if (climbing)
 			velocity.y = 0;
@@ -110,10 +135,12 @@ void Player::update(float deltaTime) {
 		if (moveFast) {
 			stepSoundTimer -= deltaTime * 2;
 			velocity.x *= 2;
+			animationTimer += deltaTime * 10;
 		}
 		else if (moveSlow) {
 			stepSoundTimer -= deltaTime / 2;
 			velocity.x /= 2;
+			animationTimer -= deltaTime * 5;
 		}
 		else stepSoundTimer -= deltaTime;
 	}
@@ -136,10 +163,13 @@ void Player::update(float deltaTime) {
 	//updating player location
 	position += velocity * deltaTime;
 
+	animationTimer += deltaTime * 10;
+
 	//updating player ditbox
 	hitBox.setPosition(position);
 	nextToClimbable = false;
 	onGround = false;
+	isClimbing = climbing;
 }
 
 void Player::isAttacking(bool value) { attack = value; }

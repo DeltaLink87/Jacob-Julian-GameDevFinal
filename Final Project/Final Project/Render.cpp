@@ -62,9 +62,10 @@ Render::Render(Model* newModel){
 	model->mainMenu.optionSprite[1].setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100);
 
 
-	/*
+	
 	playerSpriteSheet.loadFromFile("Assets/Textures/Actors/playerSheet.png");
 
+	/*
 	this->playerSprites.setPrimitiveType(sf::Quads);
 	this->playerSprites.resize(80);
 
@@ -74,19 +75,156 @@ Render::Render(Model* newModel){
 
 		playerSprites[i * 4 + 1].texCoords = sf::Vector2f(i * 16  + 16, 0);
 
-		playerSprites[i * 4 + 2].texCoords = sf::Vector2f(i * 16, 16);
+		playerSprites[i * 4 + 2].texCoords = sf::Vector2f(i * 16 + 16, 16);
 
 		playerSprites[i * 4 + 3].texCoords = sf::Vector2f(i * 16, 16);
 
-		playerSprites[50]
+		playerSprites[40 + i * 4 + 0].texCoords = playerSprites[i * 4 + 1].texCoords;
+
+		playerSprites[40 + i * 4 + 1].texCoords = playerSprites[i * 4 + 0].texCoords;
+
+		playerSprites[40 + i * 4 + 2].texCoords = playerSprites[i * 4 + 2].texCoords;
+
+		playerSprites[40 + i * 4 + 3].texCoords = playerSprites[i * 4 + 3].texCoords;
 
 	}
 	*/
 
+	this->playerSpriteArray = new sf::Sprite*[4];
+	this->playerSpriteArray[0] = new sf::Sprite[3];
+	for (int i = 0; i < 3; i++) {
+		playerSpriteArray[0][i].setScale(2, 2);
+		playerSpriteArray[0][i].setTexture(this->playerSpriteSheet);
+		playerSpriteArray[0][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 0), sf::Vector2i(16,16)));
+	}
+
+	this->playerSpriteArray[1] = new sf::Sprite[6];
+
+	for (int i = 0; i < 6; i++) {
+		playerSpriteArray[1][i].setScale(2, 2);
+		playerSpriteArray[1][i].setTexture(this->playerSpriteSheet);
+		playerSpriteArray[1][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 16), sf::Vector2i(16, 16)));
+	}
+
+	this->playerSpriteArray[2] = new sf::Sprite[3];
+
+	for (int i = 0; i < 3; i++) {
+		playerSpriteArray[2][i].setScale(2, 2);
+		playerSpriteArray[2][i].setTexture(this->playerSpriteSheet);
+		playerSpriteArray[2][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 32), sf::Vector2i(16, 16)));
+
+	}
+	
+	this->playerSpriteArray[3] = new sf::Sprite[2];
+
+	for (int i = 0; i < 3; i++) {
+		playerSpriteArray[3][i].setScale(2, 2);
+		playerSpriteArray[3][i].setTexture(this->playerSpriteSheet);
+		playerSpriteArray[3][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 48), sf::Vector2i(16, 16)));
+
+	}
 
 }
 
 Render::~Render(){ }
+
+
+void Render::renderPlayerVertexArray() {
+
+
+
+
+	/*
+	if (!model->player->spriteInitialized)
+		initializeRenderable(model->player);
+	drawRenderable(modelTexture, model->player);
+	*/
+
+
+
+}
+
+//Polish notes: Maybe get the sprite at the start, assign it to a sprite pointer, then do common modifcations on it before then calling draw on the sprite pointer, would save lines of code.
+void Render::renderPlayerSpriteArray() {
+	
+	if (model->player->isJumping) {
+
+		playerSpriteArray[2][0].setPosition(model->player->getPosition());
+
+
+		if (!model->player->isFacingRight()) {
+
+			playerSpriteArray[2][0].move(sf::Vector2f(32, 0));
+
+			if (playerSpriteArray[2][0].getScale().x > 0)
+				playerSpriteArray[2][0].scale(-1.f, 1.f);
+		}
+		else if (playerSpriteArray[2][0].getScale().x < 0)
+			playerSpriteArray[2][0].scale(-1.f, 1.f);
+
+
+		playerSpriteArray[2][0].move(sf::Vector2f(-6, -12));
+		modelTexture.draw(playerSpriteArray[2][0]);
+
+	}
+	else if (model->player->isClimbing) {
+		playerSpriteArray[3][((int)model->player->animationTimer / 3 ) % 2].setPosition(model->player->getPosition());
+
+		if (!model->player->isFacingRight()) {
+
+			playerSpriteArray[3][((int)model->player->animationTimer / 3) % 2].move(sf::Vector2f(32, 0));
+
+			if (playerSpriteArray[3][((int)model->player->animationTimer / 3) % 2].getScale().x > 0)
+				playerSpriteArray[3][((int)model->player->animationTimer / 3) % 2].scale(-1.f, 1.f);
+		}
+		else if (playerSpriteArray[3][((int)model->player->animationTimer / 3) % 2].getScale().x < 0)
+			playerSpriteArray[3][((int)model->player->animationTimer / 3) % 2].scale(-1.f, 1.f);
+
+		playerSpriteArray[3][((int)model->player->animationTimer / 3) % 2].move(sf::Vector2f(-6, -12));
+		modelTexture.draw(playerSpriteArray[3][((int)model->player->animationTimer / 3) % 2]);
+
+	}
+	else if (model->player->isRunning) {
+
+		playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6].setPosition(model->player->getPosition());
+
+		if (!model->player->isFacingRight()) {
+
+			playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6].move(sf::Vector2f(32, 0));
+
+			if (playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6].getScale().x > 0)
+				playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6].scale(-1.f, 1.f);
+		}
+		else if (playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6].getScale().x < 0)
+			playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6].scale(-1.f, 1.f);
+
+
+		playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6].move(sf::Vector2f(-6, -12));
+		modelTexture.draw(playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6]);
+
+	}
+	else {
+
+
+		playerSpriteArray[0][((int)model->player->animationTimer / 3) % 3].setPosition(model->player->getPosition());
+
+		if (!model->player->isFacingRight()) {
+
+			playerSpriteArray[0][((int)model->player->animationTimer / 3) % 3].move(sf::Vector2f(32, 0));
+
+			if (playerSpriteArray[0][((int)model->player->animationTimer / 3) % 3].getScale().x > 0)
+				playerSpriteArray[0][((int)model->player->animationTimer / 3) % 3].scale(-1.f, 1.f);
+		}
+		else if (playerSpriteArray[0][((int)model->player->animationTimer / 3) % 3].getScale().x < 0)
+			playerSpriteArray[0][((int)model->player->animationTimer / 3) % 3].scale(-1.f, 1.f);
+
+
+		playerSpriteArray[0][((int)model->player->animationTimer / 3) % 3].move(sf::Vector2f(-6, -12));
+		modelTexture.draw(playerSpriteArray[0][((int)model->player->animationTimer / 3) % 3]);
+
+	}
+
+}
 
 void Render::initializeRenderable(Renderable* renderable) {
 	//std::cout << renderable->textureName << std::endl;
@@ -210,6 +348,8 @@ void Render::renderModel() {
 	if (!model->player->spriteInitialized)
 		initializeRenderable(model->player);
 	drawRenderable(modelTexture, model->player);
+
+	renderPlayerSpriteArray();
 
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
 		if (!(*i)->isRemoved()) {

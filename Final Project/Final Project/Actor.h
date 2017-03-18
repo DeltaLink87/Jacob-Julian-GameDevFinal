@@ -39,6 +39,13 @@ public:
 
 	float dirLooking = 0;
 
+	float animationTimer;
+	bool isJumping = false;
+	bool isIdle = true;;
+	bool isRunning = false;
+	bool isClimbing = false;
+	bool isAttacking = false;
+
 protected:
 	std::vector<Sound> newSounds;
 	float stepSoundTimer = 0;
@@ -61,5 +68,7 @@ protected:
 	int maxStamina, curStamina;
 	int maxMagic, curMagic;
 	float attackStat, defenceStat, speedStat;
+
+
 };
 

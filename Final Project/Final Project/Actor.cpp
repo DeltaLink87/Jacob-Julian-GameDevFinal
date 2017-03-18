@@ -52,6 +52,10 @@ void Actor::hitWall(sf::Vector2f newPosition, int dir) {
 
 	if (dir == 2) {
 		onGround = true;
+		if (isJumping) {
+			animationTimer = 0;
+			isJumping = false;
+		}
 		if (velocity.y > 10)
 			newSounds.push_back(Sound(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y, std::pow(velocity.y, 3) / 50000, 0.5, !isPlayer));
 	}

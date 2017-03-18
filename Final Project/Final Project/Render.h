@@ -27,6 +27,8 @@ public:
 	void renderMainMenu();
 	void renderWin();
 
+	void renderPlayerVertexArray();
+	void renderPlayerSpriteArray();
 	AssetManager manager;
 
 	sf::View camera;
@@ -47,6 +49,14 @@ public:
 
 	sf::Texture playerSpriteSheet;
 	sf::VertexArray playerSprites;
+
+	/* Four arrays:
+	   [0]: Size 3, idle animation.
+	   [1]: Size 6, running animation.
+	   [2]: Size 3, jump animation, [2][1] and [2][2] are landing animations.
+	   [3]: Size 2, climbing animation.
+	*/
+	sf::Sprite** playerSpriteArray;
 
 	bool menuOpen = false;
 
