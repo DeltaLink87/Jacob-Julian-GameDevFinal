@@ -25,13 +25,16 @@ public:
 	void hitWall(sf::Vector2f, int);
 	void overEdge();
 
+	void dealDamage(float, bool);
+
 	Loot* lootDrop();
 
 	void setPatrolPath(std::vector<sf::Vector2f>*);
+	std::vector<sf::Vector2f> path;
 
 protected:
 	
-
+	bool containsPoint(sf::Vector2f);
 	bool canSeePoint(sf::Vector2f);
 
 	std::vector<sf::Vector2f> patrolPath;
@@ -43,7 +46,7 @@ protected:
 	//tracks where the last target the enemy saw or heard is
 	sf::Vector2f targetLocation, prevTargetLocation;
 	MovementMap* pathFinder;
-	std::vector<sf::Vector2f> path;
+	//std::vector<sf::Vector2f> path;
 
 	bool moving;
 

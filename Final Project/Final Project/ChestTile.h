@@ -9,15 +9,16 @@
 
 class ChestTile : public Tile {
 public:
-	ChestTile(int, int, int, int, Item*);
+	ChestTile(int, int, int, int, Item* = NULL);
 	~ChestTile();
 
 
 
-	Item* treasure;
+	Item* treasure = NULL;
 
 	bool opened = false;
 
+	void hit(Entity*);
 
 	bool hitPlayer(Player*);
 

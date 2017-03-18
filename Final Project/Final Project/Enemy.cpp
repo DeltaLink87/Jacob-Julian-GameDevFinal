@@ -47,7 +47,7 @@ void Enemy::update(float deltaTime) {
 
 	if (behaviorState == 1) {
 		if (patrolPath.size() > 0) {
-			if (pow(patrolPath.at(curPoint).x - position.x + 10, 2) + pow(patrolPath.at(curPoint).y - position.y + 10, 2) < pow(32, 2)) {
+			if (containsPoint(patrolPath.at(curPoint))) {
 				curPoint++;
 				curPoint = (curPoint + patrolPath.size()) % patrolPath.size();
 			}
@@ -111,17 +111,17 @@ void Enemy::update(float deltaTime) {
 
 
 
-	if (path.size() > 0 && pow(path.back().x - position.x + 10, 2) + pow(path.back().y - position.y + 10, 2) < pow(32, 2))
+	if (path.size() > 0 && containsPoint(path.back()))
 		path.pop_back();
 
 	if (path.size() == 0 || prevTargetLocation.x != targetLocation.x || targetLocation.y != prevTargetLocation.y) //{
 	//	path.clear();
 	//	path.push_back(targetLocation);
 	//}
-		path = *(pathFinder->getPath(position + sf::Vector2f(10, 10), targetLocation));
+		path = *(pathFinder->getPath(position + sf::Vector2f(hitBox.getSize().x / 2, hitBox.getSize().y / 2), targetLocation));
 	prevTargetLocation = targetLocation;
 
-	timer -= deltaTime;
+	/*timer -= deltaTime;
 	if (timer <= 0) {
 		timer = 2;
 		std::cout << "Path: "<< path.back().x << "," << path.back().y << "," << path.size() << std::endl;
@@ -129,14 +129,17 @@ void Enemy::update(float deltaTime) {
 		std::cout << "target: " << targetLocation.x << "," << targetLocation.y << std::endl;
 		std::cout << "behaviour: " << behaviorState << "," << patrolPath.size() << std::endl;
 		std::cout << "Looking: " << dirLooking << std::endl;
-	}
+	}*/
 	//std::cout << behaviorState << std::endl;
 
 	if (path.size() > 0) {
-		if (path.back().x < position.x)
+		if (abs(path.back().x - (position.x + hitBox.getSize().x / 2)) < hitBox.getSize().x / 4)
+			velocity.x = 0;
+		else if (path.back().x < position.x + hitBox.getSize().x / 2)
 			velocity.x = -70;
-		else if (path.back().x > position.x + hitBox.getSize().x)
+		else if (path.back().x > position.x + hitBox.getSize().x / 2)
 			velocity.x = 70;
+		else velocity.x = 0;
 
 		climbing = false;
 		droppedDown = false;
@@ -165,22 +168,15 @@ void Enemy::update(float deltaTime) {
 			dirLooking += 2 * acos(0);
 	}
 	else {
-		if (velocity.x < 0 && velocity.y > 0)
-			dirLooking = 1.5 * acos(0);
-		else if (velocity.x > 0 && velocity.y > 0)
-			dirLooking = 0.5 * acos(0);
-		else if (velocity.x < 0 && velocity.y < 0)
-			dirLooking = 2.5 * acos(0);
-		else if (velocity.x > 0 && velocity.y < 0)
-			dirLooking = 3.5 * acos(0);
-		else if (velocity.x < 0)
-			dirLooking = 2 * acos(0);
-		else if (velocity.x > 0)
-			dirLooking = 0;
-		else if (velocity.y < 0)
-			dirLooking = 3 * acos(0);
+		if (velocity.x != 0) {
+			dirLooking = atan(velocity.y / velocity.x);
+			if (velocity.x < 0)
+				dirLooking += 2 * acos(0);
+		}
 		else if (velocity.y > 0)
 			dirLooking = acos(0);
+		else if (velocity.y < 0)
+			dirLooking = 3 * acos(0);
 	}
 	
 
@@ -226,7 +222,7 @@ void Enemy::doesSee(Actor* checkActor) {
 	//checking if the actor is within the enemy's range of sight
 	if (canSeePoint(actorLocation)) {
 		behaviorState = 3;
-		targetLocation = actorLocation;
+		targetLocation = actorLocation + checkActor->getHitBox().getSize() * 0.5f;
 	}
 	else if (behaviorState == 3) {
 		if (pow(200, 2) < pow(position.x - actorLocation.x, 2) + pow(position.y - actorLocation.y, 2))
@@ -241,7 +237,7 @@ bool Enemy::canSeePoint(sf::Vector2f point) {
 		if (point.x - position.x < 0)
 			dirToPoint += 2 * acos(0);
 
-		if (abs(dirToPoint - dirLooking) < acos(0) / 2) {
+		if (abs(dirToPoint - dirLooking) < acos(0) / 3) {
 			return true;
 		}
 	}
@@ -261,8 +257,21 @@ void Enemy::hitWall(sf::Vector2f newPosition, int dir) {
 	}
 }
 
+bool Enemy::containsPoint(sf::Vector2f point) {
+	if (position.x < point.x && position.x + hitBox.getSize().x > point.x &&
+		position.y < point.y && position.y + hitBox.getSize().y > point.y)
+		return true;
+	return false;
+}
+
 void Enemy::overEdge() {
 	velocity.x = -velocity.x;
+}
+
+void Enemy::dealDamage(float damage, bool assassination) {
+	if (assassination && behaviorState != 3)
+		curHealth = 0;
+	else curHealth -= std::max((int)damage - inventory.getTotalArmourDefence(), 0);
 }
 
 Loot* Enemy::lootDrop() { 
@@ -270,7 +279,7 @@ Loot* Enemy::lootDrop() {
 	//std::cout << droppedItem << std::endl;
 	if (droppedItem == NULL)
 		return NULL;
-	return new Loot(position.x, position.y, 10, 10, droppedItem);
+	return new Loot(position.x, position.y, 20, 20, droppedItem);
 }
 
 void Enemy::setPatrolPath(std::vector<sf::Vector2f>* newPath) { patrolPath = *newPath; }

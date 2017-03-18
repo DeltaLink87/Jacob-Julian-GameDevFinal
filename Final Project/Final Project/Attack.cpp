@@ -47,7 +47,7 @@ void Attack::hitActor(Actor* hitThis) {
 
 
 	if (hitThis != source) {
-		hitThis->dealDamage(damage);
+		hitThis->dealDamage(damage, canAssassinate);
 		attacked.push_back(hitThis);
 		//std::cout << hitThis->curHealth << std::endl;
 		if(!this->piercing && !this->melee)

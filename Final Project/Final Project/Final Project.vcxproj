@@ -50,6 +50,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ChestTile.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TopLadderTile.cpp" />
     <ClCompile Include="TopTile.cpp" />
     <ClCompile Include="UseableItem.cpp" />
   </ItemGroup>
@@ -88,6 +89,7 @@
     <ClInclude Include="SolidTile.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TopLadderTile.h" />
     <ClInclude Include="TopTile.h" />
     <ClInclude Include="Updatable.h" />
     <ClInclude Include="UseableItem.h" />

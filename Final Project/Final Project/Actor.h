@@ -19,6 +19,7 @@ public:
 	~Actor();
 
 	void hitWall(sf::Vector2f, int);
+	void hitActor(Actor*);
 
 	void addInventory(Item*);
 	Inventory* getInventory();
@@ -31,12 +32,12 @@ public:
 	int getMaxHealth();
 	int getHealth();
 
-	void dealDamage(float);
+	void dealDamage(float, bool);
 	void HealHealth(float);
 
 	bool isFacingRight();
 
-
+	float dirLooking = 0;
 
 protected:
 	std::vector<Sound> newSounds;
@@ -54,7 +55,7 @@ protected:
 	bool facingRight;
 	bool onGround = true;
 
-	float dirLooking = 0;
+	//float dirLooking = 0;
 
 	int maxHealth, curHealth;
 	int maxStamina, curStamina;

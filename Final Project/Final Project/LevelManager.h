@@ -6,6 +6,8 @@
 #include "LadderTile.h"
 #include "SolidTile.h"
 #include "TopTile.h"
+#include "TopLadderTile.h"
+#include "ChestTile.h"
 #include "Enemy.h"
 #include "Objective.h"
 #include "ObjectiveEnemy.h"
@@ -34,6 +36,7 @@ private:
 	std::map<std::string, Inventory*> inventories;
 	std::map<std::string, std::vector<sf::Vector2f>> patrolPaths;
 	void loadEnemyInventory(Enemy*, Inventory&);
+	void loadChestItem(ChestTile*, Inventory&);
 	void setEnemyPatrolPath(Enemy*, std::vector<sf::Vector2f>);
 
 	Inventory* savedInventory = NULL;

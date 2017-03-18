@@ -216,6 +216,18 @@ void Render::renderModel() {
 			if (!(*i)->spriteInitialized)
 				initializeRenderable(*i);
 			drawRenderable(modelTexture, *i);
+
+			sf::Vertex* path = new sf::Vertex[(*i)->path.size()];
+			for (int l = 0; l < (*i)->path.size(); l++) {
+				path[l].position = (*i)->path.at(l);
+				path[l].color = sf::Color::Red;
+			}
+			modelTexture.draw(path, (*i)->path.size(), sf::LineStrip);
+
+			sf::Vertex looking[2];
+			looking[0].position = (*i)->getPosition() + (*i)->getHitBox().getSize() * 0.5f;
+			looking[1].position = sf::Vector2f(looking[0].position.x + 32 * cos((*i)->dirLooking), looking[0].position.y + 32 * sin((*i)->dirLooking));
+			modelTexture.draw(looking, 2, sf::Lines);
 		}
 	}
 

@@ -43,6 +43,9 @@ Inventory::~Inventory() {
 }
 
 bool Inventory::addToInventory(Item* newItem) {
+	if (newItem == NULL)
+		return false;
+
 	int freeX = -1, freeY = -1;
 	for (int x = 0; x < invWidth; x++) {
 		for (int y = 0; y < invHeight; y++) {
@@ -70,6 +73,9 @@ bool Inventory::addToInventory(Item* newItem) {
 }
 
 bool Inventory::addToInventory(Item* newItem, int x, int y) {
+	if (newItem == NULL)
+		return false;
+
 	if (x == -1) {
 		if (armour[y] == NULL && newItem->armourType - 1 == y){
 			armour[y] = newItem;

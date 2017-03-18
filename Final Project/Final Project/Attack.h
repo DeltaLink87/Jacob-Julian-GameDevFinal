@@ -22,6 +22,8 @@ public:
 	std::vector<Actor*> attacked;
 
 	void rotation(float);
+
+	bool canAssassinate = false;
 	
 	Actor* source;
 

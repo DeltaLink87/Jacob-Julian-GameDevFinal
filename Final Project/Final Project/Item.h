@@ -44,6 +44,7 @@ public:
 	1: melee attack
 	2: projectile attack*/
 	int attackType = 0;
+	bool canAssasinate = false;
 	/*type of armour this item is
 	0: not armour
 	1: helmet

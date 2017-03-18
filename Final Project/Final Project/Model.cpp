@@ -7,8 +7,10 @@
 Model::Model(){
 	curLevelNum = 0;
 	levelNames.push_back("Basic");
+	levelNames.push_back("ChestTest");
 	levelNames.push_back("PathFindngTest");
 	levelNames.push_back("DropPathTest");
+	levelNames.push_back("TopTilePathTest");
 	levelNames.push_back("First Enemy");
 	levelNames.push_back("tileMap2");
 	levelNames.push_back("VerticalSlice");
@@ -250,6 +252,10 @@ void Model::updateModel(float deltaTime) {
 		}
 		else i++;
 	}
+
+	for (std::vector<Loot*>::iterator i = droppedLoot.begin(); i != droppedLoot.end(); i++) {
+		(*i)->update(deltaTime);
+	}
 }
 
 
@@ -264,8 +270,8 @@ void Model::collisionDetection() {
 						droppedLoot.push_back(new Loot(
 							dynamic_cast<ChestTile*>(tileMap[y][x])->getPosition().x,
 							dynamic_cast<ChestTile*>(tileMap[y][x])->getPosition().y,
-							10,
-							10,
+							20,
+							20,
 							dynamic_cast<ChestTile*>(tileMap[y][x])->getTreasure()));
 
 					}
@@ -280,7 +286,13 @@ void Model::collisionDetection() {
 		if ((*a)->intersects(player->getHitBox()))
 			(*a)->hitActor(player);
 
+	//collision for loot
 	for (std::vector<Loot*>::iterator l = droppedLoot.begin(); l != droppedLoot.end(); ) {
+		for (int y = std::max(0, (int)((*l)->getPosition().y / tileSize)); y < std::min(mapHeight, (int)(((*l)->getPosition().y + (*l)->getHitBox().getSize().y) / tileSize + 1)); y++)
+			for (int x = std::max(0, (int)((*l)->getPosition().x / tileSize)); x < std::min(mapWidth, (int)(((*l)->getPosition().x + (*l)->getHitBox().getSize().x) / tileSize + 1)); x++)
+				if ((*l)->intersects(tileMap[y][x]->getHitBox()))
+					tileMap[y][x]->hit(*l);
+
 		if ((*l)->intersects(player->getHitBox())) {
 			Loot* removedLoot = *l;
 			l = droppedLoot.erase(l);
@@ -293,11 +305,17 @@ void Model::collisionDetection() {
 
 	// -----------------------Enemy collision detection--------------------- //
 	for (std::vector<Enemy*>::iterator e = enemies.begin(); e != enemies.end(); e++) {
+		if ((*e)->intersects(player->getHitBox())) {
+			(*e)->hitActor(player);
+		}
+
 		//enemy collision against map
 		for (int y = std::max(0, (int)((*e)->getPosition().y / tileSize)); y < std::min(mapHeight, (int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize + 1)); y++)
 			for (int x = std::max(0, (int)((*e)->getPosition().x / tileSize)); x < std::min(mapWidth, (int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x) / tileSize + 1)); x++)
 				if ((*e)->intersects(tileMap[y][x]->getHitBox()))
 					tileMap[y][x]->hit(*e);
+
+		
 
 		(*e)->doesSee(player);	//checking if the enemy can see the player
 

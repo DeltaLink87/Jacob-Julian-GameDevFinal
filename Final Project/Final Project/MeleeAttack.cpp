@@ -91,7 +91,7 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 		}
 
 	}
-
+	canAssassinate = item->canAssasinate;
 }
 
 //Alternate constructor with a type differentiator at the end, used to determine attack behavior.
@@ -179,6 +179,7 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 		}
 
 	}
+	//canAssassinate = item->canAssasinate;
 }
 
 
@@ -244,13 +245,23 @@ void MeleeAttack::update(float deltaTime) {
     //rotation needs to be changed to sprite --TEMP--
 		rotation(direction);
 
-		position.x += cos(direction) * 20;
-		position.y += sin(direction) * 20;
+		//position.x += cos(direction) * 20;
+		//position.y += sin(direction) * 20;
 
 		if (duration >= 2.0)
 			remove();
 
-		hitBox.setPosition(position);
+		hitBox = sf::RectangleShape(sf::Vector2f(abs(cos(direction) * spriteWidth) + abs(sin(direction) * spriteHeight), abs(cos(direction) * spriteHeight) + abs(sin(direction) * spriteWidth)));
+		hitBox.setFillColor(sf::Color::Blue);
+
+		float angle = atan((float)spriteHeight / (float)spriteWidth);
+		float disToFarCorner = sqrt(pow(spriteWidth, 2) + pow(spriteHeight, 2));
+		sf::Vector2f corner1(cos(direction) * spriteWidth, sin(direction) * spriteWidth);
+		sf::Vector2f corner2(cos(direction + angle) * disToFarCorner, sin(direction + angle) * disToFarCorner);
+		sf::Vector2f corner3(cos(direction + acos(0)) * spriteHeight, sin(direction + acos(0)) * spriteHeight);
+		spritePositionDifference = sf::Vector2f(std::min(std::min(.0f, corner1.x), std::min(corner2.x, corner3.x)), std::min(std::min(.0f, corner1.y), std::min(corner2.y, corner3.y)));
+
+		hitBox.setPosition(position + spritePositionDifference);
 	}
 }
 
