@@ -173,10 +173,11 @@ void Enemy::update(float deltaTime) {
 			if (velocity.x < 0)
 				dirLooking += 2 * acos(0);
 		}
-		else if (velocity.y > 0)
+		else if (velocity.y > 200 * deltaTime * 2)
 			dirLooking = acos(0);
 		else if (velocity.y < 0)
 			dirLooking = 3 * acos(0);
+		else dirLooking = 0;
 	}
 	
 
@@ -199,6 +200,7 @@ void Enemy::update(float deltaTime) {
 	}
 
 	attackTimer -= deltaTime;
+	noticeTimer -= deltaTime;
 	/*timer++;
 	if (timer % 5 == 0)
 		std::cout << position.x << "," << position.y << "," << velocity.x << "," << velocity.y << std::endl;*/
@@ -222,6 +224,7 @@ void Enemy::doesSee(Actor* checkActor) {
 	//checking if the actor is within the enemy's range of sight
 	if (canSeePoint(actorLocation)) {
 		behaviorState = 3;
+		noticeTimer = 1.0;
 		targetLocation = actorLocation + checkActor->getHitBox().getSize() * 0.5f;
 	}
 	else if (behaviorState == 3) {
@@ -237,7 +240,7 @@ bool Enemy::canSeePoint(sf::Vector2f point) {
 		if (point.x - position.x < 0)
 			dirToPoint += 2 * acos(0);
 
-		if (abs(dirToPoint - dirLooking) < acos(0) / 3) {
+		if (abs(dirToPoint - dirLooking) < acos(0) / 6) {
 			return true;
 		}
 	}
@@ -271,7 +274,7 @@ void Enemy::overEdge() {
 void Enemy::dealDamage(float damage, bool assassination) {
 	if (assassination && behaviorState != 3)
 		curHealth = 0;
-	else curHealth -= std::max((int)damage - inventory.getTotalArmourDefence(), 0);
+	else Actor::dealDamage(damage, false);
 }
 
 Loot* Enemy::lootDrop() { 

@@ -31,6 +31,7 @@ public:
 
 	void setPatrolPath(std::vector<sf::Vector2f>*);
 	std::vector<sf::Vector2f> path;
+	float noticeTimer = 0;
 
 protected:
 	

@@ -91,7 +91,8 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 		}
 
 	}
-	canAssassinate = item->canAssasinate;
+	if (item != NULL)
+		canAssassinate = item->canAssasinate;
 }
 
 //Alternate constructor with a type differentiator at the end, used to determine attack behavior.

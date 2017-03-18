@@ -128,7 +128,7 @@ void Player::update(float deltaTime) {
 		if (moveFast)
 			loudness *= 2;
 		else if (moveSlow)
-			loudness /= 2;
+			loudness = hitBox.getSize().x / 4;
 		//creating new sound
 		newSounds.push_back(Sound(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, loudness, 0.5, false));
 	}
