@@ -93,11 +93,10 @@ Render::Render(Model* newModel){
 	this->playerSpriteArray = new sf::Sprite*[4];
 	this->playerSpriteArray[0] = new sf::Sprite[3];
 	for (int i = 0; i < 3; i++) {
-		playerSpriteArray[0][i].setScale(2, 2);
+		playerSpriteArray[0][i].setScale(1.5, 1.5);
 		playerSpriteArray[0][i].setTexture(this->playerSpriteSheet);
 		playerSpriteArray[0][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 0), sf::Vector2i(16,16)));
 	}
-
 	this->playerSpriteArray[1] = new sf::Sprite[6];
 
 	for (int i = 0; i < 6; i++) {

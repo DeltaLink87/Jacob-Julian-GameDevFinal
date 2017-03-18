@@ -1,0 +1,6 @@
+HealingMold HealingHerb GreaterHealingHerb MagicHerb Bottle String Wood Stick Cloth Hide Iron Steel
+HealingPotion
+Bow Arrow
+Dagger Rondel SinnersScalpel
+Spear
+Sword LongSword BroadSword GreatSword MasterfulSword
