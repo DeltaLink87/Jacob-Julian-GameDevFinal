@@ -652,9 +652,10 @@ void Render::renderWin() {
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
-	textBrush.setString("Level Complete\nPress Space to Continue");
-	textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
-	UITexture.draw(textBrush);
+	makeStringTextrue("Level Complete newLine Press Space to Continue", windowWidth / 2 - 75, windowHeight / 2 - 15, 200, 50, 15, UITexture);
+	//textBrush.setString("Game Over\nPress Space to Retry");
+	//textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
+	//UITexture.draw(textBrush);
 }
 
 void Render::renderLose() {
@@ -664,7 +665,56 @@ void Render::renderLose() {
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
-	textBrush.setString("Game Over\nPress Space to Retry");
-	textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
-	UITexture.draw(textBrush);
+	makeStringTextrue("Game Over newLine Press Space to Retry", windowWidth / 2 - 75, windowHeight / 2 - 15, 200, 50, 15, UITexture);
+	//textBrush.setString("Game Over\nPress Space to Retry");
+	//textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
+	//UITexture.draw(textBrush);
+}
+
+void Render::makeStringTextrue(std::string msg, int x, int y, int width, int height, int fontSize, sf::RenderTarget& target) {
+	std::vector<std::string> words;
+	std::stringstream ss;
+	ss << msg;
+	std::string word, prevWord;
+	ss >> word;
+	while (word.compare(prevWord) != 0) {
+		//std::cout << word << std::endl;
+		words.push_back(word);
+		prevWord = word;
+		ss >> word;
+	}
+	
+	sf::Text text;
+	std::string totalString = "";
+	text.setFont(font);
+	text.setCharacterSize(fontSize);
+	//text.setString(msg);
+
+	//int length = text.getLocalBounds().width;
+	//float ratio = (float)width / ((float)height / (float)text.getCharacterSize());
+	//int rowLength = length / (ratio * (float)text.getCharacterSize());
+
+	for (std::vector<std::string>::iterator i = words.begin(); i != words.end(); i++) {
+		text.setString(totalString + *i);
+		if (i->compare("newLine") == 0)
+			totalString += "\n";
+		else if (text.getLocalBounds().width > width)
+			totalString += "\n" + *i + " ";
+		else totalString += *i + " ";
+	}
+	text.setString(totalString);
+	text.setPosition(0, 0);
+	//text.setScale((float)width / (float)text.getLocalBounds().width, (float)height / (float)text.getLocalBounds().height);
+	//std::string thing = text.getString();
+	//std::cout << text.getLocalBounds().width << "," << text.getLocalBounds().height << std::endl;
+
+	sf::RenderTexture texture;
+	texture.create(width, height);
+	texture.clear(sf::Color::Transparent);
+	texture.draw(text);
+	texture.display();
+	sf::Sprite sprite;
+	sprite.setTexture(texture.getTexture());
+	sprite.setPosition(x, y);
+	target.draw(sprite);
 }

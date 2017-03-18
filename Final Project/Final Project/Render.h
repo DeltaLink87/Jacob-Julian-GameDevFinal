@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include <sstream>
+
 class Render {
 public:
 	sf::RenderWindow window;
@@ -50,6 +52,9 @@ public:
 
 	sf::Texture playerSpriteSheet;
 	sf::VertexArray playerSprites;
+
+	/*(std::string input, int x, int y, int textureWidth, int textureHeight, int fontSize, sf::RenderTarget wherToRenderTo*/
+	void makeStringTextrue(std::string, int, int, int, int, int, sf::RenderTarget&);
 
 	/* Four arrays:
 	   [0]: Size 3, idle animation.
