@@ -34,9 +34,6 @@
     <ClCompile Include="Attack.cpp">
       <Filter>Source Files\Objects\Attacks</Filter>
     </ClCompile>
-    <ClCompile Include="MeleeAttack.cpp">
-      <Filter>Source Files\Objects\Attacks</Filter>
-    </ClCompile>
     <ClCompile Include="UseableItem.cpp">
       <Filter>Source Files\Objects\Items</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="ChestTile.cpp">
       <Filter>Source Files\Objects\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAttack.cpp">
+      <Filter>Source Files\Objects\Attacks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

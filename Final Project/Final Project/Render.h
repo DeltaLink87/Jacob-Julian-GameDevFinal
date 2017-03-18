@@ -30,8 +30,9 @@ public:
 	void renderWin();
 	void renderLose();
 
-	void renderPlayerVertexArray();
 	void renderPlayerSpriteArray();
+	void renderEnemySpriteArray(Enemy*);
+
 	AssetManager manager;
 
 	sf::View camera;
@@ -51,7 +52,7 @@ public:
 	sf::RectangleShape divide;
 
 	sf::Texture playerSpriteSheet;
-	sf::VertexArray playerSprites;
+	sf::Texture enemySpriteSheet;
 
 	/*(std::string input, int x, int y, int textureWidth, int textureHeight, int fontSize, sf::RenderTarget wherToRenderTo*/
 	void makeStringTextrue(std::string, int, int, int, int, int, sf::RenderTarget&);
@@ -63,6 +64,9 @@ public:
 	   [3]: Size 2, climbing animation.
 	*/
 	sf::Sprite** playerSpriteArray;
+
+
+	sf::Sprite** enemySpriteArray;
 
 	bool menuOpen = false;
 

@@ -6,9 +6,17 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 	
 	if (item != NULL)
 		this->type = item->attackType + 1;
-	else this->type = 2;
+	else 
+		this->type = 2;
+
 	this->melee = true;
 	this->spritePositionSet = true;
+
+	if (item->dimPreset) {
+		this->spriteWidth = item->presetItemDimX;
+		this->spriteHeight = item->presetItemDimY;
+	}
+
 
 	if (this->type == DAGGER) {
 		/*
@@ -24,9 +32,17 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 
 			this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
 		*/
+
+		/*
 		if (item != NULL)
 			this->textureName = "Attacks/" + item->name + "AttackImage";
 		else this->textureName = "Attacks/DaggerAttackImage";
+		*/
+
+		this->textureName = "Attacks/iconToImgTEST";
+		
+
+
 
 		//if (newSource->isFacingRight())
 		//	this->sprite.setScale(sf::Vector2f(.15, .2));
@@ -48,116 +64,115 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 	}
 
 	else if (this->type == SWORD) {
-        
+
 		if (item != NULL)
 			this->textureName = "Attacks/" + item->name + "AttackImage";
 		else this->textureName = "Attacks/DaggerAttackImage";
-    
-		if (newSource->isFacingRight()) {
-		  /* --TEMP--
-				this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
-				this->visualRepresentation.setTexture(textureOfVisualRepresentation);
-				this->visualRepresentation.setScale(sf::Vector2f(.15, .2));
-      
-      
 
-				//this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
-				//this->sprite.setSize(this->getHitBox().getSize());
-		  */
-      
-		  this->sprite.setScale(sf::Vector2f(.15,.2));
+		if (newSource->isFacingRight()) {
+			/* --TEMP--
+				  this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
+				  this->visualRepresentation.setTexture(textureOfVisualRepresentation);
+				  this->visualRepresentation.setScale(sf::Vector2f(.15, .2));
+
+
+
+				  //this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
+				  //this->sprite.setSize(this->getHitBox().getSize());
+			*/
+
+			this->sprite.setScale(sf::Vector2f(.15, .2));
 
 			direction = dir - ((120.0 / 180.0) * pi);
-			std::cout << direction << std::endl;
-			type = 2;
-			anchor = newSource->getPosition();
 		}
 		else {
-	  /*
-	  --TEMP--
-				this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
-				this->visualRepresentation.setTexture(textureOfVisualRepresentation);
-				this->visualRepresentation.setScale(sf::Vector2f(.15, -.2));
-    
-      
-				//this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
-				//this->sprite.setSize(this->getHitBox().getSize());
-		  */
-      
-		  this->sprite.setScale(sf::Vector2f(.15,-.2));
+			/*
+			--TEMP--
+					  this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
+					  this->visualRepresentation.setTexture(textureOfVisualRepresentation);
+					  this->visualRepresentation.setScale(sf::Vector2f(.15, -.2));
+
+
+					  //this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
+					  //this->sprite.setSize(this->getHitBox().getSize());
+				*/
+
+			this->sprite.setScale(sf::Vector2f(.15, -.2));
 
 			direction = dir + ((120.0 / 180.0) * pi);
-			std::cout << direction << std::endl;
-			type = 2;
-			anchor = newSource->getPosition();
-
-
 
 		}
+		type = 2;
+		anchor = newSource->getPosition();
+
+
+
 
 	}
 	if (item != NULL)
-		canAssassinate = item->canAssasinate;
+		canAssassinate = item->canAssassinate;
 }
+
+
 
 //Alternate constructor with a type differentiator at the end, used to determine attack behavior.
 MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* newSource, int t) : Attack(x, y, width, height, newSource) {
-	this->type = t;	
+	this->type = t;
 	this->melee = true;
 	if (this->type == DAGGER) {
 		/*
-		 --TEMP--
-			this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
-			this->visualRepresentation.setTexture(textureOfVisualRepresentation);
-			if (newSource->isFacingRight())
-				this->visualRepresentation.setScale(sf::Vector2f(.15, .2));
-			else
-				this->visualRepresentation.setScale(sf::Vector2f(-.15, .2));
+		--TEMP--
+		this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
+		this->visualRepresentation.setTexture(textureOfVisualRepresentation);
+		if (newSource->isFacingRight())
+		this->visualRepresentation.setScale(sf::Vector2f(.15, .2));
+		else
+		this->visualRepresentation.setScale(sf::Vector2f(-.15, .2));
 
-			//std::cout << ((float) this->visualRepresentation.getLocalBounds().height) * this->visualRepresentation.getScale().y << std::endl;
+		//std::cout << ((float) this->visualRepresentation.getLocalBounds().height) * this->visualRepresentation.getScale().y << std::endl;
 
-			this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
+		this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
 		*/
-    
+
 		this->textureName = "Items/DaggerAttackImage";
 
 		if (newSource->isFacingRight())
 			this->sprite.setScale(sf::Vector2f(.15, .2));
 		else
 			this->sprite.setScale(sf::Vector2f(-.15, .2));
-    
-    
+
+
 		//this->getHitBox().setSize(sf::Vector2f(this->sprite.getLocalBounds().width * this->sprite.getScale().x, this->sprite.getLocalBounds().height * this->sprite.getScale().y));
 		this->getHitBox().setSize(sf::Vector2f(30,10));
-    
+
 		direction = dir;
 		type = 1;
 		thrust = true;
 		anchor = newSource->getPosition();
 
 		attackMotion = 0.1;
-		
+
 
 	}
 
 	else if (this->type == SWORD) {
-        
+
 		this->textureName = "Items/DaggerAttackImage";
-    
+
 		if (newSource->isFacingRight()) {
 			/*
 			--TEMP--
-				this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
-				this->visualRepresentation.setTexture(textureOfVisualRepresentation);
-				this->visualRepresentation.setScale(sf::Vector2f(.15, .2));
-      
-      
+			this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
+			this->visualRepresentation.setTexture(textureOfVisualRepresentation);
+			this->visualRepresentation.setScale(sf::Vector2f(.15, .2));
 
-				//this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
-				//this->sprite.setSize(this->getHitBox().getSize());
+
+
+			//this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
+			//this->sprite.setSize(this->getHitBox().getSize());
 			*/
-      
-			this->sprite.setScale(sf::Vector2f(.15,-.2));
+
+			this->sprite.setScale(sf::Vector2f(.15, -.2));
 
 			direction = dir - ((120.0 / 180.0) * pi);
 			std::cout << direction << std::endl;
@@ -165,16 +180,16 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 			anchor = newSource->getPosition();
 		}
 		else {
-      /*
-      --TEMP--
+			/*
+			--TEMP--
 			this->textureOfVisualRepresentation.loadFromFile("Assets/Textures/Items/DaggerAttackImage.png");
 			this->visualRepresentation.setTexture(textureOfVisualRepresentation);
 			this->visualRepresentation.setScale(sf::Vector2f(.15, -.2));
-      
-      
+
+
 			//this->getHitBox().setSize(sf::Vector2f(this->visualRepresentation.getLocalBounds().width * this->visualRepresentation.getScale().x, this->visualRepresentation.getLocalBounds().height * this->visualRepresentation.getScale().y));
 			//this->sprite.setSize(this->getHitBox().getSize());
-   */
+			*/
 			direction = dir + ((120.0 / 180.0) * pi);
 			std::cout << direction << std::endl;
 			type = 2;
@@ -185,8 +200,9 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 		}
 
 	}
-	//canAssassinate = item->canAssasinate;
+	//canAssassinate = item->canAssassinate;
 }
+
 
 
 
@@ -216,7 +232,8 @@ void MeleeAttack::update(float deltaTime) {
 
 		duration += deltaTime;
 
-		if (duration >= 2.0)
+		//if (duration >= 2.0)
+		if (attackMotion <= 0)
 			remove();
 
 
