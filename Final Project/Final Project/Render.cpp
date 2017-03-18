@@ -64,31 +64,8 @@ Render::Render(Model* newModel){
 
 	
 	playerSpriteSheet.loadFromFile("Assets/Textures/Actors/playerSheet.png");
+	enemySpriteSheet.loadFromFile("Assets/Textures/Actors/enemySheet.png");
 
-	/*
-	this->playerSprites.setPrimitiveType(sf::Quads);
-	this->playerSprites.resize(80);
-
-	for (int i = 0; i < 3; i++) {
-		
-		playerSprites[i * 4 + 0].texCoords = sf::Vector2f(i * 16, 0);
-
-		playerSprites[i * 4 + 1].texCoords = sf::Vector2f(i * 16  + 16, 0);
-
-		playerSprites[i * 4 + 2].texCoords = sf::Vector2f(i * 16 + 16, 16);
-
-		playerSprites[i * 4 + 3].texCoords = sf::Vector2f(i * 16, 16);
-
-		playerSprites[40 + i * 4 + 0].texCoords = playerSprites[i * 4 + 1].texCoords;
-
-		playerSprites[40 + i * 4 + 1].texCoords = playerSprites[i * 4 + 0].texCoords;
-
-		playerSprites[40 + i * 4 + 2].texCoords = playerSprites[i * 4 + 2].texCoords;
-
-		playerSprites[40 + i * 4 + 3].texCoords = playerSprites[i * 4 + 3].texCoords;
-
-	}
-	*/
 
 	this->playerSpriteArray = new sf::Sprite*[4];
 	this->playerSpriteArray[0] = new sf::Sprite[3];
@@ -97,7 +74,6 @@ Render::Render(Model* newModel){
 		playerSpriteArray[0][i].setTexture(this->playerSpriteSheet);
 		playerSpriteArray[0][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 0), sf::Vector2i(16,16)));
 	}
-
 	this->playerSpriteArray[1] = new sf::Sprite[6];
 
 	for (int i = 0; i < 6; i++) {
@@ -117,32 +93,84 @@ Render::Render(Model* newModel){
 	
 	this->playerSpriteArray[3] = new sf::Sprite[2];
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 2; i++) {
 		playerSpriteArray[3][i].setScale(2, 2);
 		playerSpriteArray[3][i].setTexture(this->playerSpriteSheet);
 		playerSpriteArray[3][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 48), sf::Vector2i(16, 16)));
 
 	}
 
+	/*
+	this->enemySpriteArray = new sf::Sprite*[4];
+	this->enemySpriteArray[0] = new sf::Sprite[3];
+	for (int i = 0; i < 3; i++) {
+		enemySpriteArray[0][i].setScale(2, 2);
+		enemySpriteArray[0][i].setTexture(this->enemySpriteSheet);
+		enemySpriteArray[0][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 0), sf::Vector2i(16, 16)));
+	}
+	this->enemySpriteArray[1] = new sf::Sprite[6];
+
+	for (int i = 0; i < 6; i++) {
+		enemySpriteArray[1][i].setScale(2, 2);
+		enemySpriteArray[1][i].setTexture(this->enemySpriteSheet);
+		enemySpriteArray[1][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 16), sf::Vector2i(16, 16)));
+	}
+
+	this->enemySpriteArray[2] = new sf::Sprite[3];
+
+	for (int i = 0; i < 3; i++) {
+		enemySpriteArray[2][i].setScale(2, 2);
+		enemySpriteArray[2][i].setTexture(this->enemySpriteSheet);
+		enemySpriteArray[2][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 32), sf::Vector2i(16, 16)));
+
+	}
+
+	this->enemySpriteArray[3] = new sf::Sprite[2];
+
+	for (int i = 0; i < 2; i++) {
+		enemySpriteArray[3][i].setScale(2, 2);
+		enemySpriteArray[3][i].setTexture(this->enemySpriteSheet);
+		enemySpriteArray[3][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 48), sf::Vector2i(16, 16)));
+
+	}
+	*/
 }
 
 Render::~Render(){ }
 
+/*
+void Render::renderEnemySpriteArray(Enemy* enemy) {
 
-void Render::renderPlayerVertexArray() {
+	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
+		if (!(*i)->isRemoved()) {
+			if (!(*i)->spriteInitialized)
+				initializeRenderable(*i);
+			drawRenderable(modelTexture, *i);
 
+			if ((*i)->noticeTimer > 0) {
+				sf::RectangleShape notice = sf::RectangleShape(sf::Vector2f(5, 10));
+				notice.setPosition((*i)->getPosition().x + 5, (*i)->getPosition().y - 15);
+				notice.setFillColor(sf::Color::Red);
+				modelTexture.draw(notice);
+			}
 
+			sf::Vertex* path = new sf::Vertex[(*i)->path.size()];
+			for (int l = 0; l < (*i)->path.size(); l++) {
+				path[l].position = (*i)->path.at(l);
+				path[l].color = sf::Color::Red;
+			}
+			modelTexture.draw(path, (*i)->path.size(), sf::LineStrip);
 
-
-	/*
-	if (!model->player->spriteInitialized)
-		initializeRenderable(model->player);
-	drawRenderable(modelTexture, model->player);
-	*/
-
+			sf::Vertex looking[2];
+			looking[0].position = (*i)->getPosition() + (*i)->getHitBox().getSize() * 0.5f;
+			looking[1].position = sf::Vector2f(looking[0].position.x + 32 * cos((*i)->dirLooking), looking[0].position.y + 32 * sin((*i)->dirLooking));
+			modelTexture.draw(looking, 2, sf::Lines);
+		}
+	}
 
 
 }
+*/
 
 //Polish notes: Maybe get the sprite at the start, assign it to a sprite pointer, then do common modifcations on it before then calling draw on the sprite pointer, would save lines of code.
 void Render::renderPlayerSpriteArray() {

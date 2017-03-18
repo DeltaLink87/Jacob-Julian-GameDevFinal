@@ -1,0 +1,28 @@
+/*
+followed a basic formula for converting
+the attack images into width/height ratios and
+multiplying by 2.
+For example:
+DaggerAttackIcon is 295x136
+295 / 136 = 2.16911
+which is close (enough) to 2.1666667
+which gives a basic converted ratio of 13/6 -> 26/12
+it's basic, it doesn't make much sense, but it's
+good for maintaining the sprite's image integrity.
+had to do some specific scaling operations on the
+small icon sprites to get decent attack images.
+*/
+
+DaggerAttackImage 26,12
+SwordAttackImage 29,14
+SpearAttackImage 40,10
+RondelAttackImage 32,12
+SinnersScalpel 45,21
+LongSword 34,16
+BroadSword 34,20
+GreatSword 38,17
+MasterfulSword 46,20
+Bow 24,11
+
+
+

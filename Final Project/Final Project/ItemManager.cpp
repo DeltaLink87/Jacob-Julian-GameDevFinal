@@ -13,29 +13,49 @@ ItemManager::ItemManager() {
 		itemIndex.insert(std::pair<int, std::string>(i, temp));
 
 	}
-	/*
-	itemIndex.insert(std::pair<int, std::string>(1, "Dagger"));
-	itemIndex.insert(std::pair<int, std::string>(2, "Health Potion"));
-	itemIndex.insert(std::pair<int, std::string>(3, "Herb"));
-	itemIndex.insert(std::pair<int, std::string>(4, "Bottle"));
-	itemIndex.insert(std::pair<int, std::string>(5, "Blade"));
-	itemIndex.insert(std::pair<int, std::string>(6, "Wood"));
-	*/
 
+	
+
+	/*
+	Item Index Reference:
+		1:  Dagger
+		2:  Sword
+		3:  Spear
+		4:  Rondel (upgraded dagger)
+		5:  SinnersScalpel (upgraded Rondel)
+		6:  LongSword (upgraded sword)
+		7:  BroadSword (upgraded LongSword)
+		8:  GreatSword (upgraded BroadSword)
+		9:  MasterfulSword (upgraded GreatSword)
+		10: Bow
+		13: BreastPlate
+	*/
 	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Dagger",1)));
-	items.insert(std::pair<std::string, Equipment*>("Breast_Plate", new Equipment("Breast_Plate", 2)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Sword", 2)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Spear", 3)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Rondel", 4)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("SinnersScalpel", 5)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("LongSword", 6)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("BroadSword", 7)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("GreatSword", 8)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("MasterfulSword", 9)));
+	items.insert(std::pair<std::string, Equipment*>("Dagger", new Equipment("Bow", 10)));
+
+	items.insert(std::pair<std::string, Equipment*>("Breast_Plate", new Equipment("Breast_Plate", 13)));
+
+
 	items.insert(std::pair<std::string, HealingItem*>("Health_Potion", new HealingItem("Health_Potion",2)));
 	items.insert(std::pair<std::string, Item*>("Herb", new Item("Herb", 1)));
 	items.insert(std::pair<std::string, Item*>("Bottle", new Item("Bottle", 1)));
 	items.insert(std::pair<std::string, Item*>("Blade", new Item("Blade", 1)));
 	items.insert(std::pair<std::string, Item*>("Wood", new Item("Wood", 1)));
-
-
-}
-
-ItemManager::~ItemManager() {
+	
 
 }
+
+	ItemManager::~ItemManager() {
+
+	}
 
 Item* ItemManager::getItem(std::string name, int quantity) {
 	Item* newItem = items.at(name)->getCopy();

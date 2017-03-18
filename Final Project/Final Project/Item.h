@@ -41,11 +41,11 @@ public:
 	//amount of damage this item will do
 	int attack = 1;
 	/*type of attack this items makes
-	0: swing attack
-	1: stab attack
+	0: stab attack
+	1: swing attack
 	2: projectile attack*/
 	int attackType = 0;
-	bool canAssasinate = false;
+	bool canAssassinate = false;
 	/*type of armour this item is
 	0: not armour
 	1: helmet
@@ -73,5 +73,10 @@ public:
 	sf::Texture smallIconTexture;
 	sf::Texture menuIconTexture;
 	sf::Texture menuDescriptionTexture;
+
+	
+	bool dimPreset = false;
+	int presetItemDimX;
+	int presetItemDimY;
 };
 
