@@ -306,28 +306,30 @@ void Model::collisionDetection() {
 
 	// -----------------------Enemy collision detection--------------------- //
 	for (std::vector<Enemy*>::iterator e = enemies.begin(); e != enemies.end(); e++) {
-		if ((*e)->intersects(player->getHitBox())) {
-			(*e)->hitActor(player);
+		if (!(*e)->isRemoved()) {
+			if ((*e)->intersects(player->getHitBox())) {
+				(*e)->hitActor(player);
+			}
+
+			//enemy collision against map
+			for (int y = std::max(0, (int)((*e)->getPosition().y / tileSize)); y < std::min(mapHeight, (int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize + 1)); y++)
+				for (int x = std::max(0, (int)((*e)->getPosition().x / tileSize)); x < std::min(mapWidth, (int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x) / tileSize + 1)); x++)
+					if ((*e)->intersects(tileMap[y][x]->getHitBox()))
+						tileMap[y][x]->hit(*e);
+
+
+
+			(*e)->doesSee(player);	//checking if the enemy can see the player
+
+			//checking if the enemy can hear any sounds
+			for (std::vector<Sound>::iterator s = sounds.begin(); s != sounds.end(); s++)
+				(*e)->doesHear(&(*s));
+
+			//enemy collision against attacks
+			for (std::vector<Attack*>::iterator a = attacks.begin(); a != attacks.end(); a++)
+				if ((*a)->intersects((*e)->getHitBox()))
+					(*a)->hitActor(*e);
 		}
-
-		//enemy collision against map
-		for (int y = std::max(0, (int)((*e)->getPosition().y / tileSize)); y < std::min(mapHeight, (int)(((*e)->getPosition().y + (*e)->getHitBox().getSize().y) / tileSize + 1)); y++)
-			for (int x = std::max(0, (int)((*e)->getPosition().x / tileSize)); x < std::min(mapWidth, (int)(((*e)->getPosition().x + (*e)->getHitBox().getSize().x) / tileSize + 1)); x++)
-				if ((*e)->intersects(tileMap[y][x]->getHitBox()))
-					tileMap[y][x]->hit(*e);
-
-		
-
-		(*e)->doesSee(player);	//checking if the enemy can see the player
-
-		//checking if the enemy can hear any sounds
-		for (std::vector<Sound>::iterator s = sounds.begin(); s != sounds.end(); s++)
-			(*e)->doesHear(&(*s));
-
-		//enemy collision against attacks
-		for (std::vector<Attack*>::iterator a = attacks.begin(); a != attacks.end(); a++) 
-			if ((*a)->intersects((*e)->getHitBox()))
-				(*a)->hitActor(*e);
 	}
 	// ---------------------Enemy collision detection end-------------------- //
 
