@@ -4,7 +4,9 @@
 //Will create a pre-Constructor for melee attack that takes an int to set type then calls the default meleeattack constructor
 MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* newSource, Item* item) : Attack(x, y, width, height, newSource) {
 	
-	this->type = item->attackType + 1;
+	if (item != NULL)
+		this->type = item->attackType + 1;
+	else this->type = 2;
 	this->melee = true;
 	this->spritePositionSet = true;
 

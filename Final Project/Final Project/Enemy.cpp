@@ -121,6 +121,9 @@ void Enemy::update(float deltaTime) {
 		path = *(pathFinder->getPath(position + sf::Vector2f(hitBox.getSize().x / 2, hitBox.getSize().y / 2), targetLocation));
 	prevTargetLocation = targetLocation;
 
+	if (path.size() > 1 && containsPoint(path.back()))
+		path.pop_back();
+
 	/*timer -= deltaTime;
 	if (timer <= 0) {
 		timer = 2;
@@ -136,9 +139,9 @@ void Enemy::update(float deltaTime) {
 		if (abs(path.back().x - (position.x + hitBox.getSize().x / 2)) < hitBox.getSize().x / 4)
 			velocity.x = 0;
 		else if (path.back().x < position.x + hitBox.getSize().x / 2)
-			velocity.x = -70;
+			velocity.x = -25;
 		else if (path.back().x > position.x + hitBox.getSize().x / 2)
-			velocity.x = 70;
+			velocity.x = 25;
 		else velocity.x = 0;
 
 		climbing = false;
@@ -147,7 +150,7 @@ void Enemy::update(float deltaTime) {
 		if (path.back().y < position.y) {
 			if (nextToClimbable) {
 				climbing = true;
-				velocity.y = -70;
+				velocity.y = -25;
 			}
 			else {
 				jump = true;
@@ -157,7 +160,7 @@ void Enemy::update(float deltaTime) {
 			droppedDown = true;
 			if (nextToClimbable) {
 				climbing = true;
-				velocity.y = 70;
+				velocity.y = 25;
 			}
 		}
 	}
@@ -177,7 +180,20 @@ void Enemy::update(float deltaTime) {
 			dirLooking = acos(0);
 		else if (velocity.y < 0)
 			dirLooking = 3 * acos(0);
-		else dirLooking = 0;
+		else {
+			sentryTimer += deltaTime;
+			if (sentryTimer < 5)
+				dirLooking = 0;
+			else dirLooking = 2 * acos(0);
+			if (sentryTimer > 10)
+				sentryTimer = 0;
+		}
+	}
+
+	if (behaviorState != 1) {
+		if (climbing)
+			velocity.y *= 3;
+		velocity.x *= 3;
 	}
 	
 

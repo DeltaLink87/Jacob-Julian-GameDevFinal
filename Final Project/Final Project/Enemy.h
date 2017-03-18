@@ -53,6 +53,7 @@ protected:
 
 	//Time spent attacking
 	float attackTime;
+	float sentryTimer = 0;
 
 	/*  An integer switch used to determine how the enemy AI should behave.
 		Current behavior settings are:
