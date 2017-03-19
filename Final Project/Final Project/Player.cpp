@@ -109,15 +109,32 @@ void Player::update(float deltaTime) {
 	attackTimer -= deltaTime;
 	if (attack && attackTimer <= 0) {
 		attackTimer = 0.5;
-		dirLooking = atan((looking.y - position.y) / (looking.x - position.x));
+		float mouseLooking = atan((looking.y - position.y) / (looking.x - position.x));
 		if (looking.x - position.x < 0)
-			dirLooking += 2 * acos(0);
+			mouseLooking += 2 * acos(0);
     
 		if (this->looking.x > this->position.x)
 			facingRight = true;
 		else
 			facingRight = false;
     
+		Item* weapon = inventory.getCurSeletected(curItemSelected);
+		if (weapon == NULL)
+			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, mouseLooking, this, weapon));
+		else if (weapon->attackType == 0 || weapon->attackType == 1)
+			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
+			newAttacks.push_back(new MeleeAttack(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, 10, 10, mouseLooking, this, weapon));
+		else
+			//newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
+			newAttacks.push_back(new Projectile(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, 10, 10, sf::Vector2f(200 * cos(mouseLooking), 200 * sin(mouseLooking)), this, weapon));
+	}
+
+	attack = pressAttack;
+	attackTimer -= deltaTime;
+	if (mouseLessAttack && attackTimer <= 0) {
+		attackTimer = 0.5;
+
 		Item* weapon = inventory.getCurSeletected(curItemSelected);
 		if (weapon == NULL)
 			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
@@ -128,6 +145,17 @@ void Player::update(float deltaTime) {
 		else
 			//newAttacks.push_back(new Projectile(position.x, position.y, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this));
 			newAttacks.push_back(new Projectile(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this, weapon));
+	}
+
+	inputTimer -= deltaTime;
+	if (inputTimer <= 0) {
+		if (scrollLeft)
+			curItemSelected = (curItemSelected - 1 + inventory.getHeight()) % inventory.getHeight();
+		else if (scrollRight)
+			curItemSelected = (curItemSelected + 1) % inventory.getHeight();
+
+		if (scrollLeft || scrollRight)
+			inputTimer = 0.1;
 	}
 
 	//changing the sound timer and horizontal movement based on running or sneaking
@@ -159,6 +187,16 @@ void Player::update(float deltaTime) {
 		//creating new sound
 		newSounds.push_back(Sound(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, loudness, 0.5, false));
 	}
+
+	if (velocity.x != 0) {
+		dirLooking = atan(velocity.y / velocity.x);
+		if (velocity.x < 0)
+			dirLooking += 2 * acos(0);
+	}
+	else if (velocity.y > 200 * deltaTime * 2)
+		dirLooking = acos(0);
+	else if (velocity.y < 0)
+		dirLooking = 3 * acos(0);
 
 	//updating player location
 	position += velocity * deltaTime;
