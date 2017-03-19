@@ -1,0 +1,28 @@
+http://opengameart.org/content/tanto-blade-2
+http://opengameart.org/content/bottles
+http://opengameart.org/node/15569
+http://opengameart.org/content/game-wood-panel
+
+
+Player sprites and animations: 
+http://opengameart.org/content/classic-hero  
+http://opengameart.org/content/classic-hero-and-baddies-pack
+
+Armor Icons:
+http://opengameart.org/content/armor-icons-by-equipment-slot
+This is a collaboration between four artists:
+
+    Clint Bellanger created the original models and raw renders for the others to paint over
+    Blarumyrran created the Leather Chest and Plate Chest
+    crowline (CrowLineStudio) created the Cloth set
+    Justin Nichol created the rest of the Robes, Leather, Chain, Plate sets
+
+All have agreed to release these CC0 (Public Domain) to match the license originally chosen by Blarumyrran for the previous icons.
+
+Weapons and Icons: 
+@JoeCreates
+http://opengameart.org/content/roguelikerpg-items
+
+
+
+
