@@ -112,7 +112,7 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 			}
 			else if (tiles[y][x] == 9)
 				tileMap[y][x] = new TopTile(x * tileSize, y * tileSize, tileSize, tileSize);
-			else if (tiles[y][x] == 'a')
+			else if (tiles[y][x] == 10)
 				tileMap[y][x] = new ChestTile(x * tileSize, y * tileSize, tileSize);
 			else
 				tileMap[y][x] = new Tile(x * tileSize, y * tileSize, tileSize, tileSize);
