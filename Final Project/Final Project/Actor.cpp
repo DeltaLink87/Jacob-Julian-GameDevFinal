@@ -16,7 +16,8 @@ std::vector<Sound>& Actor::getSounds() { return newSounds; }
 void Actor::gotSounds() { newSounds.clear(); }
 
 void Actor::dealDamage(float damage, bool assassination) {
-	curHealth -= std::max((int)damage - inventory.getTotalArmourDefence(), 0);
+	curHealth -= std::max((int)damage - inventory.getTotalArmourDefence(), 1);
+	damageFlicker = 60;
 }
 void Actor::HealHealth(float heal) {
 	std::cout << "being Healed" << std::endl;

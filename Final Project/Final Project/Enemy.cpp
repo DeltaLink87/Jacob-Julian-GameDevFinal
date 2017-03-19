@@ -245,6 +245,14 @@ void Enemy::update(float deltaTime) {
 		facingRight = false;
 
 	}
+
+	if (damageFlicker > 0) {
+		damageFlicker--;
+		if ((int)(damageFlicker / 2) % 2 == 0)
+			displaySprite = true;
+		else displaySprite = false;
+	}
+	else displaySprite = true;
 }
 
 void Enemy::doesHear(Sound* checkSound) {

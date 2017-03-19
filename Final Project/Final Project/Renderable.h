@@ -17,7 +17,7 @@ public:
 
 	sf::Sprite sprite;
 	std::string textureName = "MissingTexture";
-	bool spriteInitialized = false;
+	bool spriteInitialized = false, displaySprite = true;
 	int spriteWidth, spriteHeight;
 	sf::Vector2f spritePositionDifference;
 	float spriteRotation = 0;

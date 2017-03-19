@@ -321,9 +321,11 @@ void Render::initializeRenderable(Renderable* renderable) {
 }
 
 void Render::drawRenderable(sf::RenderTarget& target, Renderable* renderable) {
-	if (!renderable->spritePositionSet)
-		renderable->sprite.setPosition(renderable->getPosition());
-	target.draw(renderable->sprite);
+	if (renderable->displaySprite) {
+		if (!renderable->spritePositionSet)
+			renderable->sprite.setPosition(renderable->getPosition());
+		target.draw(renderable->sprite);
+	}
 }
 
 void Render::render() {
@@ -436,8 +438,8 @@ void Render::renderModel() {
 	if (!model->player->spriteInitialized)
 		initializeRenderable(model->player);
 	//drawRenderable(modelTexture, model->player);
-
-	renderPlayerSpriteArray();
+	if (model->player->displaySprite)
+		renderPlayerSpriteArray();
 
 	//rendering enemies
 	for (std::vector<Enemy*>::iterator i = model->enemies.begin(); i != model->enemies.end(); i++) {
@@ -445,7 +447,8 @@ void Render::renderModel() {
 			if (!(*i)->spriteInitialized)
 				initializeRenderable(*i);
 			//drawRenderable(modelTexture, *i);
-			renderEnemySpriteArray(*i);
+			if ((*i)->displaySprite)
+				renderEnemySpriteArray(*i);
 			if ((*i)->noticeTimer > 0) {
 				sf::RectangleShape notice = sf::RectangleShape(sf::Vector2f(5, 10));
 				notice.setPosition((*i)->getPosition().x + 5, (*i)->getPosition().y - 15);

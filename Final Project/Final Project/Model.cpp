@@ -8,10 +8,10 @@ Model::Model(){
 	curLevelNum = 0;
 	levelNames.push_back("Basic");
 	levelNames.push_back("ChestTest");
+	levelNames.push_back("First Enemy");
+	levelNames.push_back("TopTilePathTest");
 	levelNames.push_back("PathFindngTest");
 	levelNames.push_back("DropPathTest");
-	levelNames.push_back("TopTilePathTest");
-	levelNames.push_back("First Enemy");
 	levelNames.push_back("tileMap2");
 	levelNames.push_back("VerticalSlice");
 	levelNames.push_back("ObstacleRoomAndTreasureRoom");
@@ -30,9 +30,9 @@ Model::Model(){
 	mainMenu.totalStages = levelNames.size();
 
 	//Kept to test weapons at the start.
-	player->addInventory(itemManager->getItem("Dagger", 1));
-	player->addInventory(itemManager->getItem("Health_Potion", 1));
-	player->addInventory(itemManager->getItem("IronBreastPlate", 1));
+	//player->addInventory(itemManager->getItem("Dagger", 1));
+	//player->addInventory(itemManager->getItem("Health_Potion", 1));
+	//player->addInventory(itemManager->getItem("IronBreastPlate", 1));
 }
 
 Model::~Model(){ 

@@ -49,6 +49,8 @@ public:
 protected:
 	std::vector<Sound> newSounds;
 	float stepSoundTimer = 0;
+
+	int damageFlicker = 0;
 	
 	//void createAttack(Item*);
 	std::vector<Attack*>& getAttacks();
