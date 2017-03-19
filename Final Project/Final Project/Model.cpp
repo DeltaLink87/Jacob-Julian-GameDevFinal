@@ -14,6 +14,9 @@ Model::Model(){
 	levelNames.push_back("First Enemy");
 	levelNames.push_back("tileMap2");
 	levelNames.push_back("VerticalSlice");
+	levelNames.push_back("ObstacleRoomAndTreasureRoom");
+	levelNames.push_back("FinalLevel");
+
 
 	gameMode = 7;
 
@@ -22,7 +25,7 @@ Model::Model(){
 	craftMenu = new CraftingMenu(itemManager, player);
 	invMenu = new InventoryMenu(itemManager, player);
 
-	loadLevel("tileMap2");
+	loadLevel("FinalLevel");
 
 	mainMenu.totalStages = levelNames.size();
 
