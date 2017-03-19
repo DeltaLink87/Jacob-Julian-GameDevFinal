@@ -45,7 +45,8 @@ Herb 2
 Bottle 2
 -
 88,31
-Iron 4
+Wood 4
+Blade 4
 -
 81,27
 Steel 3
