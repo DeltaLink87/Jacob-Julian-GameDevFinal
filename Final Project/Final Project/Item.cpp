@@ -52,7 +52,7 @@ void Item::setTextures(std::string string) {
 
 	//image.loadFromFile("Assets/Textures/" + string + ".png");
 	setTextureWithMask(&smallIconTexture, "Assets/Textures/Items/" + string + "Icon.png");
-	setTextureWithMask(&menuIconTexture, "Assets/Textures/Items/" + string + "Menu.png");
+	setTextureWithMask(&menuIconTexture, "Assets/Textures/Items/" + string + "Icon.png");
 	setTextureWithMask(&menuDescriptionTexture, "Assets/Textures/Items/" + string + "Description.png");
 
 	smallIcon.setTexture(smallIconTexture);
@@ -60,7 +60,7 @@ void Item::setTextures(std::string string) {
 	menuDescription.setTexture(menuDescriptionTexture);
 
 	smallIcon.setScale(sf::Vector2f(75.0 / smallIcon.getTexture()->getSize().x, 75.0 / smallIcon.getTexture()->getSize().y));
-	menuIcon.setScale(sf::Vector2f(.5, .5));
+	menuIcon.setScale(sf::Vector2f(1, 1));
 	//menuIcon.setScale(sf::Vector2f(100.0 / menuIcon.getTexture()->getSize().x, 75.0 / menuIcon.getTexture()->getSize().y));
 	//menuDescription.setScale(sf::Vector2f(280.0 / menuDescription.getTexture()->getSize().x, 350.0 / menuDescription.getTexture()->getSize().y));
 

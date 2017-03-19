@@ -46,7 +46,7 @@ void LevelManager::loadLevelFile(std::string fileName, ItemManager* itemManager)
 		while (itemName.compare("") != 0 && itemName.compare("-") != 0) {
 			fileHndl >> quantity;
 
-			std::cout << targetLocation << " : " << itemName << " : " << quantity << std::endl;
+			//std::cout << targetLocation << " : " << itemName << " : " << quantity << std::endl;
 			Item* item = itemManager->getItem(itemName, quantity);
 			if (item->armourType > 0)
 				inventories.at(targetLocation)->addToInventory(item, -1, item->armourType - 1);
@@ -67,7 +67,7 @@ void LevelManager::loadLevelFile(std::string fileName, ItemManager* itemManager)
 		fileHndl >> newX;
 		fileHndl >> newY;
 		while (newX != -1 && newY != -1) {
-			std::cout << targetLocation << " :!! " << newX << " , " << newY << std::endl;
+			//std::cout << targetLocation << " :!! " << newX << " , " << newY << std::endl;
 			patrolPaths.at(targetLocation).push_back(sf::Vector2f(newX * 32 + 16, newY * 32 + 16));
 
 			fileHndl >> newX;
@@ -93,7 +93,7 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				tileMap[y][x] = new LadderTile(x * tileSize, y * tileSize, tileSize, tileSize);
 			else if (tiles[y][x] == 5) {
 				ChestTile* chest = new ChestTile(x * tileSize, y * tileSize, tileSize, tileSize);
-				
+
 
 				std::stringstream ss;
 				ss << x << "," << y;
@@ -112,6 +112,8 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 			}
 			else if (tiles[y][x] == 9)
 				tileMap[y][x] = new TopTile(x * tileSize, y * tileSize, tileSize, tileSize);
+			else if (tiles[y][x] == 'a')
+				tileMap[y][x] = new ChestTile(x * tileSize, y * tileSize, tileSize);
 			else
 				tileMap[y][x] = new Tile(x * tileSize, y * tileSize, tileSize, tileSize);
 

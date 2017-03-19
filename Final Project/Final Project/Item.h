@@ -49,7 +49,9 @@ public:
 	/*type of armour this item is
 	0: not armour
 	1: helmet
-	2: chestplate
+	2: 
+	
+	plate
 	3: leggings
 	4: boots*/
 	int armourType = 0;

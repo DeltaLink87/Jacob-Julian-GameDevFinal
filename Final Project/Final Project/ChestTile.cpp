@@ -9,8 +9,13 @@ ChestTile::ChestTile(int x, int y, int width, int height, Item* item) : Tile(x, 
 	chest = true;
 }
 
-ChestTile::~ChestTile() {
 
+
+
+ChestTile::ChestTile(int x, int y, int width) : Tile(x, y, width, width) {
+	this->opened = true;
+	textureName = "Tiles/OpenChestTile";
+	spriteInitialized = false;
 
 }
 

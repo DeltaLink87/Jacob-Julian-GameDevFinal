@@ -23,11 +23,11 @@ CraftingMenu::CraftingMenu(ItemManager* newItemManager, Player* newPlayer) {
 
 	selectedBox = sf::RectangleShape(sf::Vector2f(130, 70));
 	selectedBox.setFillColor(sf::Color::Transparent);
-	selectedBox.setOutlineColor(sf::Color::White);
+	selectedBox.setOutlineColor(sf::Color::Black);
 	selectedBox.setOutlineThickness(4);
 }
 
-CraftingMenu::~CraftingMenu() {
+CraftingMenu::~CraftingMenu(){ 
 	delete[] canMake;
 }
 

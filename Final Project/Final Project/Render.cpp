@@ -557,17 +557,17 @@ void Render::renderUI() {
 void Render::renderCraftMenu() {
 	craftMenuTexture.clear(sf::Color::Transparent);
 
-	border = sf::RectangleShape(sf::Vector2f(410, 310));
+	border = sf::RectangleShape(sf::Vector2f(410, 330));
 	border.setPosition(sf::Vector2f(195, 145));
 	border.setFillColor(sf::Color::White);
 	craftMenuTexture.draw(border);
 
-	center = sf::RectangleShape(sf::Vector2f(400, 300));
+	center = sf::RectangleShape(sf::Vector2f(400, 320));
 	center.setPosition(sf::Vector2f(200, 150));
 	center.setFillColor(sf::Color(100, 100, 100));
 	craftMenuTexture.draw(center);
 
-	divide = sf::RectangleShape(sf::Vector2f(5, 300));
+	divide = sf::RectangleShape(sf::Vector2f(5, 320));
 	divide.setPosition(sf::Vector2f(330, 150));
 	divide.setFillColor(sf::Color::White);
 	craftMenuTexture.draw(divide);
@@ -615,7 +615,11 @@ void Render::renderCraftMenu() {
 	craftMenuTexture.draw(model->craftMenu->selectedBox);
 
 	Item* item = model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected));
-	makeStringTextrue(item->name, 446, 155, 154, 30, craftMenuTexture, 25);
+	if (item->name.length() < 12)
+		makeStringTextrue(item->name, 446, 155, 154, 30, craftMenuTexture, 25);
+	else
+		makeStringTextrue(item->name, 446, 155, 154, 30, craftMenuTexture, 20);
+
 	makeStringTextrue(item->type, 446, 185, 154, 30, craftMenuTexture, 25);
 	makeStringTextrue(item->description, 340, 272, 265, 90, craftMenuTexture, 12);
 
@@ -629,6 +633,7 @@ void Render::renderCraftMenu() {
 
 	sf::Sprite sprite;
 	sprite.setTexture(item->smallIconTexture);
+	sprite.setScale(1.5, 1.5);
 	sprite.setPosition(335, 150);
 	//sprite.setScale(112 / (float)item->smallIconTexture.getSize().x, 117 / (float)item->smallIconTexture.getSize().y);
 	craftMenuTexture.draw(sprite);
@@ -700,6 +705,7 @@ void Render::renderInvMenu() {
 
 		sf::Sprite sprite;
 		sprite.setTexture(item->smallIconTexture);
+		sprite.setScale(1.5, 1.5);
 		sprite.setPosition(left + 5, top + 5);
 		//sprite.setScale(112 / (float)item->smallIconTexture.getSize().x, 117 / (float)item->smallIconTexture.getSize().y);
 		invMenuTexture.draw(sprite);

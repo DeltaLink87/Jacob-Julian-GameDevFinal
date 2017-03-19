@@ -41,7 +41,16 @@ ItemManager::ItemManager() {
 	items.insert(std::pair<std::string, Equipment*>("MasterfulSword", new Equipment("MasterfulSword", 9)));
 	items.insert(std::pair<std::string, Equipment*>("Bow", new Equipment("Bow", 10)));
 
-	items.insert(std::pair<std::string, Equipment*>("Breast_Plate", new Equipment("Breast_Plate", 13)));
+	items.insert(std::pair<std::string, Equipment*>("LeatherHelm", new Equipment("LeatherHelm", 11)));
+	items.insert(std::pair<std::string, Equipment*>("LeatherTunic", new Equipment("LeatherTunic", 12)));
+	items.insert(std::pair<std::string, Equipment*>("LeatherPants", new Equipment("LeatherPants", 13)));
+	items.insert(std::pair<std::string, Equipment*>("LeatherBoots", new Equipment("LeatherBoots", 14)));
+
+	items.insert(std::pair<std::string, Equipment*>("IronHelm", new Equipment("IronHelm", 15)));
+	items.insert(std::pair<std::string, Equipment*>("IronBreastPlate", new Equipment("IronBreastplate", 16)));
+	items.insert(std::pair<std::string, Equipment*>("IronLegGuards", new Equipment("IronLegGuards", 17)));
+	items.insert(std::pair<std::string, Equipment*>("IronBoots", new Equipment("IronBoots", 18)));
+
 
 
 	items.insert(std::pair<std::string, HealingItem*>("Health_Potion", new HealingItem("Health_Potion",2)));

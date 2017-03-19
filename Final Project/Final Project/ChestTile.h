@@ -10,6 +10,9 @@
 class ChestTile : public Tile {
 public:
 	ChestTile(int, int, int, int, Item* = NULL);
+
+	//For creating opened chests
+	ChestTile(int, int, int);
 	~ChestTile();
 
 

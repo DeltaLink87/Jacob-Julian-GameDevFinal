@@ -29,7 +29,7 @@ Model::Model(){
 	//Kept to test weapons at the start.
 	player->addInventory(itemManager->getItem("Dagger", 1));
 	player->addInventory(itemManager->getItem("Health_Potion", 1));
-	player->addInventory(itemManager->getItem("Breast_Plate", 1));
+	player->addInventory(itemManager->getItem("IronBreastPlate", 1));
 }
 
 Model::~Model(){ 

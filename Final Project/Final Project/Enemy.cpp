@@ -71,7 +71,7 @@ void Enemy::update(float deltaTime) {
 		if (pow(targetLocation.x - position.x, 2) + pow(targetLocation.y - position.y, 2) < pow(32, 2)) {
 			//making either a melee attack or projectile attack
 			if (attackTimer <= 0) {
-				attackTimer = 0.5;
+				attackTimer = 1.0;
 
 				if (targetLocation.x > this->position.x)
 					facingRight = true;
