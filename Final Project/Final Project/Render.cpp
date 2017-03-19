@@ -666,7 +666,10 @@ void Render::renderInvMenu() {
 	int counter = 0;
 	Inventory* inv = model->player->getInventory();
 	for (int y = 0; y < inv->getHeight(); y++) {
-		for (int x = 0; x < inv->getWidth(); x++) {
+		for (int x = -1; x < inv->getWidth(); x++) {
+			if (y >= inv->getArmourSlots() && x == -1)
+				continue;
+
 			Item* curItem = inv->getCurSeletected(x, y);
 			if (curItem != NULL) {
 				curItem->smallIcon.setPosition(

@@ -146,6 +146,20 @@ void Controller::inputs() {
 		prevchangeLevelPressed = false;
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
+		inputTo->scrollRight = true;
+	}
+	else inputTo->scrollRight = false;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+		inputTo->scrollLeft = true;
+	}
+	else inputTo->scrollLeft = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+		inputTo->mouseLessAttack = true;
+	}
+	else inputTo->mouseLessAttack = false;
+
 	inputTo->looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
 	//std::cout << model->player.looking.x << "," << model->player.looking.y << std::endl;
 }
