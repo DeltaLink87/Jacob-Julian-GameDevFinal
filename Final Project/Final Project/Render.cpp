@@ -11,7 +11,7 @@ Render::Render(Model* newModel){
 	windowWidth = 800;
 	windowHeight = 600;
 
-	window.create(sf::VideoMode(windowWidth, windowHeight), "LIVE DEMO");
+	window.create(sf::VideoMode(windowWidth, windowHeight), "Out of the Shadows");
 
 	window.setFramerateLimit(60);
 
