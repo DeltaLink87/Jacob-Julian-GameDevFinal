@@ -209,7 +209,7 @@ void Player::update(float deltaTime) {
 	onGround = false;
 	isClimbing = climbing;
 
-	std::cout << damageFlicker << std::endl;
+	//std::cout << damageFlicker << std::endl;
 	if (damageFlicker > 0) {
 		damageFlicker--;
 		if ((int)(damageFlicker / 2) % 2 == 0)
