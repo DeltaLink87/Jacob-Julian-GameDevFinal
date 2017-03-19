@@ -12,9 +12,15 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 	this->melee = true;
 	this->spritePositionSet = true;
 
-	if (item->dimPreset) {
-		this->spriteWidth = item->presetItemDimX;
-		this->spriteHeight = item->presetItemDimY;
+	if (item != NULL) {
+		if (item->dimPreset) {
+			this->spriteWidth = item->presetItemDimX;
+			this->spriteHeight = item->presetItemDimY;
+		}
+	}
+	else {
+		this->spriteWidth = 10;
+		this->spriteHeight = 10;
 	}
 
 

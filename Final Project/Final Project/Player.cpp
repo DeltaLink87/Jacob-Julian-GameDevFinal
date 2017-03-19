@@ -6,7 +6,7 @@
 
 
 Player::Player(int x, int y) : Actor(x, y, 20, 20) {
-	maxHealth = curHealth = 50;
+	maxHealth = curHealth = 20;
 	isPlayer = true;
 	textureName = "Actors/Player";
 }
@@ -208,6 +208,15 @@ void Player::update(float deltaTime) {
 	nextToClimbable = false;
 	onGround = false;
 	isClimbing = climbing;
+
+	std::cout << damageFlicker << std::endl;
+	if (damageFlicker > 0) {
+		damageFlicker--;
+		if ((int)(damageFlicker / 2) % 2 == 0)
+			displaySprite = true;
+		else displaySprite = false;
+	}
+	else displaySprite = true;
 }
 
 void Player::isAttacking(bool value) { attack = value; }
