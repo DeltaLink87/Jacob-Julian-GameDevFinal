@@ -39,7 +39,7 @@ ItemManager::ItemManager() {
 	items.insert(std::pair<std::string, Equipment*>("BroadSword", new Equipment("BroadSword", 7)));
 	items.insert(std::pair<std::string, Equipment*>("GreatSword", new Equipment("GreatSword", 8)));
 	items.insert(std::pair<std::string, Equipment*>("MasterfulSword", new Equipment("MasterfulSword", 9)));
-	items.insert(std::pair<std::string, Equipment*>("Bow", new Equipment("Bow", 10)));
+	//items.insert(std::pair<std::string, Equipment*>("Bow", new Equipment("Bow", 10)));
 
 	items.insert(std::pair<std::string, Equipment*>("LeatherHelm", new Equipment("LeatherHelm", 11)));
 	items.insert(std::pair<std::string, Equipment*>("LeatherTunic", new Equipment("LeatherTunic", 12)));

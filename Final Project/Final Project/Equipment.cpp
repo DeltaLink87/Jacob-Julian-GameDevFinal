@@ -153,8 +153,7 @@ Equipment::Equipment(std::string n, int index) : Item(n, 2) {
 		//Because weapons can't have a greater quantity per slot than 1, 
 		//assuming having the recipe listed as two individual long swords 
 		//will be preferable.
-		recipe.insert(std::pair<std::string, int>("LongSword", 1));
-		recipe.insert(std::pair<std::string, int>("LongSword", 1));
+		recipe.insert(std::pair<std::string, int>("LongSword", 2));
 		description = "A thick study sword used by veterans. NL Damage: 7";
 		type = "Weapon/Material";
 
@@ -216,7 +215,7 @@ Equipment::Equipment(std::string n, int index) : Item(n, 2) {
 
 
 	}
-
+	/*
 	else if (index == 10) {
 		name = n;
 
@@ -238,6 +237,7 @@ Equipment::Equipment(std::string n, int index) : Item(n, 2) {
 		attackType = 2;
 
 	}
+	*/
 	else if (index == 11) {
 		name = n;
 		defence = 1;

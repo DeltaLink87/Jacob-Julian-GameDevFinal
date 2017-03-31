@@ -6,7 +6,7 @@
 
 
 Player::Player(int x, int y) : Actor(x, y, 20, 20) {
-	maxHealth = curHealth = 20;
+	maxHealth = curHealth = 10;
 	isPlayer = true;
 	textureName = "Actors/Player";
 }
@@ -98,7 +98,7 @@ void Player::update(float deltaTime) {
 		std::cout << curItem << std::endl;
 		if (curItem != NULL) {
 			bool removeAfterUse = curItem->useItem(this);
-			std::cout << removeAfterUse << std::endl;
+			//std::cout << removeAfterUse << std::endl;
 			if (removeAfterUse)
 				delete inventory.dropItem(0, curItemSelected);
 		}
@@ -108,7 +108,7 @@ void Player::update(float deltaTime) {
 	attack = pressAttack;
 	attackTimer -= deltaTime;
 	if (attack && attackTimer <= 0) {
-		attackTimer = 0.5;
+		attackTimer = 2.0;
 		float mouseLooking = atan((looking.y - position.y) / (looking.x - position.x));
 		if (looking.x - position.x < 0)
 			mouseLooking += 2 * acos(0);
@@ -133,7 +133,7 @@ void Player::update(float deltaTime) {
 	attack = pressAttack;
 	attackTimer -= deltaTime;
 	if (mouseLessAttack && attackTimer <= 0) {
-		attackTimer = 0.5;
+		attackTimer = 2.0;
 
 		Item* weapon = inventory.getCurSeletected(curItemSelected);
 		if (weapon == NULL)

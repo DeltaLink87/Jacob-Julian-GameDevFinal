@@ -17,6 +17,8 @@ void Actor::gotSounds() { newSounds.clear(); }
 
 void Actor::dealDamage(float damage, bool assassination) {
 	curHealth -= std::max((int)damage - inventory.getTotalArmourDefence(), 1);
+	//std::cout << damage << std::endl;
+	//std::cout << inventory.getTotalArmourDefence() << std::endl;
 	damageFlicker = 60;
 }
 void Actor::HealHealth(float heal) {

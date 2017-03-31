@@ -36,7 +36,7 @@ MovementMap::MovementMap(int** tiles, int mapWidth, int mapHeight){
 			else canMove[y][x] = false;
 
 			//if (canMove[y][x])
-				//std::cout << x << "," << y << std::endl;
+			//	std::cout << x << "," << y << std::endl;
 		}
 	}
 
