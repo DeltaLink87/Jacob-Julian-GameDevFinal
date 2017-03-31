@@ -48,6 +48,7 @@ void CraftingMenu::update(float deltaTime) {
 		counter++;
 	}
 
+	//checking if the player can input a new input(to slow down input)
 	inputTimer -= deltaTime;
 	if (inputTimer <= 0) {
 		if (up)

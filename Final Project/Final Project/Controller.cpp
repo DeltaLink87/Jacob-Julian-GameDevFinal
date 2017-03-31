@@ -26,6 +26,22 @@ void Controller::inputs() {
 	sf::Event event;
 
 	inputTo->scroll = 0;
+	/*inputTo->up = false;
+	inputTo->down = false;
+	inputTo->left = false;
+	inputTo->right = false;
+	inputTo->moveSlow = false;
+	inputTo->moveFast = false;
+	inputTo->jump = false;
+	inputTo->select = false;
+	inputTo->pressAttack = false;*/
+	inputTo->craftingMenu = false;
+	inputTo->inventoryMenu = false;
+	inputTo->toMainMenu = false;
+	/*inputTo->mouse2 = false;
+	inputTo->scrollRight = false;
+	inputTo->scrollLeft = false;
+	inputTo->mouseLessAttack = false;*/
 
 	while (view->window.pollEvent(event)) {
 		switch (event.type) {
@@ -45,120 +61,147 @@ void Controller::inputs() {
 				inputTo->scroll = event.mouseWheelScroll.delta;
 			}
 			break;
+
+		case sf::Event::MouseButtonPressed:
+			if (event.key.code == sf::Mouse::Left)
+				inputTo->pressAttack = true;
+
+			if (event.key.code == sf::Mouse::Right)
+				inputTo->mouse2 = true;
+			break;
+
 		case sf::Event::KeyPressed:
 			//Pressing Esc will close the window
 			if (event.key.code == sf::Keyboard::Escape)
 				this->view->window.close();
+
+			if (event.key.code ==  sf::Keyboard::W)
+				inputTo->up = true;
+
+			if (event.key.code ==  sf::Keyboard::S)
+				inputTo->down = true;
+
+			if (event.key.code == sf::Keyboard::A)
+				inputTo->left = true;
+
+			if (event.key.code == sf::Keyboard::D)
+				inputTo->right = true;
+
+			if (event.key.code == sf::Keyboard::LShift)
+				inputTo->moveSlow = true;
+
+			if (event.key.code == sf::Keyboard::LControl)
+				inputTo->moveFast = true;
+
+			if (event.key.code == sf::Keyboard::Space) {
+				if (!prevSpacePressed) 
+					inputTo->jump = true;
+				else inputTo->jump = false;
+				prevSpacePressed = true;
+				inputTo->select = true;
+			}
+
+			if (event.key.code == sf::Keyboard::E) {
+				if (!prevCMenuPressed)
+					inputTo->craftingMenu = true;
+				else inputTo->craftingMenu = false;
+				prevCMenuPressed = true;
+			}
+
+			if (event.key.code == sf::Keyboard::I) {
+				if (!prevIMenuPressed)
+					inputTo->inventoryMenu = true;
+				else inputTo->inventoryMenu = false;
+				prevIMenuPressed = true;
+			}
+
+			if (event.key.code == sf::Keyboard::M) {
+				if (!prevchangeLevelPressed)
+					inputTo->toMainMenu = true;
+				else inputTo->toMainMenu = false;
+				prevchangeLevelPressed = true;
+			}
+
+			if (event.key.code == sf::Keyboard::L)
+				inputTo->scrollRight = true;
+
+			if (event.key.code == sf::Keyboard::K)
+				inputTo->scrollLeft = true;
+
+			if (event.key.code == sf::Keyboard::J)
+				inputTo->mouseLessAttack = true;
+			break;
+
+		case sf::Event::KeyReleased:
+			if (event.key.code == sf::Keyboard::W)
+				inputTo->up = false;
+
+			if (event.key.code == sf::Keyboard::S)
+				inputTo->down = false;
+
+			if (event.key.code == sf::Keyboard::A)
+				inputTo->left = false;
+
+			if (event.key.code == sf::Keyboard::D)
+				inputTo->right = false;
+
+			if (event.key.code == sf::Keyboard::LShift)
+				inputTo->moveSlow = false;
+
+			if (event.key.code == sf::Keyboard::LControl)
+				inputTo->moveFast = false;
+
+			if (event.key.code == sf::Keyboard::Space) {
+				prevSpacePressed = false;
+				inputTo->jump = false;
+				inputTo->select = false;
+			}
+
+			if (event.key.code == sf::Keyboard::E) {
+				prevCMenuPressed = false;
+				inputTo->craftingMenu = false;
+			}
+
+			if (event.key.code == sf::Keyboard::I) {
+				prevIMenuPressed = false;
+				inputTo->inventoryMenu = false;
+			}
+
+			if (event.key.code == sf::Keyboard::M) {
+				prevchangeLevelPressed = false;
+				inputTo->toMainMenu = false;
+			}
+
+			if (event.key.code == sf::Keyboard::L)
+				inputTo->scrollRight = false;
+
+			if (event.key.code == sf::Keyboard::K)
+				inputTo->scrollLeft = false;
+
+			if (event.key.code == sf::Keyboard::J)
+				inputTo->mouseLessAttack = false;
 			break;
 		}
-		
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		inputTo->up = true;
-	}
-	else inputTo->up = false;
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		prevSpacePressed = true;
+	else prevSpacePressed = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		inputTo->down = true;
-	}
-	else inputTo->down = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+		prevCMenuPressed = true;
+	else prevCMenuPressed = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		inputTo->left = true;
-	}
-	else inputTo->left = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+		prevIMenuPressed = true;
+	else prevIMenuPressed = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		inputTo->right = true;
-	}
-	else inputTo->right = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+		prevchangeLevelPressed = true;
+	else prevchangeLevelPressed = false;*/
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-		inputTo->moveSlow = true;
-	}
-	else inputTo->moveSlow = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-		inputTo->moveFast = true;
-	}
-	else inputTo->moveFast = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		if (!prevSpacePressed) {
-			inputTo->jump = true;
-			prevSpacePressed = true;
-		}
-		else inputTo->jump = false;
-		inputTo->select = true;
-	}
-	else {
-		prevSpacePressed = false;
-		inputTo->jump = false;
-		inputTo->select = false;
-	}
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		inputTo->pressAttack = true;
-	}
-	else inputTo->pressAttack = false;
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-		inputTo->mouse2 = true;
-	}
-	else inputTo->mouse2 = false;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		if (!prevCMenuPressed) {
-			inputTo->craftingMenu = true;
-			prevCMenuPressed = true;
-		}
-		else
-			inputTo->craftingMenu = false;
-	}
-	else {
-		inputTo->craftingMenu = false;
-		prevCMenuPressed = false;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
-		if (!prevIMenuPressed) {
-			inputTo->inventoryMenu = true;
-			prevIMenuPressed = true;
-		}
-		else
-			inputTo->inventoryMenu = false;
-	}
-	else {
-		inputTo->inventoryMenu = false;
-		prevIMenuPressed = false;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
-		if (!prevchangeLevelPressed) {
-			inputTo->toMainMenu = true;
-			prevchangeLevelPressed = true;
-		}
-		else inputTo->toMainMenu = false;
-	}
-	else {
-		inputTo->toMainMenu = false;
-		prevchangeLevelPressed = false;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
-		inputTo->scrollRight = true;
-	}
-	else inputTo->scrollRight = false;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
-		inputTo->scrollLeft = true;
-	}
-	else inputTo->scrollLeft = false;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
-		inputTo->mouseLessAttack = true;
-	}
-	else inputTo->mouseLessAttack = false;
 
 	inputTo->looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
 	//std::cout << model->player.looking.x << "," << model->player.looking.y << std::endl;
