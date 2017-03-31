@@ -201,7 +201,7 @@ void Enemy::update(float deltaTime) {
 	
 
 	if (jump && onGround) {
-		velocity.y = -150;
+		velocity.y = -260;
 		climbing = false;
 		onGround = false;
 	}
@@ -217,9 +217,9 @@ void Enemy::update(float deltaTime) {
 			//isJumping = true;
 			//animationTimer = 0;
 		}
-		velocity.y += 200 * deltaTime;
-		if (velocity.y > 200)
-			velocity.y = 200;
+		velocity.y += 600 * deltaTime;
+		if (velocity.y > 400)
+			velocity.y = 400;
 	}
 
 	attackTimer -= deltaTime;
