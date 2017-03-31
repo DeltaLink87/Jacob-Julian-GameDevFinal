@@ -16,7 +16,7 @@ void LevelManager::loadLevelFile(std::string fileName, ItemManager* itemManager)
 	fileHndl >> tileMapWidth;
 	fileHndl >> tileMapHeight;
 
-	std::cout << tileMapWidth << "," << tileMapHeight << std::endl;
+	//std::cout << tileMapWidth << "," << tileMapHeight << std::endl;
 
 	tiles = new int *[tileMapHeight];
 	for (int y = 0; y < tileMapHeight; y++) {
@@ -97,7 +97,7 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 
 				std::stringstream ss;
 				ss << x << "," << y;
-				std::cout << ss.str() << std::endl;
+				//std::cout << ss.str() << std::endl;
 				if (inventories.count(ss.str()) > 0)
 					loadChestItem(chest, *inventories.at(ss.str()));
 
@@ -124,7 +124,7 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 				
 				std::stringstream ss;
 				ss << x << "," << y;
-				std::cout << ss.str() << std::endl;
+				//std::cout << ss.str() << std::endl;
 				if (inventories.count(ss.str()) > 0)
 					loadEnemyInventory(newEnemy, *inventories.at(ss.str()));
 
@@ -138,7 +138,7 @@ void LevelManager::createLevel(Tile***& tileMap, int& mapWidth, int& mapHeight, 
 
 				std::stringstream ss;
 				ss << x << "," << y;
-				std::cout << ss.str() << std::endl;
+				//std::cout << ss.str() << std::endl;
 				if (inventories.count(ss.str()) > 0)
 					loadEnemyInventory(objective, *inventories.at(ss.str()));
 

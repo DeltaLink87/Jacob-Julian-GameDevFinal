@@ -78,7 +78,7 @@ Item* ItemManager::getItem(std::string name, int quantity) {
 }
 
 int ItemManager::getTotalItems() { 
-	std::cout << items.size() << std::endl;
+	//std::cout << items.size() << std::endl;
 	return items.size(); 
 }
 
