@@ -130,6 +130,9 @@ void Controller::inputs() {
 
 			if (event.key.code == sf::Keyboard::J)
 				inputTo->mouseLessAttack = true;
+
+			if (event.key.code == sf::Keyboard::SemiColon)
+				inputTo->mouse2 = true;
 			break;
 
 		case sf::Event::KeyReleased:
@@ -180,6 +183,9 @@ void Controller::inputs() {
 
 			if (event.key.code == sf::Keyboard::J)
 				inputTo->mouseLessAttack = false;
+
+			if (event.key.code == sf::Keyboard::SemiColon)
+				inputTo->mouse2 = false;
 			break;
 		}
 	}
