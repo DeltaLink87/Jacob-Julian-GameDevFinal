@@ -53,7 +53,7 @@ void Item::setTextures(std::string string) {
 	//image.loadFromFile("Assets/Textures/" + string + ".png");
 	setTextureWithMask(&smallIconTexture, "Assets/Textures/Items/" + string + "Icon.png");
 	setTextureWithMask(&menuIconTexture, "Assets/Textures/Items/" + string + "Icon.png");
-	setTextureWithMask(&menuDescriptionTexture, "Assets/Textures/Items/" + string + "Description.png");
+	//setTextureWithMask(&menuDescriptionTexture, "Assets/Textures/Items/" + string + "Description.png");
 
 	smallIcon.setTexture(smallIconTexture);
 	menuIcon.setTexture(menuIconTexture);

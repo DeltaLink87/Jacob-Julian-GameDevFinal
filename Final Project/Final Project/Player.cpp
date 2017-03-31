@@ -46,7 +46,7 @@ void Player::update(float deltaTime) {
 	}
 	//making the player jump if nessecary
 	if (jump && (onGround || climbing)) {
-		velocity.y = -150;
+		velocity.y = -260;
 		climbing = false;
 		onGround = false;
 		isJumping = true;
@@ -85,9 +85,9 @@ void Player::update(float deltaTime) {
 
 	if (!climbing) {
 		//adding gravity to player if not climbing
-		velocity.y += 200 * deltaTime;
-		if (velocity.y > 200)
-			velocity.y = 200;
+		velocity.y += 600 * deltaTime;
+		if (velocity.y > 400)
+			velocity.y = 400;
 	}
 
 	curItemSelected = (curItemSelected - scroll + inventory.getHeight()) % inventory.getHeight();
