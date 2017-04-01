@@ -62,6 +62,7 @@ void Controller::inputs() {
 			}
 			break;
 
+		//checking for pressed mouse buttons
 		case sf::Event::MouseButtonPressed:
 			if (event.key.code == sf::Mouse::Left)
 				inputTo->pressAttack = true;
@@ -70,6 +71,16 @@ void Controller::inputs() {
 				inputTo->mouse2 = true;
 			break;
 
+		//checking for release mouse buttons
+		case sf::Event::MouseButtonReleased:
+			if (event.key.code == sf::Mouse::Left)
+				inputTo->pressAttack = false;
+
+			if (event.key.code == sf::Mouse::Right)
+				inputTo->mouse2 = false;
+			break;
+
+		//checking for pressed keyboard buttons
 		case sf::Event::KeyPressed:
 			//Pressing Esc will close the window
 			if (event.key.code == sf::Keyboard::Escape)
@@ -94,6 +105,7 @@ void Controller::inputs() {
 				inputTo->moveFast = true;
 
 			if (event.key.code == sf::Keyboard::Space) {
+				//checking if space was held
 				if (!prevSpacePressed) 
 					inputTo->jump = true;
 				else inputTo->jump = false;
@@ -102,6 +114,7 @@ void Controller::inputs() {
 			}
 
 			if (event.key.code == sf::Keyboard::E) {
+				//checking if E was held
 				if (!prevCMenuPressed)
 					inputTo->craftingMenu = true;
 				else inputTo->craftingMenu = false;
@@ -109,6 +122,7 @@ void Controller::inputs() {
 			}
 
 			if (event.key.code == sf::Keyboard::I) {
+				//checking if I was held
 				if (!prevIMenuPressed)
 					inputTo->inventoryMenu = true;
 				else inputTo->inventoryMenu = false;
@@ -116,6 +130,7 @@ void Controller::inputs() {
 			}
 
 			if (event.key.code == sf::Keyboard::M) {
+				//checking if M was held
 				if (!prevchangeLevelPressed)
 					inputTo->toMainMenu = true;
 				else inputTo->toMainMenu = false;
@@ -135,6 +150,7 @@ void Controller::inputs() {
 				inputTo->mouse2 = true;
 			break;
 
+		//checking for released buttons
 		case sf::Event::KeyReleased:
 			if (event.key.code == sf::Keyboard::W)
 				inputTo->up = false;
@@ -190,25 +206,7 @@ void Controller::inputs() {
 		}
 	}
 
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		prevSpacePressed = true;
-	else prevSpacePressed = false;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		prevCMenuPressed = true;
-	else prevCMenuPressed = false;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
-		prevIMenuPressed = true;
-	else prevIMenuPressed = false;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-		prevchangeLevelPressed = true;
-	else prevchangeLevelPressed = false;*/
-
-
-
-
+	//getting mouse position relative to the top left corner of the map
 	inputTo->looking = sf::Vector2f((sf::Vector2f)sf::Mouse::getPosition(view->window) + view->camPosition - (sf::Vector2f)view->window.getSize() * 0.5f);
 	//std::cout << model->player.looking.x << "," << model->player.looking.y << std::endl;
 }

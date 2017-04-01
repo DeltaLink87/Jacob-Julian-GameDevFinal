@@ -53,6 +53,7 @@ bool Actor::isFacingRight() {
 void Actor::hitWall(sf::Vector2f newPosition, int dir) {
 	setPostion(newPosition);
 
+	//checking if the actor hit the groung
 	if (dir == 2) {
 		onGround = true;
 		if (isJumping) {
@@ -63,6 +64,7 @@ void Actor::hitWall(sf::Vector2f newPosition, int dir) {
 			newSounds.push_back(Sound(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y, std::pow(velocity.y / 1.75, 3) / 50000, 0.5, !isPlayer));
 	}
 
+	//reseting the velocity in the direction hit
 	if (dir == 0 || dir == 2)
 		velocity.y = 0;
 	else if (dir == 1 || dir == 3)
@@ -70,36 +72,33 @@ void Actor::hitWall(sf::Vector2f newPosition, int dir) {
 }
 
 void Actor::hitActor(Actor* otherActor) {
+	//calculating the middle point between 2 actors and the difference between the actors coordinates
 	sf::Vector2f middle = (position + otherActor->getPosition() + hitBox.getSize() * 0.5f + otherActor->getHitBox().getSize() * 0.5f) * 0.5f;
-
 	float difX = (hitBox.getPosition().x + hitBox.getSize().x / 2) - (otherActor->getHitBox().getPosition().x + otherActor->getHitBox().getSize().x / 2);
 	float difY = (hitBox.getPosition().y + hitBox.getSize().y / 2) - (otherActor->getHitBox().getPosition().y + otherActor->getHitBox().getSize().y / 2);
 
+	//checking if the actors collided vertically or horizontally
 	if (abs(difX) < abs(difY) && abs(abs(difX) - abs(difY)) > 2) {
-		if (difY > 0) {
-
+		//checking vertical dircection hit
+		if (difY > 0) {	//other actor hit the top of this actor
 			otherActor->hitWall(sf::Vector2f(otherActor->getPosition().x, middle.y - otherActor->getHitBox().getSize().y), 0);
 			hitWall(sf::Vector2f(position.x, middle.y), 2);
-			//std::cout << "bottom" << std::endl;
 		}
-		else {
+		else {	//other actor hit the bottom of this actor
 			otherActor->hitWall(sf::Vector2f(otherActor->getPosition().x, middle.y), 2);
 			hitWall(sf::Vector2f(position.x, middle.y - hitBox.getSize().y), 0);
-			//std::cout << "top" << std::endl;
 		}
 	}
 
 	else if (abs(abs(difX) - abs(difY)) > 2) {
-		//std::cout << abs(difX) << "  " << abs(difY) << std::endl;
-		if (difX > 0) {
+		//checking vertical dircection hit
+		if (difX > 0) {	//other actor hit the left of this actor
 			otherActor->hitWall(sf::Vector2f(middle.x - otherActor->getHitBox().getSize().x, otherActor->getHitBox().getPosition().y), 1);
 			hitWall(sf::Vector2f(middle.x, position.y), 3);
-			//std::cout << "right" << std::endl;
 		}
-		else {
+		else {	//other actor hit the right of this actor
 			otherActor->hitWall(sf::Vector2f(middle.x, otherActor->getHitBox().getPosition().y), 3);
 			hitWall(sf::Vector2f(middle.x - hitBox.getSize().x, position.y), 1);
-			//std::cout << "left" << std::endl;
 		}
 	}
 }

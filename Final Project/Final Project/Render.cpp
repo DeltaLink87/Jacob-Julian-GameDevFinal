@@ -28,6 +28,7 @@ Render::Render(Model* newModel){
 	textBrush.setStyle(sf::Text::Regular);
 	textBrush.setFillColor(sf::Color::Black);
 
+	//creting rendertextures for the game to be drawn to
 	modelTexture.create(windowWidth, windowHeight);
 	invMenuTexture.create(windowWidth, windowHeight);
 	craftMenuTexture.create(windowWidth, windowHeight);
@@ -57,6 +58,7 @@ Render::Render(Model* newModel){
 		}
 	}*/
 
+	//laoding the title screen assets
 	model->mainMenu.titleCardSprite.setTexture(manager.loadTexture("MainMenu/TitleCard"));
 	model->mainMenu.titleCardSprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 200);
 	model->mainMenu.optionSprite[0].setTexture(manager.loadTexture("MainMenu/StartButton"));
@@ -311,6 +313,7 @@ void Render::renderPlayerSpriteArray() {
 
 }
 
+//loading renderable sprite and setting it's scale, position, and rotation
 void Render::initializeRenderable(Renderable* renderable) {
 	//std::cout << renderable->textureName << std::endl;
 	renderable->sprite.setTexture(manager.loadTexture(renderable->textureName));
@@ -320,6 +323,7 @@ void Render::initializeRenderable(Renderable* renderable) {
 	renderable->spriteInitialized = true;
 }
 
+//drawing a renderable to a target
 void Render::drawRenderable(sf::RenderTarget& target, Renderable* renderable) {
 	if (renderable->displaySprite) {
 		if (!renderable->spritePositionSet)
@@ -331,33 +335,39 @@ void Render::drawRenderable(sf::RenderTarget& target, Renderable* renderable) {
 void Render::render() {
 	window.clear();
 
+	//rendering the model and drawing it to the windoow
 	renderModel();
 	sf::Sprite modelSprite;
 	modelSprite.setTexture(modelTexture.getTexture());
 	window.draw(modelSprite);
 
+	//rendering the UI if not title screen
 	if (model->gameMode != 7)
 		renderUI();
 
+	//rendering win creen or lose screen if won or lost level
 	if (model->gameMode == 3) {
 		renderWin();
 	}
 	if (model->gameMode == 8) {
 		renderLose();
 	}
-
+	
+	//rendering UI if not title screen
 	if (model->gameMode != 7) {
 		sf::Sprite UISprite;
 		UISprite.setTexture(UITexture.getTexture());
 		window.draw(UISprite);
 	}
 
+	//rendering the craftMenu if in craft menu
 	if (model->gameMode == 1) {
 		renderCraftMenu();
 		sf::Sprite craftMenuSprite;
 		craftMenuSprite.setTexture(craftMenuTexture.getTexture());
 		window.draw(craftMenuSprite);
 	}
+	//rendering the Inventory meny if in inventory
 	else if (model->gameMode == 2) {
 		renderInvMenu();
 		sf::Sprite invMenuSprite;
@@ -367,6 +377,7 @@ void Render::render() {
 
 	//window.draw(model->itemManager->getAllItems().at("Dagger")->menuIcon);
 
+	//fading to black
 	if (model->gameMode == 4) {
 		sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(windowWidth, windowHeight));
 		rect.setFillColor(sf::Color(0, 0, 0, 255 * screenAlpha));
@@ -377,11 +388,13 @@ void Render::render() {
 		}
 		window.draw(rect);
 	}
+	//drawing black screen while loading level
 	else if (model->gameMode == 5) {
 		sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(windowWidth, windowHeight));
 		rect.setFillColor(sf::Color::Black);
 		window.draw(rect);
 	}
+	//fading if from black when level loaded
 	else if (model->gameMode == 6) {
 		sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(windowWidth, windowHeight));
 		rect.setFillColor(sf::Color(0, 0, 0, 255 * screenAlpha));
@@ -393,6 +406,7 @@ void Render::render() {
 		window.draw(rect);
 	}
 
+	//rendering main menu
 	if (model->gameMode == 7) {
 		renderMainMenu();
 		sf::Sprite mainMenuSprite;
@@ -496,6 +510,7 @@ void Render::renderModel() {
 		drawRenderable(modelTexture, *i);
 	}
 
+	//drawing objective flag above objectives
 	for (std::vector<Objective*>::iterator i = model->levelObjectives.begin(); i != model->levelObjectives.end(); i++) {
 		if (!(*i)->isComplete()) {
 			if (!(*i)->initialized) {
@@ -509,23 +524,25 @@ void Render::renderModel() {
 	}
 
 	modelTexture.display();
-	UITexture.display();
 }
 
 void Render::renderUI() {
 	UITexture.clear(sf::Color::Transparent);
 
+	//drawing the quick bar
 	sf::Sprite quickBar;
 	quickBar.setTexture(manager.loadTexture("UI/QuickBar"));
 	quickBar.setScale(160.0 / (float)quickBar.getTextureRect().width, 32.0 / (float)quickBar.getTextureRect().height);
 	UITexture.draw(quickBar);
 
+	//drawing the health boxe
 	sf::Sprite healthBox;
 	healthBox.setTexture(manager.loadTexture("UI/HealthBox"));
 	healthBox.setScale(64.0 / (float)healthBox.getTextureRect().width, 32.0 / (float)healthBox.getTextureRect().height);
 	healthBox.setPosition(windowWidth - 64, 0);
 	UITexture.draw(healthBox);
 
+	//rendering the items in the players quickbar
 	for (int i = 0; i < model->player->getInventory()->getHeight(); i++) {
 		Item* item = model->player->getInventory()->getCurSeletected(i);
 		if (item != NULL) {
@@ -543,6 +560,7 @@ void Render::renderUI() {
 		}
 	}
 
+	//drawing the square to show the selected quickbar item
 	sf::RectangleShape select = sf::RectangleShape(sf::Vector2f(32, 32));
 	select.setPosition(model->player->getCurSelected() * 32, 0);
 	select.setFillColor(sf::Color::Transparent);
@@ -550,6 +568,7 @@ void Render::renderUI() {
 	select.setOutlineThickness(3);
 	UITexture.draw(select);
 
+	//drawing the players current health
 	std::stringstream ss;
 	ss << model->player->getHealth() << "/" << model->player->getMaxHealth();
 	textBrush.setString(ss.str());
@@ -560,25 +579,30 @@ void Render::renderUI() {
 void Render::renderCraftMenu() {
 	craftMenuTexture.clear(sf::Color::Transparent);
 
+	//drawing menu border
 	border = sf::RectangleShape(sf::Vector2f(410, 330));
 	border.setPosition(sf::Vector2f(195, 145));
 	border.setFillColor(sf::Color::White);
 	craftMenuTexture.draw(border);
 
+	//drawing menu background
 	center = sf::RectangleShape(sf::Vector2f(400, 320));
 	center.setPosition(sf::Vector2f(200, 150));
 	center.setFillColor(sf::Color(100, 100, 100));
 	craftMenuTexture.draw(center);
 
+	//drawing menu dividing line
 	divide = sf::RectangleShape(sf::Vector2f(5, 320));
 	divide.setPosition(sf::Vector2f(330, 150));
 	divide.setFillColor(sf::Color::White);
 	craftMenuTexture.draw(divide);
 
+	//drawing items label above the items
 	textBrush.setString("Items:");
 	textBrush.setPosition(sf::Vector2f(205, 150));
 	craftMenuTexture.draw(textBrush);
 
+	//calculating which items to draw
 	int counter = 0, firstRender, lastRender;
 	if (model->craftMenu->totalItems < 3) {
 		firstRender = 0;
@@ -597,6 +621,7 @@ void Render::renderCraftMenu() {
 		lastRender = model->craftMenu->curSelected + 2;
 	}
 
+	//drawing items selected and around selected in menu
 	for (std::map<std::string, Item*>::iterator i = model->craftMenu->itemList.begin(); i != model->craftMenu->itemList.end(); i++) {
 		if (counter >= firstRender && counter <= lastRender) {
 			//std::cout << model->itemManager->itemIndex.at(i+1) << std::endl;
@@ -614,18 +639,22 @@ void Render::renderCraftMenu() {
 		counter++;
 	}
 
+	//drawing selected item box
 	model->craftMenu->selectedBox.setPosition(200, 175 + 75 * (model->craftMenu->curSelected - firstRender));
 	craftMenuTexture.draw(model->craftMenu->selectedBox);
 
+	//drawing selected items description
 	Item* item = model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected));
 	if (item->name.length() < 12)
 		makeStringTextrue(item->name, 446, 155, 154, 30, craftMenuTexture, 25);
 	else
 		makeStringTextrue(item->name, 446, 155, 154, 30, craftMenuTexture, 20);
 
+	//displaying selected items desctiptive text and type of item
 	makeStringTextrue(item->type, 446, 185, 154, 30, craftMenuTexture, 25);
 	makeStringTextrue(item->description, 340, 272, 265, 90, craftMenuTexture, 12);
 
+	//creating string for item recipe and displaying it
 	std::string itemRecipe = "Required: NL ";
 	for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
 		std::stringstream ss;
@@ -634,6 +663,7 @@ void Render::renderCraftMenu() {
 	}
 	makeStringTextrue(itemRecipe, 340, 363, 265, 90, craftMenuTexture, 12);
 
+	//displaying item icon
 	sf::Sprite sprite;
 	sprite.setTexture(item->smallIconTexture);
 	sprite.setScale(1.5, 1.5);
@@ -653,19 +683,11 @@ void Render::renderInvMenu() {
 	int top = 125;
 	int left = 173;
 
-	/*border = sf::RectangleShape(sf::Vector2f(410, 310));
-	border.setPosition(sf::Vector2f(195, 145));
-	border.setFillColor(sf::Color::Black);
-	invMenuTexture.draw(border);
-
-	center = sf::RectangleShape(sf::Vector2f(400, 300));
-	center.setPosition(sf::Vector2f(200, 150));
-	center.setFillColor(sf::Color::White);
-	invMenuTexture.draw(center);*/
-
+	//drawing menu background
 	model->invMenu->iMenuSprite.setPosition(left, top);
 	invMenuTexture.draw(model->invMenu->iMenuSprite);
 
+	//drawing items in inventory
 	int counter = 0;
 	Inventory* inv = model->player->getInventory();
 	for (int y = 0; y < inv->getHeight(); y++) {
@@ -675,6 +697,7 @@ void Render::renderInvMenu() {
 
 			Item* curItem = inv->getCurSeletected(x, y);
 			if (curItem != NULL) {
+				//drawing item icon
 				curItem->smallIcon.setPosition(
 					left + model->invMenu->iSlotStart.x + x * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
 					top + model->invMenu->iSlotStart.y + y * (model->invMenu->iSlotOff.y + model->invMenu->iSlotDim.y));
@@ -682,7 +705,7 @@ void Render::renderInvMenu() {
 					1.0 / (curItem->smallIcon.getLocalBounds().height / model->invMenu->iSlotDim.y));
 				invMenuTexture.draw(curItem->smallIcon);
 
-
+				//drawing item quantity
 				std::stringstream ss;
 				ss << curItem->quantity;
 				textBrush.setString(ss.str());
@@ -694,13 +717,15 @@ void Render::renderInvMenu() {
 		}
 	}
 
-	//std::cout << model->invMenu->getCurX() << "," << model->invMenu->getCurY() << "," << inv->getWidth() << "," << inv->getHeight() << std::endl;
+	//drawing selected item desctiption
 	Item* item = inv->getCurSeletected(model->invMenu->getCurX(), model->invMenu->getCurY());
 	if (item != NULL) {
+		//drawing item name, type and desctiption
 		makeStringTextrue(item->name, left + 100, top + 5, 150, 30, invMenuTexture, 18);
 		makeStringTextrue(item->type, left + 100, top + 35, 150, 30, invMenuTexture, 18);
 		makeStringTextrue(item->description, left + 5, top + 100, 220, 90, invMenuTexture, 12);
 
+		//creating string for item recipe and drawing it
 		std::string itemRecipe = "Required: NL ";
 		for (std::map<std::string, int>::iterator i = item->recipe.begin(); i != item->recipe.end(); i++) {
 			std::stringstream ss;
@@ -709,6 +734,7 @@ void Render::renderInvMenu() {
 		}
 		makeStringTextrue(itemRecipe, left + 5, top + 190, 220, 90, invMenuTexture, 12);
 
+		//drawing item icon
 		sf::Sprite sprite;
 		sprite.setTexture(item->smallIconTexture);
 		sprite.setScale(1.5, 1.5);
@@ -721,6 +747,7 @@ void Render::renderInvMenu() {
 		//invMenuTexture.draw(item->menuDescription);
 	}
 
+	//drawing selected items box to indicate seleceted item
 	model->invMenu->selectedBox.setPosition(
 		left + model->invMenu->iSlotStart.x + ((model->invMenu->iSlotDim.x + model->invMenu->iSlotOff.x) * model->invMenu->getCurX()),
 		top + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->getCurY())));
@@ -733,11 +760,15 @@ void Render::renderInvMenu() {
 void Render::renderMainMenu() {
 	mainMenuTexture.clear(sf::Color::Transparent);
 
+	//drawing title card
 	mainMenuTexture.draw(model->mainMenu.titleCardSprite);
-	if (!model->mainMenu.stageSelect) {
+	
+	if (!model->mainMenu.stageSelect) {	//drawing menu
+		//drawing all options
 		mainMenuTexture.draw(model->mainMenu.optionSprite[0]);
 		mainMenuTexture.draw(model->mainMenu.optionSprite[1]);
 
+		//drawing selected box
 		sf::RectangleShape select = sf::RectangleShape(sf::Vector2f(200, 100));
 		select.setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100 * model->mainMenu.getCurSelect());
 		select.setFillColor(sf::Color::Transparent);
@@ -745,7 +776,9 @@ void Render::renderMainMenu() {
 		select.setOutlineColor(sf::Color::Black);
 		mainMenuTexture.draw(select);
 	}
-	else {
+	else {	//drawing level select
+
+		//calculating first and last option to draw
 		int first, last;
 		if (model->mainMenu.totalStages < 3) {
 			first = 0;
@@ -764,6 +797,7 @@ void Render::renderMainMenu() {
 			last = model->mainMenu.getCurSelect() + 2;
 		}
 
+		//drawing displayed level names
 		for (int i = first; i < last; i++) {
 			sf::RectangleShape button = sf::RectangleShape(sf::Vector2f(200, 100));
 			button.setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100 * (i - first));
@@ -774,6 +808,7 @@ void Render::renderMainMenu() {
 			mainMenuTexture.draw(textBrush);
 		}
 
+		//drawing selected box
 		sf::RectangleShape select = sf::RectangleShape(sf::Vector2f(200, 100));
 		select.setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100 * (model->mainMenu.getCurSelect() - first));
 		select.setFillColor(sf::Color::Transparent);
@@ -786,31 +821,27 @@ void Render::renderMainMenu() {
 }
 
 void Render::renderWin() {
+	//drawing outline box
 	sf::Sprite sprite;
 	sprite.setTexture(manager.loadTexture("UI/HealthBox"));
 	sprite.setScale(200.0 / (float)sprite.getTextureRect().width, 50.0 / (float)sprite.getTextureRect().height);
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
+	//displaying win message
 	makeStringTextrue("Level Complete NL Press Space to Continue", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
-	//makeStringTextrue("TEST test TEST test TEST test TEST test TEST test TEST test TEST test", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
-	//textBrush.setString("Game Over\nPress Space to Retry");
-	//textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
-	//UITexture.draw(textBrush);
 }
 
 void Render::renderLose() {
+	//drawing outline box
 	sf::Sprite sprite;
 	sprite.setTexture(manager.loadTexture("UI/HealthBox"));
 	sprite.setScale(200.0 / (float)sprite.getTextureRect().width, 50.0 / (float)sprite.getTextureRect().height);
 	sprite.setPosition(windowWidth / 2 - 100, windowHeight / 2 - 15);
 	UITexture.draw(sprite);
 
+	//displaying lose message
 	makeStringTextrue("Game Over NL Press Space to Retry", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
-	//makeStringTextrue("TEST test TEST test TEST test TEST test TEST test TEST test TEST test", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
-	//textBrush.setString("Game Over\nPress Space to Retry");
-	//textBrush.setPosition(sf::Vector2f(windowWidth / 2 - 75, windowHeight / 2 - 15));
-	//UITexture.draw(textBrush);
 }
 
 void Render::makeStringTextrue(std::string msg, int x, int y, int width, int height, sf::RenderTarget& target, int fontSize) {
@@ -821,8 +852,9 @@ void Render::makeStringTextrue(std::string msg, int x, int y, int width, int hei
 	std::string word, prevWord;
 	ss >> word;
 	int numOfNewLines = 0;
+
+	//creating vector of words in message
 	while (word.compare(prevWord) != 0) {
-		//std::cout << word << std::endl;
 		words.push_back(word);
 		if (word.compare("NL") == 0)
 			numOfNewLines++;
@@ -831,30 +863,29 @@ void Render::makeStringTextrue(std::string msg, int x, int y, int width, int hei
 		ss >> word;
 	}
 
+
+	//creating text variable to be drawn to
 	sf::Text text;
 	std::string totalString = "";
 	text.setFont(font);
 	text.setFillColor(sf::Color::Black);
 
 	int lineLength = 0;
-	if (fontSize == -1) {
+	if (fontSize == -1) {	//if text size not given calculate size the text should be to best fit
 		text.setCharacterSize(12);
 		text.setString(msg);
 
 		int length = text.getLocalBounds().width;
 		float ratio = (float)width / (float)height;
 		float scaler = sqrt((float)(length * text.getCharacterSize()) / (width * height));
-		//text.setCharacterSize((1 / scaler) * text.getCharacterSize());
-		//lineLength = width * scaler;
 		lineLength = scaler * width;
-		//std::cout << length << "," << lineLength << "," << scaler << "," << ratio << std::endl;
 	}
-	else {
+	else {	//else set the fontsize and line length to the width
 		lineLength = width;
 		text.setCharacterSize(fontSize);
 	}
 
-
+	//create a string that fits the width given
 	for (std::vector<std::string>::iterator i = words.begin(); i != words.end(); i++) {
 		text.setString(totalString + *i + " ");
 		if (i->compare("NL") == 0)
@@ -864,18 +895,19 @@ void Render::makeStringTextrue(std::string msg, int x, int y, int width, int hei
 		else totalString += *i + " ";
 	}
 	text.setString(totalString);
-	if (fontSize == -1) {
+
+	//if font size not given, scales the text to fit the size of box given
+	if (fontSize == -1) {	
 		float widthScale = (float)width / (float)(text.getLocalBounds().width + text.getCharacterSize() / 2);
 		float heightScale = (float)height / (float)(text.getLocalBounds().height + text.getCharacterSize() / 2);
-		//std::cout << widthScale << "," << heightScale << std::endl;
 		if (widthScale < heightScale)
 			text.setScale(widthScale, widthScale);
 		else text.setScale(heightScale, heightScale);
 	}
-	//std::string thing = text.getString();
-	//std::cout << text.getLocalBounds().width << "," << text.getLocalBounds().height << std::endl;
+
 	text.setPosition(0, 0);
 
+	//renders text to target given
 	sf::RenderTexture texture;
 	texture.create(width, height);
 	texture.clear(sf::Color::Transparent);
