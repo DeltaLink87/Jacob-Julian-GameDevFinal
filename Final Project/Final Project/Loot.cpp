@@ -14,8 +14,8 @@ Loot::~Loot() { }
 
 void Loot::update(float deltaTime) {
 	velocity.y += 200 * deltaTime;
-	if (velocity.y > 200)
-		velocity.y = 200;
+	if (velocity.y > 100)
+		velocity.y = 100;
 	position += velocity;
 	hitBox.setPosition(position);
 }

@@ -70,6 +70,7 @@ Render::Render(Model* newModel){
 	enemySpriteSheet.loadFromFile("Assets/Textures/Actors/enemySheet.png");
 
 
+
 	this->playerSpriteArray = new sf::Sprite*[4];
 	this->playerSpriteArray[0] = new sf::Sprite[3];
 	for (int i = 0; i < 3; i++) {

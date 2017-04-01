@@ -285,14 +285,13 @@ Equipment::Equipment(std::string n, int index) : Item(n, 2) {
 	}
 	else if (index == 15) {
 		name = n;
-		defence = 1;
+		defence = 3;
 		armourType = 1;
 
 		description = "Reliable leather armor, grants immunity to scrapes and papercuts. NL Defence: 1";
 		type = "Armour";
 
-		recipe.insert(std::pair<std::string, int>("Leather", 2));
-		recipe.insert(std::pair<std::string, int>("String", 1));
+		recipe.insert(std::pair<std::string, int>("Iron", 3));
 	}
 	else if (index == 16) {
 		name = n;
@@ -302,7 +301,7 @@ Equipment::Equipment(std::string n, int index) : Item(n, 2) {
 		description = "Very strong and sturdy armor. Worn by knights and nobels. NL Defence: 3";
 		type = "Armour";
 
-		recipe.insert(std::pair<std::string, int>("Iron", 4));
+		recipe.insert(std::pair<std::string, int>("Iron", 3));
 	}
 	else if (index == 17) {
 		name = n;
@@ -312,7 +311,7 @@ Equipment::Equipment(std::string n, int index) : Item(n, 2) {
 		description = "Very strong and sturdy armor. Worn by knights and nobels. NL Defence: 3";
 		type = "Armour";
 
-		recipe.insert(std::pair<std::string, int>("Iron", 4));
+		recipe.insert(std::pair<std::string, int>("Iron", 3));
 	}
 
 	else if (index == 18) {

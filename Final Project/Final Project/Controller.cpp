@@ -70,6 +70,14 @@ void Controller::inputs() {
 				inputTo->mouse2 = true;
 			break;
 
+		case sf::Event::MouseButtonReleased:
+			if (event.key.code == sf::Mouse::Left)
+				inputTo->pressAttack = false;
+
+			if (event.key.code == sf::Mouse::Right)
+				inputTo->mouse2 = false;
+			break;
+
 		case sf::Event::KeyPressed:
 			//Pressing Esc will close the window
 			if (event.key.code == sf::Keyboard::Escape)

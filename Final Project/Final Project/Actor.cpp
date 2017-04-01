@@ -60,7 +60,7 @@ void Actor::hitWall(sf::Vector2f newPosition, int dir) {
 			isJumping = false;
 		}
 		if (velocity.y > 50)
-			newSounds.push_back(Sound(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y, std::pow(velocity.y / 1.75, 3) / 50000, 0.5, !isPlayer));
+			newSounds.push_back(Sound(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y, std::pow(velocity.y / 1.60, 3) / 50000, 0.5, !isPlayer));
 	}
 
 	if (dir == 0 || dir == 2)
