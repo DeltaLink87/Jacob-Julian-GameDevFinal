@@ -747,11 +747,19 @@ void Render::renderInvMenu() {
 	}
 
 	//drawing selected items box to indicate seleceted item
-	model->invMenu->selectedBox.setPosition(
+	model->invMenu->cursorBox.setPosition(
 		left + model->invMenu->iSlotStart.x + ((model->invMenu->iSlotDim.x + model->invMenu->iSlotOff.x) * model->invMenu->getCurX()),
 		top + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->getCurY())));
-	model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
-	invMenuTexture.draw(model->invMenu->selectedBox);
+	//model->invMenu->cursorBox.setOutlineColor(sf::Color::Green);
+	invMenuTexture.draw(model->invMenu->cursorBox);
+
+	if (model->invMenu->getSelectedX() != -2 && model->invMenu->getSelectedY() != -2) {
+		model->invMenu->selectedBox.setPosition(
+			left + model->invMenu->iSlotStart.x + ((model->invMenu->iSlotDim.x + model->invMenu->iSlotOff.x) * model->invMenu->getSelectedX()),
+			top + (model->invMenu->iSlotStart.y + ((model->invMenu->iSlotDim.y + model->invMenu->iSlotOff.y) * model->invMenu->getSelectedY())));
+		//model->invMenu->selectedBox.setOutlineColor(sf::Color::Green);
+		invMenuTexture.draw(model->invMenu->selectedBox);
+	}
 
 	invMenuTexture.display();
 }
@@ -904,16 +912,16 @@ void Render::makeStringTextrue(std::string msg, int x, int y, int width, int hei
 		else text.setScale(heightScale, heightScale);
 	}
 
-	text.setPosition(0, 0);
+	text.setPosition(x, y);
 
 	//renders text to target given
-	sf::RenderTexture texture;
+	/*sf::RenderTexture texture;
 	texture.create(width, height);
 	texture.clear(sf::Color::Transparent);
 	texture.draw(text);
 	texture.display();
 	sf::Sprite sprite;
 	sprite.setTexture(texture.getTexture());
-	sprite.setPosition(x, y);
-	target.draw(sprite);
+	sprite.setPosition(x, y);*/
+	target.draw(text);
 }

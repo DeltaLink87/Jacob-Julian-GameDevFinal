@@ -12,11 +12,14 @@ public:
 
 	void update(float);
 
+	sf::RectangleShape cursorBox;
 	sf::RectangleShape selectedBox;
 
 	//private:
 	int getCurX();
 	int getCurY();
+	int getSelectedX();
+	int getSelectedY();
 
 	void setPlayer(Player*);
 

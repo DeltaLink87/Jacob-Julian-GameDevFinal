@@ -12,10 +12,15 @@ InventoryMenu::InventoryMenu(ItemManager* newItemManager, Player* newPlayer) {
 
 	iMenuTexture.loadFromFile("Assets/Textures/InventoryScreen.png");
 	iMenuSprite.setTexture(iMenuTexture);
+
+	cursorBox = sf::RectangleShape(sf::Vector2f(iSlotDim.x, iSlotDim.y - 1));
+	cursorBox.setFillColor(sf::Color::Transparent);
+	cursorBox.setOutlineColor(sf::Color::Green);
+	cursorBox.setOutlineThickness(3);
   
 	selectedBox = sf::RectangleShape(sf::Vector2f(iSlotDim.x, iSlotDim.y - 1));
 	selectedBox.setFillColor(sf::Color::Transparent);
-	selectedBox.setOutlineColor(sf::Color::Green);
+	selectedBox.setOutlineColor(sf::Color::Yellow);
 	selectedBox.setOutlineThickness(3);
 }
 
@@ -87,5 +92,7 @@ void InventoryMenu::update(float deltaTime) {
 }
 
 int InventoryMenu::getCurX() { return curX; }
-int InventoryMenu::getCurY() {return curY; }
+int InventoryMenu::getCurY() { return curY; }
+int InventoryMenu::getSelectedX() { return selectedX; }
+int InventoryMenu::getSelectedY() { return selectedY; }
 void InventoryMenu::setPlayer(Player* newPlayer) { menuPlayer = newPlayer; }
