@@ -122,7 +122,7 @@ void Player::update(float deltaTime) {
 		if (weapon == NULL)
 			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
 			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, mouseLooking, this, weapon));
-		else if (weapon->attackType == 0 || weapon->attackType == 1)
+		else if (weapon->getAttackType() == 0 || weapon->getAttackType() == 1)
 			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
 			newAttacks.push_back(new MeleeAttack(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, 10, 10, mouseLooking, this, weapon));
 		else
@@ -139,7 +139,7 @@ void Player::update(float deltaTime) {
 		if (weapon == NULL)
 			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
 			newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, weapon));
-		else if (weapon->attackType == 0 || weapon->attackType == 1)
+		else if (weapon->getAttackType() == 0 || weapon->getAttackType() == 1)
 			//newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this));
 			newAttacks.push_back(new MeleeAttack(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, 10, 10, dirLooking, this, weapon));
 		else

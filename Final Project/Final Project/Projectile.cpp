@@ -6,7 +6,7 @@ Projectile::Projectile(int x, int y, int width, int height, sf::Vector2f newVel,
 	velocity = newVel;
 
 	if (item != NULL)
-		damage = item->attack + 1;
+		damage = item->getAttack() + 1;
 	this->type = 0;
 	this->melee = false;
 	this->piercing = false;

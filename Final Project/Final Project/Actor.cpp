@@ -29,7 +29,7 @@ void Actor::HealHealth(float heal) {
 }
 
 void Actor::addInventory(Item* newItem) {
-	std::cout << newItem->name << std::endl;
+	std::cout << newItem->getName() << std::endl;
 	inventory.addToInventory(newItem);
 }
 

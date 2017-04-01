@@ -30,6 +30,38 @@ public:
 	*/
 	std::map<std::string, int> recipe;
 
+	sf::Image image;
+
+	sf::Sprite smallIcon;
+	sf::Sprite menuIcon;
+	sf::Sprite menuDescription;
+
+
+	sf::Texture smallIconTexture;
+	sf::Texture menuIconTexture;
+	sf::Texture menuDescriptionTexture;
+
+	std::string description = "NONE";
+	std::string type = "Material";
+
+
+	
+	bool dimPreset = false;
+	int presetItemDimX;
+	int presetItemDimY;
+
+	std::string getName() { return name; };
+	int getID() { return id; };
+	int getAttack() { return attack; };
+	int getAttackType() { return attackType; };
+	bool getCanAssassinate() { return canAssassinate; };
+	int getArmourType() { return armourType; };
+	int getDefence() { return defence; };
+	int getQuantity() { return quantity; };
+	void addQuantity(int add) { quantity += add; };
+
+protected:
+	std::string name;
 	/*
 	To distinguish between a basic item to be used as a material, and the further defined Equipment/UseableItem classes
 	1 = material
@@ -49,8 +81,8 @@ public:
 	/*type of armour this item is
 	0: not armour
 	1: helmet
-	2: 
-	
+	2:
+
 	plate
 	3: leggings
 	4: boots*/
@@ -62,27 +94,5 @@ public:
 	int durability = 1, durLossPerUse = 0;
 
 	int quantity = 1;
-
-	sf::Image image;
-
-	std::string name;
-
-	sf::Sprite smallIcon;
-	sf::Sprite menuIcon;
-	sf::Sprite menuDescription;
-
-
-	sf::Texture smallIconTexture;
-	sf::Texture menuIconTexture;
-	sf::Texture menuDescriptionTexture;
-
-	std::string description = "NONE";
-	std::string type = "Material";
-
-
-	
-	bool dimPreset = false;
-	int presetItemDimX;
-	int presetItemDimY;
 };
 

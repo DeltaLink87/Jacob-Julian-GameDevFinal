@@ -368,7 +368,7 @@ void Render::render() {
 		craftMenuSprite.setTexture(craftMenuTexture.getTexture());
 		window.draw(craftMenuSprite);
 	}
-	//rendering the Inventory meny if in inventory
+	//rendering the Inventory menu if in inventory
 	else if (model->gameMode == 2) {
 		renderInvMenu();
 		sf::Sprite invMenuSprite;
@@ -554,7 +554,7 @@ void Render::renderUI() {
 			UITexture.draw(sprite);
 
 			std::stringstream ss;
-			ss << item->quantity;
+			ss << item->getQuantity();
 			textBrush.setString(ss.str());
 			textBrush.setPosition(i * 32 + 20, 9);
 			UITexture.draw(textBrush);
@@ -575,6 +575,8 @@ void Render::renderUI() {
 	textBrush.setString(ss.str());
 	textBrush.setPosition(windowWidth - 60, 2);
 	UITexture.draw(textBrush);
+
+	UITexture.display();
 }
 
 void Render::renderCraftMenu() {
@@ -646,10 +648,10 @@ void Render::renderCraftMenu() {
 
 	//drawing selected items description
 	Item* item = model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected));
-	if (item->name.length() < 12)
-		makeStringTextrue(item->name, 446, 155, 154, 30, craftMenuTexture, 25);
+	if (item->getName().length() < 12)
+		makeStringTextrue(item->getName(), 446, 155, 154, 30, craftMenuTexture, 25);
 	else
-		makeStringTextrue(item->name, 446, 155, 154, 30, craftMenuTexture, 20);
+		makeStringTextrue(item->getName(), 446, 155, 154, 30, craftMenuTexture, 20);
 
 	//displaying selected items desctiptive text and type of item
 	makeStringTextrue(item->type, 446, 185, 154, 30, craftMenuTexture, 25);
@@ -708,7 +710,7 @@ void Render::renderInvMenu() {
 
 				//drawing item quantity
 				std::stringstream ss;
-				ss << curItem->quantity;
+				ss << curItem->getQuantity();
 				textBrush.setString(ss.str());
 				textBrush.setPosition(sf::Vector2f(
 					left + model->invMenu->iSlotStart.x + (x + 0.6) * (model->invMenu->iSlotOff.x + model->invMenu->iSlotDim.x),
@@ -722,7 +724,7 @@ void Render::renderInvMenu() {
 	Item* item = inv->getCurSeletected(model->invMenu->getCurX(), model->invMenu->getCurY());
 	if (item != NULL) {
 		//drawing item name, type and desctiption
-		makeStringTextrue(item->name, left + 100, top + 5, 150, 30, invMenuTexture, 18);
+		makeStringTextrue(item->getName(), left + 100, top + 5, 150, 30, invMenuTexture, 18);
 		makeStringTextrue(item->type, left + 100, top + 35, 150, 30, invMenuTexture, 18);
 		makeStringTextrue(item->description, left + 5, top + 100, 220, 90, invMenuTexture, 12);
 

@@ -51,8 +51,8 @@ void LevelManager::loadLevelFile(std::string fileName, ItemManager* itemManager)
 
 			//adding the new item loaded the inventory
 			Item* item = itemManager->getItem(itemName, quantity);
-			if (item->armourType > 0)
-				inventories.at(targetLocation)->addToInventory(item, -1, item->armourType - 1);
+			if (item->getArmourType() > 0)
+				inventories.at(targetLocation)->addToInventory(item, -1, item->getArmourType() - 1);
 			else inventories.at(targetLocation)->addToInventory(item);
 			//getting next item
 			fileHndl >> itemName;

@@ -11,7 +11,7 @@ CraftingMenu::CraftingMenu(ItemManager* newItemManager, Player* newPlayer) {
 	//std::cout << tempList->size() << std::endl;
 	for (std::vector<std::string>::iterator i = tempList->begin(); i != tempList->end(); i++) {
 		//std::cout << *i << std::endl;
-		if (itemManager->getItem(*i, 1)->id != 1) {
+		if (itemManager->getItem(*i, 1)->getID() != 1) {
 			itemNameList.push_back(*i);
 			itemList.insert(std::pair<std::string, Item*>(*i, itemManager->getItem(*i, 1)));
 		}
@@ -31,7 +31,7 @@ CraftingMenu::~CraftingMenu(){
 	delete[] canMake;
 }
 
-void CraftingMenu::update(float deltaTime) {
+void CraftingMenu::openMenu() {
 	//checking if the player has the inventory to craft a given item
 	Inventory* playerInventory = craftingPlayer->getInventory();
 	int counter = 0;
@@ -47,20 +47,24 @@ void CraftingMenu::update(float deltaTime) {
 		//std::cout << canMake[counter] << std::endl;
 		counter++;
 	}
+}
 
+void CraftingMenu::update(float deltaTime) {
 	//checking if the player can input a new input(to slow down input)
 	inputTimer -= deltaTime;
 	if (inputTimer <= 0) {
+		//moving cursor up and down
 		if (up)
 			this->curSelected--;
 		else if (down)
 			this->curSelected++;
 		this->curSelected = (this->curSelected + totalItems) % totalItems;
-
+		//crafting an item if selected
 		if (select && canMake[this->curSelected]) {
-			craftingPlayer->craftItem(new Item(*itemList.at(itemNameList.at(this->curSelected))));
+			craftingPlayer->craftItem(itemList.at(itemNameList.at(this->curSelected))->getCopy());
+			openMenu();
 		}
-
+		//reseting input timer if an input was put in
 		if (up || down || select)
 			inputTimer = 0.25;
 	}

@@ -73,7 +73,7 @@ ItemManager::ItemManager() {
 
 Item* ItemManager::getItem(std::string name, int quantity) {
 	Item* newItem = items.at(name)->getCopy();
-	newItem->quantity = quantity;
+	newItem->addQuantity(quantity - newItem->getQuantity());
 	return newItem;
 }
 

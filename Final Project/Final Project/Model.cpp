@@ -135,8 +135,10 @@ void Model::update(float deltaTime) {
 		if (levelObjectives.size() == 0)
 			levelComplete = false;
 
-		if (player->craftingMenu)
+		if (player->craftingMenu) {
 			gameMode = 1;
+			craftMenu->openMenu();
+		}
 		else if (player->inventoryMenu)
 			gameMode = 2;
 		else if (levelComplete) {

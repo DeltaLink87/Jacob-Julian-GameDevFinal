@@ -50,8 +50,8 @@ bool Inventory::addToInventory(Item* newItem) {
 	for (int x = 0; x < invWidth; x++) {
 		for (int y = 0; y < invHeight; y++) {
 			if (items[y][x] != NULL) {
-				if (items[y][x]->name.compare(newItem->name) == 0) {
-					items[y][x]->quantity += newItem->quantity;
+				if (items[y][x]->getName().compare(newItem->getName()) == 0) {
+					items[y][x]->addQuantity(newItem->getQuantity());
 					delete newItem;
 					return true;
 				}
@@ -77,7 +77,7 @@ bool Inventory::addToInventory(Item* newItem, int x, int y) {
 		return false;
 
 	if (x == -1) {
-		if (armour[y] == NULL && newItem->armourType - 1 == y){
+		if (armour[y] == NULL && newItem->getArmourType() - 1 == y){
 			armour[y] = newItem;
 			totalInv++;
 			return true;
@@ -151,8 +151,8 @@ bool Inventory::contains(std::string itemName, int quantity) {
 	for (int x = 0; x < invWidth; x++) {
 		for (int y = 0; y < invHeight; y++) {
 			if (items[y][x] != NULL) {
-				if (items[y][x]->name.compare(itemName) == 0) {
-					quantity -= items[y][x]->quantity;
+				if (items[y][x]->getName().compare(itemName) == 0) {
+					quantity -= items[y][x]->getQuantity();
 					if (quantity <= 0)
 						return true;
 				}
@@ -174,12 +174,12 @@ bool Inventory::craft(Item* item) {
 		for (int x = 0; x < invWidth && !found; x++) {
 			for (int y = 0; y < invHeight && !found; y++) {
 				if (items[y][x] != NULL) {
-					if (items[y][x]->name.compare(i->first) == 0) {
-						int quantity = items[y][x]->quantity;
-						items[y][x]->quantity -= totalNeeded;
+					if (items[y][x]->getName().compare(i->first) == 0) {
+						int quantity = items[y][x]->getQuantity();
+						items[y][x]->addQuantity(-totalNeeded);
 						totalNeeded -= quantity;
 
-						if (items[y][x]->quantity <= 0) {
+						if (items[y][x]->getQuantity() <= 0) {
 							delete items[y][x];
 							items[y][x] = NULL;
 						}
@@ -205,10 +205,10 @@ void Inventory::swap(int x1, int y1, int x2, int y2) {
 	else item2 = items[y2][x2];
 
 	if (x1 == -1 && item2 != NULL)
-		if (item2->armourType - 1 != y1)	
+		if (item2->getArmourType() - 1 != y1)	
 			return;
 	if (x2 == -1 && item1 != NULL) 
-		if (item1->armourType - 1 != y2)	
+		if (item1->getArmourType() - 1 != y2)
 			return;
 
 	if (x1 == -1)	armour[y1] = item2;
@@ -221,7 +221,7 @@ int Inventory::getTotalArmourDefence() {
 	int total = 0;
 	for (int i = 0; i < armourSlots; i++)
 		if (armour[i] != NULL)
-			total += armour[i]->defence;
+			total += armour[i]->getDefence();
 	return total;
 }
 

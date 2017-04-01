@@ -79,7 +79,7 @@ void Enemy::update(float deltaTime) {
 					newAttacks.push_back(new MeleeAttack(position.x, position.y, 10, 10, dirLooking, this, weapon));
 				}
 				//checking attack type and making appropriate attack
-				else if (weapon->attackType == 0 || weapon->attackType == 1)
+				else if (weapon->getAttackType() == 0 || weapon->getAttackType() == 1)
 					newAttacks.push_back(new MeleeAttack(position.x + hitBox.getSize(). x / 2, position.y + hitBox.getSize().y / 2, 10, 10, dirLooking, this, weapon));
 				else
 					newAttacks.push_back(new Projectile(position.x + hitBox.getSize().x / 2, position.y + hitBox.getSize().y / 2, 10, 10, sf::Vector2f(200 * cos(dirLooking), 200 * sin(dirLooking)), this, weapon));

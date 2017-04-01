@@ -19,7 +19,7 @@ void SolidTile::hit(Entity* hitThis) {
 	//checking if the entities collided vertically or horizontally
 	if (abs(difX) < abs(difY) && abs(abs(difX) - abs(difY)) > 2) {
 		//checking vertical dircection hit
-		if (difY > 0) {	//other entity hit the bottom of this tile
+		if (difY < 0) {	//other entity hit the bottom of this tile
 			hitThis->hitWall(sf::Vector2f(hitThis->getPosition().x, hitBox.getPosition().y + hitBox.getSize().y), 0);
 			//std::cout << "bottom" << std::endl;
 		}
@@ -31,7 +31,7 @@ void SolidTile::hit(Entity* hitThis) {
 
 	else if (abs(abs(difX) - abs(difY)) > 2) {
 		//checking vertical dircection hit
-		if (difX > 0) {	//other entity hit the right of this tile
+		if (difX < 0) {	//other entity hit the right of this tile
 			hitThis->hitWall(sf::Vector2f(hitBox.getPosition().x + hitBox.getSize().x, hitThis->getHitBox().getPosition().y), 1);
 			//std::cout << "right" << std::endl;
 		}

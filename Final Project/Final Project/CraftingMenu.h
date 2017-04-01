@@ -11,6 +11,7 @@ public:
 	CraftingMenu(ItemManager*, Player*);
 	~CraftingMenu();
 
+	void openMenu();
 	void update(float);
 	void setPlayer(Player*);
 
