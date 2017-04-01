@@ -147,10 +147,6 @@ Render::~Render(){ }
 
 void Render::renderEnemySpriteArray(Enemy* enemy) {
 
-
-
-
-
 	if (enemy->isJumping) {
 
 		enemySpriteArray[2][0].setPosition(enemy->getPosition());

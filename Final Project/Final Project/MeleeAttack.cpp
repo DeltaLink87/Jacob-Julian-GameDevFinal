@@ -7,6 +7,7 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 	this->melee = true;
 	this->spritePositionSet = true;
 
+	//setting attack variables based on item stats is item is provided, else creating defualt stats
 	if (item != NULL) {
 		this->type = item->getAttackType() + 1;
 		damage = item->getAttack();
@@ -20,7 +21,7 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 
 		canAssassinate = item->getCanAssassinate();
 	}
-	else {
+	else {	//setting variables to defualt if no item given
 		this->type = 2;
 
 		this->spriteWidth = 10;
@@ -29,7 +30,7 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 		this->textureName = "Attacks/DaggerAttackImage";
 	}
 
-
+	//initilizing variables for a stabbing attack
 	if (this->type == DAGGER) {
 
 		direction = dir;
@@ -41,7 +42,7 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 		
 
 	}
-
+	//initilizing variables for a swinging attack
 	else if (this->type == SWORD) {
 
 		if (newSource->isFacingRight()) {
@@ -57,10 +58,6 @@ MeleeAttack::MeleeAttack(int x, int y, int width, int height, float dir, Actor* 
 		}
 		type = 2;
 		anchor = newSource->getPosition();
-
-
-
-
 	}
 }
 
@@ -137,14 +134,15 @@ void MeleeAttack::update(float deltaTime) {
 
 	//Update for thrust/stab type weapons
 	else if (this->type == DAGGER) {
-
+		//checking if collided with wall or done motion
 		if (attackMotion >= 1 || collidedWithTile) {
 			thrust = false;
 		}
-
+		//calculating new position of attack
 		position.x = source->getPosition().x + source->getHitBox().getSize().x / 4 + source->getHitBox().getSize().x * cos(direction) * attackMotion * 1;
 		position.y = source->getPosition().y + source->getHitBox().getSize().y / 4 + source->getHitBox().getSize().y * sin(direction) * attackMotion * 1;
 
+		//adding time to motion timer
 		if (thrust)
 			attackMotion += deltaTime * 2;
 		else
@@ -152,24 +150,21 @@ void MeleeAttack::update(float deltaTime) {
 
 		duration += deltaTime;
 
-		//if (duration >= 2.0)
+		//checking if attack is done
 		if (attackMotion <= 0)
 			remove();
 
-
-		this->sprite.setPosition(position);
-		//rotation needs to be changed to sprite --TEMP--
-		rotation(direction);
+		
 	}
   
-  //Update for "swing" type weapons
-  else if (this->type == SWORD) {
-
+	//Update for "swing" type weapons
+	else if (this->type == SWORD) {
+		//checking if collided with wall or done motion
 		if (collidedWithTile && duration < 1.8) {
 			duration = 1.8;
 		}
 
-
+		//checking if attack is still swinging and changing direction if it is
 		if (duration > 1.3 && duration < 1.5) {
 			if (source->isFacingRight())
 				direction += deltaTime * ((1.0 / 3.0) * pi) * 10;
@@ -179,20 +174,18 @@ void MeleeAttack::update(float deltaTime) {
 
 		duration += deltaTime;
 
+		//updating position of the attack
 		position.x = source->getPosition().x + source->getHitBox().getSize().x / 2 + source->getHitBox().getSize().x * cos(direction);
 		position.y = source->getPosition().y + source->getHitBox().getSize().y / 2 + source->getHitBox().getSize().y * sin(direction);
 
-		this->sprite.setPosition(position);
-    
-    //rotation needs to be changed to sprite --TEMP--
-		rotation(direction);
-
-		//position.x += cos(direction) * 20;
-		//position.y += sin(direction) * 20;
-
+		//checking if attack is done
 		if (duration >= 2.0)
 			remove();
 	}
+
+	//setting sprite position and rotation
+	this->sprite.setPosition(position);
+	rotation(direction);
 
 	//calculating the hitbox size and position for this attack
 	hitBox = sf::RectangleShape(sf::Vector2f(abs(cos(direction) * spriteWidth) + abs(sin(direction) * spriteHeight), abs(cos(direction) * spriteHeight) + abs(sin(direction) * spriteWidth)));

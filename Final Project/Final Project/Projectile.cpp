@@ -11,12 +11,16 @@ Projectile::Projectile(int x, int y, int width, int height, sf::Vector2f newVel,
 	this->melee = false;
 	this->piercing = false;
 
+	//setting rotation
 	spriteRotation = (float)atan(velocity.y / velocity.x);
 	if (velocity.x < 0)
 		spriteRotation += 2 * acos(0);
 
+
+	//calculating hitbox size
 	hitBox = sf::RectangleShape(sf::Vector2f(abs(cos(spriteRotation) * spriteWidth) + abs(sin(spriteRotation) * spriteHeight), abs(cos(spriteRotation) * spriteHeight) + abs(sin(spriteRotation) * spriteWidth)));
 
+	//calculating hitbox position relative to sprite position by finding top y position and left-most x position
 	float angle = atan((float)spriteHeight / (float)spriteWidth);
 	float disToFarCorner = sqrt(pow(spriteWidth, 2) + pow(spriteHeight, 2));
 	sf::Vector2f corner1(cos(spriteRotation) * spriteWidth, sin(spriteRotation) * spriteWidth);
