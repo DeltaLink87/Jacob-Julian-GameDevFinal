@@ -50,15 +50,15 @@ public:
 	int presetItemDimX;
 	int presetItemDimY;
 
-	std::string getName() { return name; };
-	int getID() { return id; };
-	int getAttack() { return attack; };
-	int getAttackType() { return attackType; };
-	bool getCanAssassinate() { return canAssassinate; };
-	int getArmourType() { return armourType; };
-	int getDefence() { return defence; };
-	int getQuantity() { return quantity; };
-	void addQuantity(int add) { quantity += add; };
+	std::string getName();
+	int getID();
+	int getAttack();
+	int getAttackType();
+	bool getCanAssassinate();
+	int getArmourType();
+	int getDefence();
+	int getQuantity();
+	void addQuantity(int);
 
 protected:
 	std::string name;

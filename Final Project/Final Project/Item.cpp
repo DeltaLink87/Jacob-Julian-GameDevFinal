@@ -84,16 +84,12 @@ bool Item::useItem(Entity* usedBy) {
 	return false;
 }
 
-/*
-Will make:
-4x material icons
-1x equipment icon
-1x useable item icon
-1x equipment menuicon
-1x useable menuicon
-1x equip desc
-1x use desc
-
-player inventory UI
-
-*/
+std::string Item::getName() { return name; }
+int Item::getID() { return id; }
+int Item::getAttack() { return attack; }
+int Item::getAttackType() { return attackType; }
+bool Item::getCanAssassinate() { return canAssassinate; }
+int Item::getArmourType() { return armourType; }
+int Item::getDefence() { return defence; }
+int Item::getQuantity() { return quantity; }
+void Item::addQuantity(int add) { quantity += add; }

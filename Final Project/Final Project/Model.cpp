@@ -114,18 +114,12 @@ void Model::changeLevel(std::string levelName) {
 void Model::update(float deltaTime) {
 	//std::cout << player->getPosition().x << "," << player->getPosition().y << std::endl;
 
-	if (gameMode == 0) {
+	if (gameMode == 0) {	//game
 		renderDone = false;
-		//for (std::vector<Enemy*>::iterator i = enemies.begin(); i != enemies.end(); i++)
-		//	std::cout << (*i)->patrolPath.at(0).x << "," << (*i)->patrolPath.at(0).y << std::endl;
 		updateModel(deltaTime);
 		collisionDetection();
-		//for (std::vector<Enemy*>::iterator i = enemies.begin(); i != enemies.end(); i++)
-		//	std::cout << (*i)->patrolPath.at(0).x << "," << (*i)->patrolPath.at(0).y << std::endl;
 
-		int stop;
-		//std::cin >> stop;
-
+		//checking if all objectives have been met
 		bool levelComplete = true;
 		for (std::vector<Objective*>::iterator o = levelObjectives.begin(); o != levelObjectives.end(); o++) {
 			if (!(*o)->isComplete())
@@ -135,74 +129,75 @@ void Model::update(float deltaTime) {
 		if (levelObjectives.size() == 0)
 			levelComplete = false;
 
-		if (player->craftingMenu) {
+		if (player->craftingMenu) {	//opening the craft menu if selected
 			gameMode = 1;
 			craftMenu->openMenu();
 		}
-		else if (player->inventoryMenu)
+		else if (player->inventoryMenu)	//opening the inventory menu if selected
 			gameMode = 2;
-		else if (levelComplete) {
+		else if (levelComplete) {	//if level complete, ending the level
 			gameMode = 3;
 			curLevelNum++;
 		}
-		else if (player->getHealth() <= 0) {
+		else if (player->getHealth() <= 0) {	//if player died, restarting the level
 			gameMode = 8;
 			lost = true;
 		}
-		else if (player->toMainMenu) {
+		else if (player->toMainMenu) {	//going to main menu if selected
 			gameMode = 4;
 			toMainMenu = true;
 			curLevelNum = rand() % levelNames.size();
 		}
 	}
-	else if (gameMode == 1) {
+	else if (gameMode == 1) {	//craft menu
 		craftMenu->update(deltaTime);
-		if (craftMenu->craftingMenu)
+		if (craftMenu->craftingMenu)	//closing the menu
 			gameMode = 0;
-		else if (player->inventoryMenu) {
+		else if (player->inventoryMenu) {	//changing to inventory menu
 			craftMenu->craftingMenu = true;
 			player->craftingMenu = false;
 			gameMode = 2;
 		}
 	}
-	else if (gameMode == 2) {
+	else if (gameMode == 2) {	//inventory menu
 		invMenu->update(deltaTime);
-		if (invMenu->inventoryMenu)
+		if (invMenu->inventoryMenu)	//closing the menu
 			gameMode = 0;
-		else if (player->craftingMenu) {
+		else if (player->craftingMenu) {	//changing to craft menu
 			invMenu->inventoryMenu = true;
 			player->inventoryMenu = false;
 			gameMode = 1;
 
 		}
 	}
-	else if (gameMode == 3) {
+	else if (gameMode == 3) {	//game win
 		if (player->select)
 			gameMode = 4;
 	}
-	else if (gameMode == 4) {
+	else if (gameMode == 4) {	//fade to black
 		if (renderDone) {
 			gameMode = 5;
 			renderDone = false;
 		}
 	}
-	else if (gameMode == 5) {
+	else if (gameMode == 5) {	//load new level
 		renderDone = false;
 		changeLevel(levelNames.at(curLevelNum % levelNames.size()));
 		//curLevelName = "VerticalSlice";
 		gameMode = 6;
 	}
-	else if (gameMode == 6) {
+	else if (gameMode == 6) {	//fade out of black
 		if (renderDone) {
-			if (toMainMenu)
+			if (toMainMenu)	//checking if fading into new level or main menu
 				gameMode = 7;
 			else gameMode = 0;
 			renderDone = false;
 		}
 	}
-	else if (gameMode == 7) {
+	else if (gameMode == 7) {	//main menu
 		toMainMenu = false;
 		mainMenu.update(deltaTime);
+		//if menu selects checking if the player is selecting a new level or stating the game
 		if (mainMenu.start) {
 			if (!mainMenu.stageSelect) {
 				gameMode = 4;
@@ -215,7 +210,7 @@ void Model::update(float deltaTime) {
 			}
 		}
 	}
-	else if (gameMode == 8) {
+	else if (gameMode == 8) {	//lose game
 		if (player->select)
 			gameMode = 4;
 	}
@@ -282,6 +277,7 @@ void Model::updateModel(float deltaTime) {
 		else i++;
 	}
 
+	//updating loot
 	for (std::vector<Loot*>::iterator i = droppedLoot.begin(); i != droppedLoot.end(); i++) {
 		(*i)->update(deltaTime);
 	}
