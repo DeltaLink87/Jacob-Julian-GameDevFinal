@@ -67,63 +67,66 @@ Render::Render(Model* newModel){
 	model->mainMenu.optionSprite[1].setPosition(windowWidth / 2 - 100, windowHeight / 2 + 100);
 
 
-	
+	//Loading the sprite sheets for player and enemy
 	playerSpriteSheet.loadFromFile("Assets/Textures/Actors/playerSheet.png");
 	enemySpriteSheet.loadFromFile("Assets/Textures/Actors/enemySheet.png");
 
 
-
+	
 	this->playerSpriteArray = new sf::Sprite*[4];
+
+	//Setting the idle sprite array for player
 	this->playerSpriteArray[0] = new sf::Sprite[3];
 	for (int i = 0; i < 3; i++) {
 		playerSpriteArray[0][i].setScale(2, 2);
 		playerSpriteArray[0][i].setTexture(this->playerSpriteSheet);
 		playerSpriteArray[0][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 0), sf::Vector2i(16,16)));
 	}
-	this->playerSpriteArray[1] = new sf::Sprite[6];
 
+	//Setting the running sprite array for player
+	this->playerSpriteArray[1] = new sf::Sprite[6];
 	for (int i = 0; i < 6; i++) {
 		playerSpriteArray[1][i].setScale(2, 2);
 		playerSpriteArray[1][i].setTexture(this->playerSpriteSheet);
 		playerSpriteArray[1][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 16), sf::Vector2i(16, 16)));
 	}
 
+	//Setting the jumping sprite array for player
 	this->playerSpriteArray[2] = new sf::Sprite[3];
-
 	for (int i = 0; i < 3; i++) {
 		playerSpriteArray[2][i].setScale(2, 2);
 		playerSpriteArray[2][i].setTexture(this->playerSpriteSheet);
 		playerSpriteArray[2][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 32), sf::Vector2i(16, 16)));
-
 	}
-	
-	this->playerSpriteArray[3] = new sf::Sprite[2];
 
+	//Setting the climbing sprite array for player
+	this->playerSpriteArray[3] = new sf::Sprite[2];
 	for (int i = 0; i < 2; i++) {
 		playerSpriteArray[3][i].setScale(2, 2);
 		playerSpriteArray[3][i].setTexture(this->playerSpriteSheet);
 		playerSpriteArray[3][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 48), sf::Vector2i(16, 16)));
-
 	}
-
 	
 	this->enemySpriteArray = new sf::Sprite*[4];
+	
+
+	//Setting the idle sprite array for enemy
 	this->enemySpriteArray[0] = new sf::Sprite[3];
 	for (int i = 0; i < 3; i++) {
 		enemySpriteArray[0][i].setScale(2, 2);
 		enemySpriteArray[0][i].setTexture(this->enemySpriteSheet);
 		enemySpriteArray[0][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 0), sf::Vector2i(16, 16)));
 	}
-	this->enemySpriteArray[1] = new sf::Sprite[6];
 
+	this->enemySpriteArray[1] = new sf::Sprite[6];
 	for (int i = 0; i < 6; i++) {
 		enemySpriteArray[1][i].setScale(2, 2);
 		enemySpriteArray[1][i].setTexture(this->enemySpriteSheet);
 		enemySpriteArray[1][i].setTextureRect(sf::IntRect(sf::Vector2i(i * 16, 16), sf::Vector2i(16, 16)));
 	}
 
+	//Setting the jumping sprite array for enemy
 	this->enemySpriteArray[2] = new sf::Sprite[3];
-
 	for (int i = 0; i < 3; i++) {
 		enemySpriteArray[2][i].setScale(2, 2);
 		enemySpriteArray[2][i].setTexture(this->enemySpriteSheet);
@@ -131,8 +134,8 @@ Render::Render(Model* newModel){
 
 	}
 
+	//Setting the climbing sprite array for enemy
 	this->enemySpriteArray[3] = new sf::Sprite[2];
-
 	for (int i = 0; i < 2; i++) {
 		enemySpriteArray[3][i].setScale(2, 2);
 		enemySpriteArray[3][i].setTexture(this->enemySpriteSheet);
@@ -144,11 +147,16 @@ Render::Render(Model* newModel){
 
 Render::~Render(){ }
 
-
+/*
+	Function for rendering the enemies animations.
+	The sprite's scale is checked before drawing to ensure the enemy is facing in the correct direction.
+	The animationTimer variable is used to denote the amount of time that has elapsed since the enemy first entered their current animation state.
+	It is used to progress through the sprite array with respect to deltaTime and is uniquely manipulated in each animation state to create the desired animation speed and cycle.
+*/
 void Render::renderEnemySpriteArray(Enemy* enemy) {
-
+	
+	//Displays the jumping pose while the enemy is in the air
 	if (enemy->isJumping) {
-
 		enemySpriteArray[2][0].setPosition(enemy->getPosition());
 
 
@@ -167,6 +175,7 @@ void Render::renderEnemySpriteArray(Enemy* enemy) {
 		modelTexture.draw(enemySpriteArray[2][0]);
 
 	}
+	//Displays the climbing animation
 	else if (enemy->isClimbing) {
 		enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2].setPosition(enemy->getPosition());
 
@@ -184,6 +193,8 @@ void Render::renderEnemySpriteArray(Enemy* enemy) {
 		modelTexture.draw(enemySpriteArray[3][((int)enemy->animationTimer / 3) % 2]);
 
 	}
+
+	//Displays the running animation
 	else if (enemy->isRunning) {
 
 		enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6].setPosition(enemy->getPosition());
@@ -203,8 +214,9 @@ void Render::renderEnemySpriteArray(Enemy* enemy) {
 		modelTexture.draw(enemySpriteArray[1][((int)enemy->animationTimer / 2) % 6]);
 
 	}
-	else {
 
+	//If the code reaches this point, the enemy is deemed inactive and the idle animation is executed.
+	else {
 
 		enemySpriteArray[0][((int)enemy->animationTimer / 3) % 3].setPosition(enemy->getPosition());
 
@@ -227,10 +239,15 @@ void Render::renderEnemySpriteArray(Enemy* enemy) {
 
 }
 
-
-//Polish notes: Maybe get the sprite at the start, assign it to a sprite pointer, then do common modifcations on it before then calling draw on the sprite pointer, would save lines of code.
+/*
+	Function for rendering the player's animations.
+	The sprite's scale is checked before drawing to ensure the player is facing the correct direction.
+	The animationTimer variable is used to denote the amount of time that has elapsed since the player first entered their current animation state.
+	It is used to progress through the sprite array with respect to deltaTime and is uniquely manipulated in each animation state to create the desired animation speed and cycle.
+*/
 void Render::renderPlayerSpriteArray() {
 	
+	//Displays the jumping pose while the player is in the air
 	if (model->player->isJumping) {
 
 		playerSpriteArray[2][0].setPosition(model->player->getPosition());
@@ -251,6 +268,8 @@ void Render::renderPlayerSpriteArray() {
 		modelTexture.draw(playerSpriteArray[2][0]);
 
 	}
+
+	//Displays the climbing animation
 	else if (model->player->isClimbing) {
 		playerSpriteArray[3][((int)model->player->animationTimer / 3 ) % 2].setPosition(model->player->getPosition());
 
@@ -268,6 +287,8 @@ void Render::renderPlayerSpriteArray() {
 		modelTexture.draw(playerSpriteArray[3][((int)model->player->animationTimer / 3) % 2]);
 
 	}
+
+	//Displays the running animation
 	else if (model->player->isRunning) {
 
 		playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6].setPosition(model->player->getPosition());
@@ -287,6 +308,8 @@ void Render::renderPlayerSpriteArray() {
 		modelTexture.draw(playerSpriteArray[1][((int)model->player->animationTimer / 2) % 6]);
 
 	}
+
+	//If the code reaches this point, the player is deemed inactive and the idle animation is executed.
 	else {
 
 

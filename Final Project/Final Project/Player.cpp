@@ -158,17 +158,25 @@ void Player::update(float deltaTime) {
 			inputTimer = 0.1;
 	}
 
-	//changing the sound timer and horizontal movement based on running or sneaking
+	/*
+	changing the sound timer and horizontal movement based on running or sneaking
+	As well as the amount of deltaTime added to animationTimer based on the player's movement speed
+	improving the animation's accuracy.
+	*/
 	if (velocity.x != 0 && onGround) {
 		if (moveFast) {
 			stepSoundTimer -= deltaTime * 2;
 			velocity.x *= 2;
-			animationTimer += deltaTime * 10;
+
+			//Double of the normal fixed ratio of deltaTime to be added is subtracted here, doubling the animation's incrementation speed
+			animationTimer += deltaTime * 10; 
 		}
 		else if (moveSlow) {
 			stepSoundTimer -= deltaTime / 2;
 			velocity.x /= 2;
-			animationTimer -= deltaTime * 5;
+
+			//Half of the normal fixed ratio of deltaTime to be added is subtracted here, halving the animation's incrementation speed
+			animationTimer -= deltaTime * 5; 
 		}
 		else stepSoundTimer -= deltaTime;
 	}
@@ -201,7 +209,8 @@ void Player::update(float deltaTime) {
 	//updating player location
 	position += velocity * deltaTime;
 
-	animationTimer += deltaTime * 10;
+	//The fixed ratio of deltaTime added to animationTimer
+	animationTimer += deltaTime * 10; 
 
 	//updating player ditbox
 	hitBox.setPosition(position);

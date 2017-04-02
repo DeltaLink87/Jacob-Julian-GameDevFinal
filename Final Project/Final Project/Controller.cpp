@@ -146,7 +146,7 @@ void Controller::inputs() {
 			if (event.key.code == sf::Keyboard::J)
 				inputTo->mouseLessAttack = true;
 
-			if (event.key.code == sf::Keyboard::SemiColon)
+			if (event.key.code == sf::Keyboard::U)
 				inputTo->mouse2 = true;
 			break;
 
@@ -200,7 +200,7 @@ void Controller::inputs() {
 			if (event.key.code == sf::Keyboard::J)
 				inputTo->mouseLessAttack = false;
 
-			if (event.key.code == sf::Keyboard::SemiColon)
+			if (event.key.code == sf::Keyboard::U)
 				inputTo->mouse2 = false;
 			break;
 		}
