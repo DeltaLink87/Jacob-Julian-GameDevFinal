@@ -630,9 +630,9 @@ void Render::renderCraftMenu() {
 		firstRender = 0;
 		lastRender = model->craftMenu->totalItems;
 	}
-	else if (model->craftMenu->curSelected > model->craftMenu->totalItems - 2) {
-		firstRender = model->craftMenu->totalItems - 3;
-		lastRender = model->craftMenu->totalItems;
+	else if (model->craftMenu->curSelected > model->craftMenu->totalItems - 3) {
+		firstRender = model->craftMenu->totalItems - 4;
+		lastRender = model->craftMenu->totalItems - 1;
 	}
 	else if (model->craftMenu->curSelected < 2) {
 		firstRender = 0;
@@ -667,10 +667,7 @@ void Render::renderCraftMenu() {
 
 	//drawing selected items description
 	Item* item = model->craftMenu->itemList.at(model->craftMenu->itemNameList.at(model->craftMenu->curSelected));
-	if (item->getName().length() < 12)
-		makeStringTextrue(item->getName(), 446, 155, 154, 30, craftMenuTexture, 25);
-	else
-		makeStringTextrue(item->getName(), 446, 155, 154, 30, craftMenuTexture, 20);
+	makeStringTextrue(item->getName(), 446, 155, 154, 30, craftMenuTexture, 25);
 
 	//displaying selected items desctiptive text and type of item
 	makeStringTextrue(item->type, 446, 185, 154, 30, craftMenuTexture, 25);
@@ -859,7 +856,7 @@ void Render::renderWin() {
 	UITexture.draw(sprite);
 
 	//displaying win message
-	makeStringTextrue("Level Complete NL Press Space to Continue", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
+	makeStringTextrue("Level Complete NL Press Space to Continue", windowWidth / 2 - 75, windowHeight / 2 - 10, 150, 45, UITexture);
 }
 
 void Render::renderLose() {
@@ -871,7 +868,7 @@ void Render::renderLose() {
 	UITexture.draw(sprite);
 
 	//displaying lose message
-	makeStringTextrue("Game Over NL Press Space to Retry", windowWidth / 2 - 75, windowHeight / 2 - 15, 150, 45, UITexture);
+	makeStringTextrue("Game Over NL Press Space to Retry", windowWidth / 2 - 75, windowHeight / 2 - 10, 150, 45, UITexture);
 }
 
 void Render::makeStringTextrue(std::string msg, int x, int y, int width, int height, sf::RenderTarget& target, int fontSize) {
@@ -907,8 +904,9 @@ void Render::makeStringTextrue(std::string msg, int x, int y, int width, int hei
 
 		int length = text.getLocalBounds().width;
 		float ratio = (float)width / (float)height;
-		float scaler = sqrt((float)(length * text.getCharacterSize()) / (width * height));
-		lineLength = scaler * width;
+		float scaler = sqrt((float)(length * text.getCharacterSize()) / (float)(width * height));
+		text.setCharacterSize(scaler * (text.getCharacterSize() + numOfNewLines * text.getCharacterSize()));
+		lineLength = width;
 	}
 	else {	//else set the fontsize and line length to the width
 		lineLength = width;
@@ -916,35 +914,32 @@ void Render::makeStringTextrue(std::string msg, int x, int y, int width, int hei
 	}
 
 	//create a string that fits the width given
+	bool newLine = true;
 	for (std::vector<std::string>::iterator i = words.begin(); i != words.end(); i++) {
 		text.setString(totalString + *i + " ");
-		if (i->compare("NL") == 0)
+		if (i->compare("NL") == 0 && !newLine) {
 			totalString += "\n";
-		else if (text.getLocalBounds().width > lineLength)
+			newLine = true;
+		}
+		else if (text.getLocalBounds().width > lineLength && !newLine) {
 			totalString += "\n" + *i + " ";
-		else totalString += *i + " ";
+			newLine = true;
+		}
+		else {
+			totalString += *i + " ";
+			newLine = false;
+		}
 	}
 	text.setString(totalString);
 
-	//if font size not given, scales the text to fit the size of box given
-	if (fontSize == -1) {	
-		float widthScale = (float)width / (float)(text.getLocalBounds().width + text.getCharacterSize() / 2);
-		float heightScale = (float)height / (float)(text.getLocalBounds().height + text.getCharacterSize() / 2);
-		if (widthScale < heightScale)
-			text.setScale(widthScale, widthScale);
-		else text.setScale(heightScale, heightScale);
-	}
-
+	//drawing text
 	text.setPosition(x, y);
-
-	//renders text to target given
-	/*sf::RenderTexture texture;
-	texture.create(width, height);
-	texture.clear(sf::Color::Transparent);
-	texture.draw(text);
-	texture.display();
-	sf::Sprite sprite;
-	sprite.setTexture(texture.getTexture());
-	sprite.setPosition(x, y);*/
 	target.draw(text);
+
+	/*sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(width, height));
+	rect.setPosition(x, y);
+	rect.setFillColor(sf::Color::Transparent);
+	rect.setOutlineThickness(2);
+	rect.setOutlineColor(sf::Color::Black);
+	target.draw(rect);*/
 }
